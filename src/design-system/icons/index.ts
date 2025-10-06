@@ -1,0 +1,10 @@
+export { SearchIcon } from "./SearchIcon";
+export { MenuIcon } from "./MenuIcon";
+export { UserIcon } from "./UserIcon";
+export { PercentageIcon } from "./PercentageIcon";
+export { SidebarIcon } from "./SidebarIcon";
+export { StaffIcon } from "./StaffIcon";
+export { WarningIcon } from "./WarningIcon";
+export { FileListIcon } from "./FileListIcon";
+export { FileListingIcon } from "./FileListingIcon";
+export { DashboardIcon } from "./DashboardIcon";

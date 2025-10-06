@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #F3F4F6;
+  --foreground: #1d052c;
+}
+
+body {
+  background: var(--background);
+}
+
+.admin-sidebar-links-container::-webkit-scrollbar {
+  width: 0;
+}
+
+@layer utilities {
+  .scrollbar-none {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+select > option:hover {
+  background-color: black;
+  color: white;
+}
