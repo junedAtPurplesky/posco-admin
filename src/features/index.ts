@@ -1,1 +1,3 @@
 export * from "./admin"
+export * from "./icons"
+export * from "./home"
