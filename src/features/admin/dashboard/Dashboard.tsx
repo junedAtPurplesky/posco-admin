@@ -15,11 +15,11 @@ export function Dashboard() {
         />
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-5">
-        <div className="w-full lg:w-1/2">
+      <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
+        <div className="w-full lg:w-[34rem]">
           <IssueDistributionByCategoryChart />
         </div>
-        <div className="w-full lg:w-1/2">
+        <div className="w-full lg:w-[34rem]">
           <SafetyComplianceOverviewChart />
         </div>
       </div>

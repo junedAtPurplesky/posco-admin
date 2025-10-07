@@ -21,7 +21,7 @@ export function AnalysisCard({ data, className = "" }: AnalysisCardProps) {
 
           <div className="flex gap-2 place-items-baseline">
             <span
-              className={`text-3xl font-normal ${
+              className={`text-[1.5rem] font-normal ${
                 data.color || "text-gray-800"
               }`}
             >
@@ -33,7 +33,7 @@ export function AnalysisCard({ data, className = "" }: AnalysisCardProps) {
 
         <div className="flex gap-2 items-center">
           <NotIcon className="h-4 w-4 rotate-180" color="#000000" />
-          <h3 className="font-normal text-gray-800  leading-tight">
+          <h3 className="font-normal text-gray-800  leading-tight text-[0.9rem]">
             {data.title}
           </h3>
         </div>

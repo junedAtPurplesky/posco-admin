@@ -17,11 +17,11 @@ export function SubmittedForms() {
           <SearchBar onSearch={() => {}} />
           <button className="flex gap-1 items-center cursor-pointer">
             <CalenderIcon className="w-4 h-4 cursor-pointer" />
-            <h1 className="text-[#0B7AB5]">View By Date </h1>
+            <h1 className="text-primary">View By Date </h1>
           </button>
           <button className="flex gap-1 items-center cursor-pointer">
             <FilterIcon className="w-4 h-4 cursor-pointer" />
-            <h1 className="text-[#0B7AB5]">Filter </h1>
+            <h1 className="text-primary">Filter </h1>
           </button>
         </div>
       </div>

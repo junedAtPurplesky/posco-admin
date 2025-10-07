@@ -61,13 +61,13 @@ export function PieChart({
       className={`bg-white w-full p-4 ${className}`}
     >
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-normal text-gray-800 mb-4 text-start">
+        <h3 className="text-[1.1rem] font-normal text-gray-800 mb-4 text-start">
           {title}
         </h3>
         <ThreeIcon className="h-4 w-4" />
       </div>
 
-      <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+      <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
         {/* SVG Chart */}
         <div className="relative">
           <svg width={size} height={size} className="transform -rotate-90">

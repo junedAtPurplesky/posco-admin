@@ -16,11 +16,11 @@ export function StaffManagement() {
           <SearchBar onSearch={() => {}} />
           <button className="flex gap-1 items-center cursor-pointer">
             <PlusIcon className="w-4 h-4 cursor-pointer" />
-            <h1 className="text-[#0B7AB5]">Add Staff </h1>
+            <h1 className="text-primary">Add Staff </h1>
           </button>
           <button className="flex gap-1 items-center cursor-pointer">
             <FilterIcon className="w-4 h-4 cursor-pointer" />
-            <h1 className="text-[#0B7AB5]">Filter </h1>
+            <h1 className="text-primary">Filter </h1>
           </button>{" "}
         </div>
       </div>

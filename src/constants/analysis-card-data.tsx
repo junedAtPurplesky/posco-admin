@@ -19,7 +19,7 @@ export const analysisCardsData: AnalysisCardData[] = [
     title: "Daily Safety Forms Received",
     subtitle: "92% Completion Rate",
     subValue: "/ 137",
-    color: "text-[#0B7AB5]",
+    color: "text-primary",
   },
   {
     id: 2,
@@ -30,7 +30,7 @@ export const analysisCardsData: AnalysisCardData[] = [
 
     title: "Pending Approvals",
     subtitle: "Requires immediate attention",
-    color: "text-[#0B7AB5]",
+    color: "text-primary",
   },
   {
     id: 3,
@@ -41,6 +41,6 @@ export const analysisCardsData: AnalysisCardData[] = [
     title: "Staff Participation",
     subtitle: "Monthly target achieved",
 
-    color: "text-[#0B7AB5]",
+    color: "text-primary",
   },
 ];
