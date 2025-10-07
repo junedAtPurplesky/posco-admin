@@ -11,7 +11,7 @@ export function Dashboard() {
       <div>
         <AnalysisCardList
           columns={3}
-          className="mb-8"
+          className="mb-4"
         />
       </div>
 

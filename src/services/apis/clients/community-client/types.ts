@@ -23,10 +23,10 @@ export interface IUser {
   dob: string;
 }
 
-export interface ILoginPayload {
-  email: string;
-  password: string;
-}
+// export interface ILoginPayload {
+//   email: string;
+//   password: string;
+// }
 
 export interface ILoginUserResponseData {
   access_token: string;
@@ -38,4 +38,9 @@ export interface ILoginUserResponse {
   message?: string;
   status: string;
   data: ILoginUserResponseData;
+}
+
+export interface ILoginPayload {
+  email: string;
+  password: string;
 }

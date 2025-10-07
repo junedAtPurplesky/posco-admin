@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "../../globals.css";
 import { ReactQueryProvider } from "@/services/react-query";
+import { Toaster } from "react-hot-toast";
 
 /**
  * TODO: Update the fonts as per the design from  Figma.
@@ -34,6 +35,7 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           {children}
+          <Toaster position="top-right" reverseOrder={false} />
         </body>
       </html>
     </ReactQueryProvider>
