@@ -1,7 +1,5 @@
-export default function StaffManagemetPage() {
-  return (
-    <div>
-      <h1>Staff Managemet</h1>
-    </div>
-  )
+import { StaffManagement } from "@/features";
+
+export default function StaffManagementPage() {
+  return <StaffManagement />;
 }

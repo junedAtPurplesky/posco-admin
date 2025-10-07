@@ -71,6 +71,7 @@ export function Table<T extends { id: string | number }>({
 
   const handlePageChange = (page: number) => {
     setOpenActionId(null);
+
     if (onPageChange) {
       onPageChange(page);
     } else {
@@ -86,7 +87,7 @@ export function Table<T extends { id: string | number }>({
             <tr>
               {actions && actions.length > 0 && (
                 <th className="border-b-2 border-white text-center min-w-[6rem] bg-[#F8F9FB] p-3 text-[0.9rem]  uppercase font-medium">
-                  Sr No
+                  ID
                 </th>
               )}
               
