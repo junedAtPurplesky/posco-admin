@@ -26,12 +26,12 @@ export function AdminSidebarLayout({
   };
 
   return (
-    <div className="w-full flex justify-end h-screen overflow-hidden">
+    <div className="w-full flex justify-end h-screen ">
       {/* Sidebar */}
       <div
         className={`${
           isVisibleSidebar ? "w-0 xl:w-[6%]" : "w-[70%] md:w-[35%] lg:w-[25%] xl:w-[20%]"
-        } h-full z-40 transition-all duration-500 ease-in-out overflow-hidden bg-white shadow-md fixed left-0`}
+        } h-full z-40 transition-all duration-500 ease-in-out  bg-white shadow-md fixed left-0`}
       >
         <AdminSidebar
           adminSidebarLinks={adminSidebarLinks}

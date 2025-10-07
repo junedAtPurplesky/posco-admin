@@ -58,7 +58,7 @@ export function PieChart({
 
   return (
     <div
-      className={`bg-white w-full rounded-lg shadow-md p-4 ${className}`}
+      className={`bg-white w-full p-4 ${className}`}
     >
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-normal text-gray-800 mb-4 text-start">
