@@ -12,14 +12,14 @@ export function TableHeader<T>({
 
   return (
     <th
-      className={`p-3 ${column.sortable ? "cursor-pointer" : ""} ${column.headerClassName || ""}`}
-      onClick={() => column.sortable && onSort(column.accessor)}
+      className={`border-b-2 border-white p-3 font-medium whitespace-nowrap bg-[#F8F9FB] ${column.sortable ? "cursor-pointer" : ""} ${column.headerClassName || ""}`}
+      onClick={() => column.sortable && onSort(column?.accessor)}
     >
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex justify-center items-center text-[0.9rem]  gap-4 whitespace-nowrap">
         <h1>{column.header}</h1>
-        <div>
-          {column.sortable &&
-            (isSorted ? (
+        {column.sortable && (
+          <div>
+            {isSorted ? (
               sortOrder === "asc" ? (
                 <IoIosArrowUp className="w-4 h-4" />
               ) : (
@@ -27,8 +27,9 @@ export function TableHeader<T>({
               )
             ) : (
               <IoIosArrowDown className="w-4 h-4" />
-            ))}
-        </div>
+            )}
+          </div>
+        )}
       </div>
     </th>
   );

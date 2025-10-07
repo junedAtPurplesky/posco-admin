@@ -84,7 +84,7 @@ formsListActions.push({
   onClick: (row: IFormsListProps) => {
     console.log("Staff List form:", row);
   },
-  className: "text-blue-500 hover:text-red-700",
+  className: "text-blue-500 hover:text-blue-700",
 });
 
 formsListActions.push({
