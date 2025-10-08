@@ -39,7 +39,7 @@ export const staffListColumns: ITableColumn<IStaffListProps>[] = [
     header: "STATUS ",
     accessor: "status",
     sortable: true,
-    headerClassName: "min-w-[12rem]",
+    headerClassName: "min-w-[12rem]", 
   },
 ];
 

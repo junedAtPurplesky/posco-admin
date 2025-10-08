@@ -9,23 +9,18 @@ export interface IFormSubmissionProps {
   complianceScore: number;
 }
 
-// Create a separate client component for the compliance score cell
+//  Helper function to get text color based on score
+function getScoreColor(score: number): string {
+  if (score >= 90) return "text-green-600";
+  if (score >= 75) return "text-blue-600 ";
+  if (score >= 60) return "text-yellow-600 ";
+  return "text-red-600";
+}
+
+//  Updated cell component using helper function
 function ComplianceScoreCell({ value }: { value: number }) {
-  return (
-    <span
-      className={`px-2 py-1 rounded-full text-xs ${
-        value >= 90
-          ? "bg-green-100 text-green-800"
-          : value >= 75
-          ? "bg-blue-100 text-blue-800"
-          : value >= 60
-          ? "bg-yellow-100 text-yellow-800"
-          : "bg-red-100 text-red-800"
-      }`}
-    >
-      {value}%
-    </span>
-  );
+  const colorClass = getScoreColor(value);
+  return <span className={`${colorClass}`}>{value}%</span>;
 }
 
 export const formSubmissionColumns: ITableColumn<IFormSubmissionProps>[] = [
@@ -62,7 +57,7 @@ export const dummyFormSubmissions: IFormSubmissionProps[] = [
     staffName: "John Smith",
     submissionDate: "2024-01-15",
     department: "Marketing",
-    complianceScore: 92,
+    complianceScore: 20,
   },
   {
     id: 2,
@@ -266,7 +261,6 @@ formSubmissionActions.push({
   label: "Reject",
   onClick: (row: IFormSubmissionProps) => {
     console.log("Reject form submission:", row);
-    // Add rejection logic here
   },
   className: "text-orange-500 hover:text-orange-700",
 });
