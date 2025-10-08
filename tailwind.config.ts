@@ -5,6 +5,13 @@ const config: Config = {
     "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  safelist: [
+    "text-green-600",
+    "text-blue-600",
+    "text-yellow-600",
+    "text-red-600",
   ],
   theme: {
     extend: {
@@ -18,13 +25,5 @@ const config: Config = {
   },
   plugins: [],
 };
+
 export default config;
-module.exports = {
-  content: ["./src/**/*.{js,ts,jsx,tsx}"],
-  safelist: [
-    "text-green-600",
-    "text-blue-600",
-    "text-yellow-600",
-    "text-red-600",
-  ],
-};
