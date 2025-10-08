@@ -1,21 +1,33 @@
 import { IApiError } from "@/utils";
 import { ApiClient } from "../../api-client";
 import {
+  createFormUrl,
   createStaffUrl,
+  deleteFormUrl,
   deleteStaffUrl,
+  fetchAllFormUrl,
   fetchAllStaffUrl,
+  getFormDetailsUrl,
   getStaffDetailsUrl,
   loginUrl,
+  updateFormUrl,
   updateStaffUrl,
 } from "./urls";
 import {
+  IAllFormResponse,
   IAllStaffResponse,
+  ICreateFormPayload,
+  ICreateFormResponse,
   ICreateStaffPayload,
   ICreateStaffResponse,
+  IDeleteFormResponse,
   IDeleteStaffResponse,
+  IFormDetailsResponse,
   ILoginPayload,
   ILoginUserResponse,
   IStaffDetailsResponse,
+  IUpdateFormPayload,
+  IUpdateFormResponse,
   IUpdateStaffPayload,
   IUpdateStaffResponse,
 } from "./types";
@@ -123,6 +135,78 @@ export class CommunityClient extends ApiClient {
     );
     if (!response?.success) {
       throw response?.errorData;
+    }
+    return response?.data;
+  };
+
+  // Form
+
+  // GET
+  public fetchAllForm = async (searchText?: string, page?: number) => {
+    const params = new URLSearchParams();
+    if (searchText) params.append("searchText", searchText);
+    if (page) params.append("page", page.toString());
+    const url = params.toString()
+      ? `${fetchAllFormUrl()}?${params.toString()}`
+      : fetchAllFormUrl();
+
+    const response = await this.get<IAllFormResponse>(url, {
+      requiresAuth: false,
+    });
+
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+
+    return response?.data;
+  };
+
+  // create Form 
+    public createForm = async (payload: ICreateFormPayload) => {
+    const response = await this.post<ICreateFormResponse>(
+      createFormUrl(),
+      payload
+    );
+
+    if (!response?.success) {
+      throw response?.response?.data;
+    }
+
+    return response?.data;
+  };
+
+    // delete Form
+  public deleteForm = async (id: string) => {
+    const response = await this.del<IDeleteFormResponse>(deleteFormUrl(id));
+
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+    return response?.data;
+  };
+    // GET BY ID
+  public getFormDetails = async () => {
+    const response = await this.get<IFormDetailsResponse[]>(
+      getFormDetailsUrl(),
+      { requiresAuth: false }
+    );
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+    return response?.data;
+  };
+  // Update
+  public updateForm = async ({ id, payload }: IUpdateFormPayload) => {
+    const response = await this.put<IUpdateFormResponse>(
+      updateFormUrl(id),
+      payload,
+      {
+        requiresAuth: true,
+      }
+    );
+
+    if (!response?.success) {
+      throw response?.response?.data;
     }
     return response?.data;
   };

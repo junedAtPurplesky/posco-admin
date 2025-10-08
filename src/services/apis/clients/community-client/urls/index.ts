@@ -25,6 +25,17 @@ export const deleteStaffUrl = (id: string) => `/staff/${id}`; //delete
 export const fetchAllStaffUrl = () => "/staff"; //Get
 export const getStaffDetailsUrl = () => `/staff`;
 
+// Form URL
+export const fetchAllFormUrl = () => "/staff"; //Get
+export const createFormUrl = () => "/staff"; //post
+export const deleteFormUrl = (id: string) => `/staff/${id}`; //delete
+export const getFormDetailsUrl = () => `/staff`;
+export const updateFormUrl = (id: string) => `/staff/${id}`; //put
+
+
+
+
+
 
 
 

@@ -6,3 +6,10 @@ export { useUpdateStaffMutation } from "./useUpdateStaffMutation";
 export { useDeleteStaffMutation } from "./useDeleteStaffMutation";
 export { useAllStaffQuery } from "./useAllStaffQuery";
 export { useStaffDetailQuery } from "./useStaffDetailQuery";
+
+// Forms
+export { useAllFormsQuery } from "./useAllFormsQuery";
+export { useCreateFormMutation } from "./useCreateFormMutation";
+export { useUpdateFormMutation } from "./useUpdateFormMutation";
+export { useDeleteFormMutation } from "./useDeleteFormMutation";
+export { useFormDetailQuery } from "./useFormDetailQuery";

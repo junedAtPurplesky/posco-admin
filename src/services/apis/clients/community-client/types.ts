@@ -73,18 +73,20 @@ export interface IDeleteStaffResponse {
   data: ICreateStaffPayload;
 }
 
-// GET 
+// GET
+export interface IAllStaffList {
+  status: boolean;
+}
 export interface IAllStaffResponse {
   status: boolean;
   message: string;
   success: true;
-
+  data: IAllStaffList[];
 }
 
 // GET BY ID
 export interface IStaffDetails {
   id: string;
-
 }
 
 export interface IStaffDetailsResponse {
@@ -94,3 +96,57 @@ export interface IStaffDetailsResponse {
   data: IStaffDetails;
 }
 
+// Form
+// GET
+export interface IAllFormList {
+  status: boolean;
+}
+
+export interface IAllFormResponse {
+  status: boolean;
+  message: string;
+  success: true;
+  data: IAllFormList[];
+}
+// POST
+export interface ICreateFormPayload {
+  name: string;
+}
+
+export interface ICreateFormResponse {
+  status: boolean;
+  message: string;
+  success: true;
+  data: ICreateFormPayload;
+}
+// Delete Form
+export interface IDeleteFormResponse {
+  status: boolean;
+  message: string;
+  success: true;
+  data: ICreateFormPayload;
+}
+
+export interface IFormDetails {
+  id: string;
+}
+
+export interface IFormDetailsResponse {
+  status: boolean;
+  message: string;
+  success: true;
+  data: IFormDetails;
+}
+
+// PUT
+export interface IUpdateFormPayload {
+  id: string;
+  payload: ICreateFormPayload;
+}
+
+export interface IUpdateFormResponse {
+  status: boolean;
+  message: string;
+  success: true;
+  data: IUpdateFormPayload;
+}
