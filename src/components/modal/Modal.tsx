@@ -32,7 +32,7 @@ export const Modal: React.FC<IModalProps> = ({
           <p className="text-gray-700 mb-4">{message}</p>
           <button
             onClick={closeModal}
-            className={`px-4 py-2 rounded text-white ${
+            className={`px-4 py-2  text-white ${
               isSuccess ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600"
             } transition duration-200`}
           >

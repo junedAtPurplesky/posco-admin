@@ -34,7 +34,7 @@ export function InputField({
     <div className="w-full">
       {/* Label */}
       {label && (
-        <label className="block text-gray-700 mb-2">
+        <label className="block text-gray-700 mb-2 text-[0.8rem]">
           {label} {isRequired && <span className="text-red-500">*</span>}
         </label>
       )}
@@ -59,7 +59,7 @@ export function InputField({
         {/* Input or Textarea */}
         {isTextArea ? (
           <textarea
-            className="w-full bg-transparent outline-none resize-none text-gray-700 placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-transparent outline-none resize-none text-gray-700 text-[0.8rem] placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={disabled}
             required={isRequired}
             onFocus={() => setIsFocused(true)}
@@ -68,7 +68,7 @@ export function InputField({
           />
         ) : (
           <input
-            className="w-full bg-transparent outline-none text-gray-700 placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full  bg-transparent outline-none text-gray-700 text-[0.8rem] placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={disabled}
             required={isRequired}
             onFocus={() => setIsFocused(true)}
