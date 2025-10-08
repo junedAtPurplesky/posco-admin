@@ -18,3 +18,15 @@ export const getLoginWithEmailAndPasswordToAzureB2CUrl = ({
 export const loginUrl = () => "/auth/login";
 
 
+// Staff URL
+export const createStaffUrl = () => "/staff"; //post
+export const updateStaffUrl = (id: string) => `/staff/${id}`; //put
+export const deleteStaffUrl = (id: string) => `/staff/${id}`; //delete
+export const fetchAllStaffUrl = () => "/staff"; //Get
+export const getStaffDetailsUrl = () => `/staff`;
+
+
+
+
+
+

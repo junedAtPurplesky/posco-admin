@@ -105,21 +105,18 @@ export const formsListActions: ITableAction<IFormsListProps>[] = [
     onClick: (row) => {
       console.log("Edit form submission:", row);
     },
-    className: "text-green-500 hover:text-green-700",
   },
   {
     label: "View Form",
     onClick: (row) => {
       console.log("View form submission:", row);
     },
-    className: "text-blue-500 hover:text-blue-700",
   },
   {
     label: "Staff List",
     onClick: (row) => {
       console.log("Staff List form:", row);
     },
-    className: "text-blue-500 hover:text-blue-700",
   },
   {
     label: "Delete",

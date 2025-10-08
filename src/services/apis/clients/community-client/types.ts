@@ -22,12 +22,6 @@ export interface IUser {
   role_id: string;
   dob: string;
 }
-
-// export interface ILoginPayload {
-//   email: string;
-//   password: string;
-// }
-
 export interface ILoginUserResponseData {
   access_token: string;
   refresh_token: string;
@@ -44,3 +38,59 @@ export interface ILoginPayload {
   email: string;
   password: string;
 }
+
+// Staff
+// POST
+export interface ICreateStaffPayload {
+  name: string;
+}
+
+export interface ICreateStaffResponse {
+  status: boolean;
+  message: string;
+  success: true;
+  data: ICreateStaffPayload;
+}
+
+// PUT
+export interface IUpdateStaffPayload {
+  id: string;
+  payload: ICreateStaffPayload;
+}
+
+export interface IUpdateStaffResponse {
+  status: boolean;
+  message: string;
+  success: true;
+  data: IUpdateStaffPayload;
+}
+
+// Delete Staff
+export interface IDeleteStaffResponse {
+  status: boolean;
+  message: string;
+  success: true;
+  data: ICreateStaffPayload;
+}
+
+// GET 
+export interface IAllStaffResponse {
+  status: boolean;
+  message: string;
+  success: true;
+
+}
+
+// GET BY ID
+export interface IStaffDetails {
+  id: string;
+
+}
+
+export interface IStaffDetailsResponse {
+  status: boolean;
+  message: string;
+  success: true;
+  data: IStaffDetails;
+}
+
