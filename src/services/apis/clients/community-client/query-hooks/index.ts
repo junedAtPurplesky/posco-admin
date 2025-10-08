@@ -13,3 +13,6 @@ export { useCreateFormMutation } from "./useCreateFormMutation";
 export { useUpdateFormMutation } from "./useUpdateFormMutation";
 export { useDeleteFormMutation } from "./useDeleteFormMutation";
 export { useFormDetailQuery } from "./useFormDetailQuery";
+
+// GET Chart data
+export { useGetChartDataQuery } from "./useGetChartDataQuery";

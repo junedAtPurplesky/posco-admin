@@ -9,7 +9,7 @@ interface PieChartData {
 
 interface PieChartProps {
   data: PieChartData[];
-  title: string;
+  title?: string;
   size?: number;
   className?: string;
 }

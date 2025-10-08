@@ -150,3 +150,14 @@ export interface IUpdateFormResponse {
   success: true;
   data: IUpdateFormPayload;
 }
+//issue chart get data
+export interface IChartCategory {
+  name: string;
+  value: number;
+}
+
+export interface IChartResponse {
+  status: boolean;
+  message: string;
+  success: true;
+  data: IChartCategory[];}

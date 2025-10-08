@@ -33,6 +33,8 @@ export const getFormDetailsUrl = () => `/staff`;
 export const updateFormUrl = (id: string) => `/staff/${id}`; //put
 
 
+//Pi charts
+export const fetchIssueDistributionUrl = () => "/staff"; //Get
 
 
 

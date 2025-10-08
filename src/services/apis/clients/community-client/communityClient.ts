@@ -7,6 +7,7 @@ import {
   deleteStaffUrl,
   fetchAllFormUrl,
   fetchAllStaffUrl,
+  fetchIssueDistributionUrl,
   getFormDetailsUrl,
   getStaffDetailsUrl,
   loginUrl,
@@ -16,6 +17,7 @@ import {
 import {
   IAllFormResponse,
   IAllStaffResponse,
+  IChartResponse,
   ICreateFormPayload,
   ICreateFormResponse,
   ICreateStaffPayload,
@@ -210,6 +212,22 @@ export class CommunityClient extends ApiClient {
     }
     return response?.data;
   };
+
+  // issue chart
+    public fetchIssueDistribution = async () => {
+    const url = fetchIssueDistributionUrl();
+
+    const response = await this.get<IChartResponse>(url, {
+      requiresAuth: false,
+    });
+
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+
+    return response?.data;
+  };
+
 }
 
 /**
