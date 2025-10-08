@@ -12,7 +12,7 @@ export interface IStaffListProps {
   status: string;
 }
 
-// 🔹 Department Cell Component
+// Department Cell Component
 function DepartmentCell({ value }: { value: string }) {
   const styleClass = getDepartmentStyle(value);
   return (
@@ -22,7 +22,7 @@ function DepartmentCell({ value }: { value: string }) {
   );
 }
 
-// 🔹 Status Toggle Cell Component
+// Status Toggle Cell Component
 function StatusToggleCell({ value }: { value: string }) {
   const [isOn, setIsOn] = useState(value === "Active");
 
@@ -49,7 +49,7 @@ function StatusToggleCell({ value }: { value: string }) {
   );
 }
 
-// 🔹 Table Columns
+// Table Columns
 export const staffListColumns: ITableColumn<IStaffListProps>[] = [
   {
     header: "STAFF NAME",
@@ -85,7 +85,7 @@ export const staffListColumns: ITableColumn<IStaffListProps>[] = [
   },
 ];
 
-// 🔹 Dummy Data
+// Dummy Data
 export const dummyStaffList: IStaffListProps[] = [
   {
     id: 1,
@@ -105,20 +105,18 @@ export const dummyStaffList: IStaffListProps[] = [
   },
 ];
 
-// 🔹 Table Actions
+// Table Actions
 export const staffListActions: ITableAction<IStaffListProps>[] = [
   {
     label: "View Form",
     onClick: (row) => {
       console.log("View form submission:", row);
     },
-    className: "text-blue-500 hover:text-blue-700",
   },
   {
     label: "View Staff",
     onClick: (row) => {
       console.log("View Staff form:", row);
     },
-    className: "text-blue-500 hover:text-blue-700",
   },
 ];
