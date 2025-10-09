@@ -161,3 +161,18 @@ export interface IChartResponse {
   message: string;
   success: true;
   data: IChartCategory[];}
+
+
+  // dashboard stats
+
+  export interface IStatsResponse {
+  status: boolean;
+  message: string;
+  success: true;
+  data:{
+    dailySafetyFormsReceived: number,
+    nonCompliantReports: number,
+    staffParticipationRate: number
+  }
+}
+  

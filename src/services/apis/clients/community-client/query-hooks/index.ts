@@ -16,3 +16,4 @@ export { useFormDetailQuery } from "./useFormDetailQuery";
 
 // GET Chart data
 export { useGetChartDataQuery } from "./useGetChartDataQuery";
+export { useAdminDashboardStatsQuery } from "./useAdminDashboardStatsQuery";

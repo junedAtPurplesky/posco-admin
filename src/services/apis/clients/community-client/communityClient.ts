@@ -5,6 +5,7 @@ import {
   createStaffUrl,
   deleteFormUrl,
   deleteStaffUrl,
+  fetchAdminDashboardStatsUrl,
   fetchAllFormUrl,
   fetchAllStaffUrl,
   fetchIssueDistributionUrl,
@@ -28,6 +29,7 @@ import {
   ILoginPayload,
   ILoginUserResponse,
   IStaffDetailsResponse,
+  IStatsResponse,
   IUpdateFormPayload,
   IUpdateFormResponse,
   IUpdateStaffPayload,
@@ -163,8 +165,8 @@ export class CommunityClient extends ApiClient {
     return response?.data;
   };
 
-  // create Form 
-    public createForm = async (payload: ICreateFormPayload) => {
+  // create Form
+  public createForm = async (payload: ICreateFormPayload) => {
     const response = await this.post<ICreateFormResponse>(
       createFormUrl(),
       payload
@@ -177,7 +179,7 @@ export class CommunityClient extends ApiClient {
     return response?.data;
   };
 
-    // delete Form
+  // delete Form
   public deleteForm = async (id: string) => {
     const response = await this.del<IDeleteFormResponse>(deleteFormUrl(id));
 
@@ -186,7 +188,7 @@ export class CommunityClient extends ApiClient {
     }
     return response?.data;
   };
-    // GET BY ID
+  // GET BY ID
   public getFormDetails = async () => {
     const response = await this.get<IFormDetailsResponse[]>(
       getFormDetailsUrl(),
@@ -214,7 +216,7 @@ export class CommunityClient extends ApiClient {
   };
 
   // issue chart
-    public fetchIssueDistribution = async () => {
+  public fetchIssueDistribution = async () => {
     const url = fetchIssueDistributionUrl();
 
     const response = await this.get<IChartResponse>(url, {
@@ -228,6 +230,19 @@ export class CommunityClient extends ApiClient {
     return response?.data;
   };
 
+  public fetchDashboardStats = async () => {
+    const url = fetchAdminDashboardStatsUrl();
+
+    const response = await this.get<IStatsResponse>(url, {
+      requiresAuth: true,
+    });
+
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+
+    return response?.data;
+  };
 }
 
 /**
