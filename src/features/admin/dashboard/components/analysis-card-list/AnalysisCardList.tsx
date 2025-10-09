@@ -16,7 +16,7 @@ export function AnalysisCardList({
 
 
   return (
-    <div className={`flex flex-wrap gap-6 ${className}`}>
+    <div className={`flex flex-wrap gap-3 sm:gap-6 ${className}`}>
       {analysisCardsData.map((card) => (
         <AnalysisCard 
           key={card.id} 

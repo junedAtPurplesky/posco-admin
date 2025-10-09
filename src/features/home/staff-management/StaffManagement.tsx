@@ -21,7 +21,7 @@ export function StaffManagement() {
   return (
     <section className="flex flex-col gap-4 bg-white p-6">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between lg:gap-0 gap-3">
-        <h1 className="text-[1.2rem] font-semibold text-gray-800">
+        <h1 className="text-[1.2rem] font-normal text-gray-800">
           Staff List
         </h1>
         <div className="flex flex-col md:flex-row md:items-center gap-4">

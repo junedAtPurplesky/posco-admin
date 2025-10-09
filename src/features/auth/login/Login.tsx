@@ -46,7 +46,7 @@ export function Login() {
     validationSchema,
     onSubmit: (values) => {
       const payload: ILoginPayload = {
-        email: values.employeeId,
+        identifier: values.employeeId,
         password: values.password,
       };
       submitLogin(payload);

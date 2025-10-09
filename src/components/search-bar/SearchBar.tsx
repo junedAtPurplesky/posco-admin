@@ -7,9 +7,7 @@ import { useState } from "react";
  * Props for the SearchBar component.
  */
 interface SearchBarProps {
-  /** Placeholder text for the input field (optional). */
   placeholder?: string;
-  /** Callback function triggered when the search input changes. */
   onSearch: (query: string) => void;
 }
 
@@ -28,17 +26,17 @@ export function SearchBar({
   const [query, setQuery] = useState(""); // State to store the search query
 
   return (
-    <div className="relative flex items-center bg-[#F3F4F6] border border-[#CACACA] px-4 py-2 min-w-sm rounded-xl min-w-[12rem] w-[25vw]">
+    <div className="relative flex items-center bg-[#F3F4F6] border border-[#CACACA] px-4 py-2 min-w-sm rounded-xl min-w-[12rem] w-[20rem]">
       {/* Search Icon */}
-      <SearchIcon className="w-6 2xl:w-[1.5vw] h-6 2xl:h-[1.5vw]" />
+      <SearchIcon className="w-6 h-6" />
 
       {/* Search Input Field */}
       <input
         type="text"
         value={query}
         onChange={(e) => {
-          setQuery(e.target.value); // Update the query state
-          onSearch(e.target.value); // Trigger the search function
+          setQuery(e.target.value);
+          onSearch(e.target.value);
         }}
         placeholder={placeholder}
         className="ml-2 bg-transparent focus:outline-none w-full"

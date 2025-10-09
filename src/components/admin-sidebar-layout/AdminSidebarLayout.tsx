@@ -46,7 +46,7 @@ export function AdminSidebarLayout({
         } transition-all duration-500 ease-in-out`}
       >
         <AdminHeader />
-        <div className="p-8 overflow-auto min-h-[91.5vh]">
+        <div className="p-4 sm:p-6 md:p-8 overflow-auto min-h-[91.5vh]">
           {children}
         </div>
       </div>

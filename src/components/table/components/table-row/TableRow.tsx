@@ -266,7 +266,7 @@ export function TableCell<T extends { id: string | number }>({
   return (
     <td
       key={index}
-      className={`text-center p-3 text-[0.9rem] text-gray-700 ${
+      className={`${isStatusColumn ? "flex justify-center" : ""} text-center p-3 text-[0.9rem] text-gray-700 ${
         isEmailColumn ? "" : "capitalize"
       }`}
       // style={{ backgroundColor: getCellBackgroundColor() }}

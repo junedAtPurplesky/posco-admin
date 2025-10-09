@@ -1,5 +1,6 @@
-import { ThreeIcon } from "@/features";
 import React from "react";
+
+// import { ThreeIcon } from "@/features";
 
 interface PieChartData {
   label: string;
@@ -64,7 +65,7 @@ export function PieChart({
         <h3 className="text-[1.1rem] font-normal text-gray-800 mb-4 text-start">
           {title}
         </h3>
-        <ThreeIcon className="h-4 w-4" />
+        {/* <ThreeIcon className="h-4 w-4" /> */}
       </div>
 
       <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
