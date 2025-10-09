@@ -9,21 +9,45 @@ export interface IFormSubmissionProps {
   complianceScore: number;
 }
 
-// Create a separate client component for the compliance score cell
+// Helper function to get text color based on score
+function getScoreColor(score: number): string {
+  if (score >= 90) return "text-green-600";
+  if (score >= 75) return "text-blue-600";
+  if (score >= 60) return "text-yellow-600";
+  return "text-red-600";
+}
+
+// Helper function to get department styles
+function getDepartmentStyle(department: string): string {
+  switch (department.toLowerCase()) {
+    case "maintenance":
+    case "worker":
+      return "text-green-600 border-green-600";
+    case "electrical":
+      return "text-blue-600 border-blue-600";
+    case "supervisor":
+      return "text-yellow-600 border-yellow-600";
+    case "quality control":
+      return "text-orange-600 border-orange-600";
+    default:
+      return "text-gray-600 border-gray-400";
+  }
+}
+
+// Cell component for compliance score
 function ComplianceScoreCell({ value }: { value: number }) {
+  const colorClass = getScoreColor(value);
+  return <span className={`px-2 py-1 text-xs ${colorClass}`}>{value}%</span>;
+}
+
+// Cell component for department
+function DepartmentCell({ value }: { value: string }) {
+  const styleClass = getDepartmentStyle(value);
   return (
     <span
-      className={`px-2 py-1 rounded-full text-xs ${
-        value >= 90
-          ? "bg-green-100 text-green-800"
-          : value >= 75
-          ? "bg-blue-100 text-blue-800"
-          : value >= 60
-          ? "bg-yellow-100 text-yellow-800"
-          : "bg-red-100 text-red-800"
-      }`}
+      className={`px-3 py-1 rounded-md text-xs border ${styleClass} capitalize`}
     >
-      {value}%
+      {value}
     </span>
   );
 }
@@ -46,6 +70,7 @@ export const formSubmissionColumns: ITableColumn<IFormSubmissionProps>[] = [
     accessor: "department",
     sortable: true,
     headerClassName: "min-w-[12rem]",
+    cell: ({ value }) => <DepartmentCell value={value as string} />,
   },
   {
     header: "COMPLIANCE SCORE",
@@ -56,217 +81,73 @@ export const formSubmissionColumns: ITableColumn<IFormSubmissionProps>[] = [
   },
 ];
 
+// Dummy data
 export const dummyFormSubmissions: IFormSubmissionProps[] = [
   {
     id: 1,
     staffName: "John Smith",
     submissionDate: "2024-01-15",
-    department: "Marketing",
-    complianceScore: 92,
+    department: "Maintenance",
+    complianceScore: 20,
   },
   {
     id: 2,
     staffName: "Sarah Johnson",
     submissionDate: "2024-01-15",
-    department: "Human Resources",
+    department: "Electrical",
     complianceScore: 88,
   },
   {
     id: 3,
     staffName: "Michael Chen",
     submissionDate: "2024-01-15",
-    department: "Engineering",
+    department: "Supervisor",
     complianceScore: 95,
   },
   {
     id: 4,
     staffName: "Emily Davis",
     submissionDate: "2024-01-15",
-    department: "Sales",
+    department: "Worker",
     complianceScore: 78,
   },
   {
     id: 5,
     staffName: "Robert Wilson",
     submissionDate: "2024-01-14",
-    department: "Finance",
+    department: "Quality Control",
     complianceScore: 85,
-  },
-  {
-    id: 6,
-    staffName: "Lisa Martinez",
-    submissionDate: "2024-01-14",
-    department: "Operations",
-    complianceScore: 91,
-  },
-  {
-    id: 7,
-    staffName: "David Brown",
-    submissionDate: "2024-01-14",
-    department: "IT Support",
-    complianceScore: 67,
-  },
-  {
-    id: 8,
-    staffName: "Jennifer Lee",
-    submissionDate: "2024-01-13",
-    department: "Customer Service",
-    complianceScore: 82,
-  },
-  {
-    id: 9,
-    staffName: "Kevin Taylor",
-    submissionDate: "2024-01-13",
-    department: "Research & Development",
-    complianceScore: 89,
-  },
-  {
-    id: 10,
-    staffName: "Amanda White",
-    submissionDate: "2024-01-13",
-    department: "Quality Assurance",
-    complianceScore: 94,
-  },
-  {
-    id: 11,
-    staffName: "James Anderson",
-    submissionDate: "2024-01-12",
-    department: "Marketing",
-    complianceScore: 76,
-  },
-  {
-    id: 12,
-    staffName: "Maria Garcia",
-    submissionDate: "2024-01-12",
-    department: "Human Resources",
-    complianceScore: 90,
-  },
-  {
-    id: 13,
-    staffName: "Thomas Clark",
-    submissionDate: "2024-01-12",
-    department: "Engineering",
-    complianceScore: 83,
-  },
-  {
-    id: 14,
-    staffName: "Sophia Rodriguez",
-    submissionDate: "2024-01-11",
-    department: "Sales",
-    complianceScore: 79,
-  },
-  {
-    id: 15,
-    staffName: "Daniel Kim",
-    submissionDate: "2024-01-11",
-    department: "Finance",
-    complianceScore: 96,
-  },
-  {
-    id: 16,
-    staffName: "Jessica Moore",
-    submissionDate: "2024-01-11",
-    department: "Operations",
-    complianceScore: 72,
-  },
-  {
-    id: 17,
-    staffName: "Christopher Lee",
-    submissionDate: "2024-01-10",
-    department: "IT Support",
-    complianceScore: 87,
-  },
-  {
-    id: 18,
-    staffName: "Olivia Harris",
-    submissionDate: "2024-01-10",
-    department: "Customer Service",
-    complianceScore: 93,
-  },
-  {
-    id: 19,
-    staffName: "Matthew Walker",
-    submissionDate: "2024-01-10",
-    department: "Research & Development",
-    complianceScore: 81,
-  },
-  {
-    id: 20,
-    staffName: "Emma Thompson",
-    submissionDate: "2024-01-09",
-    department: "Quality Assurance",
-    complianceScore: 89,
-  },
-  {
-    id: 21,
-    staffName: "Andrew Martin",
-    submissionDate: "2024-01-09",
-    department: "Marketing",
-    complianceScore: 84,
-  },
-  {
-    id: 22,
-    staffName: "Nicole Scott",
-    submissionDate: "2024-01-09",
-    department: "Human Resources",
-    complianceScore: 77,
-  },
-  {
-    id: 23,
-    staffName: "Brian Adams",
-    submissionDate: "2024-01-08",
-    department: "Engineering",
-    complianceScore: 91,
   },
 ];
 
-export const formSubmissionActions: ITableAction<IFormSubmissionProps>[] = [];
-
-formSubmissionActions.push({
-  label: "View",
-  onClick: (row: IFormSubmissionProps) => {
-    console.log("View form submission:", row);
+// Table actions
+export const formSubmissionActions: ITableAction<IFormSubmissionProps>[] = [
+  {
+    label: "View",
+    onClick: (row) => console.log("View form submission:", row),
+    className: "hover:text-blue-700",
   },
-  className: "text-blue-500 hover:text-blue-700",
-});
-
-formSubmissionActions.push({
-  label: "Edit",
-  onClick: (row: IFormSubmissionProps) => {
-    console.log("Edit form submission:", row);
+  {
+    label: "Edit",
+    onClick: (row) => console.log("Edit form submission:", row),
   },
-  className: "text-green-500 hover:text-green-700",
-});
-
-formSubmissionActions.push({
-  label: "Delete",
-  onClick: (row: IFormSubmissionProps) => {
-    console.log("Delete form submission:", row);
+  {
+    label: "Delete",
+    onClick: (row) => console.log("Delete form submission:", row),
+    className: "text-red-500 hover:text-red-700",
   },
-  className: "text-red-500 hover:text-red-700",
-});
-
-formSubmissionActions.push({
-  label: "Download",
-  onClick: (row: IFormSubmissionProps) => {
-    console.log("Download form submission:", row);
+  {
+    label: "Download",
+    onClick: (row) => console.log("Download form submission:", row),
   },
-  className: "text-purple-500 hover:text-purple-700",
-});
-
-formSubmissionActions.push({
-  label: "Approve",
-  onClick: (row: IFormSubmissionProps) => {
-    console.log("Approve form submission:", row);
+  {
+    label: "Approve",
+    onClick: (row) => console.log("Approve form submission:", row),
   },
-  className: "text-green-500 hover:text-green-700",
-});
-
-formSubmissionActions.push({
-  label: "Reject",
-  onClick: (row: IFormSubmissionProps) => {
-    console.log("Reject form submission:", row);
-    // Add rejection logic here
+  {
+    label: "Reject",
+    onClick: (row) => {
+      console.log("Reject form submission:", row);
+    },
   },
-  className: "text-orange-500 hover:text-orange-700",
-});
+];

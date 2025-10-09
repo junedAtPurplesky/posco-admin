@@ -25,6 +25,8 @@ body {
   }
 }
 
+
+
 input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
@@ -33,4 +35,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 select > option:hover {
   background-color: black;
   color: white;
+}
+
+@layer utilities {
+  .scrollbar-none {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+}
+.scrollbar-style {
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+
 }

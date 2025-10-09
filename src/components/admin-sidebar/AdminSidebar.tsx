@@ -59,8 +59,8 @@ export function AdminSidebar({
         </div>
         <div
           className={`absolute ${
-            isVisibleSidebar ? "-right-2" : "right-4"
-          } w-8 h-8 cursor-pointer`}
+            isVisibleSidebar ? "-right-1" : "right-4"
+          } w-6 h-6 cursor-pointer`}
           onClick={toggleSidebar}
         >
           <SidebarIcon />
@@ -88,7 +88,7 @@ export function AdminSidebar({
                   <span
                     className={`${isVisibleSidebar ? "hidden" : "flex"} ${
                       isActive ? "text-primary font-medium" : " text-gray-600"
-                    } text-base 2xl:text-[1vw]`}
+                    } `}
                   >
                     {link.name}
                   </span>

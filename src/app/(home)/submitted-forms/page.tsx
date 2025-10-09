@@ -1,7 +1,28 @@
+"use client";
+
+import { useEffect } from "react";
+import { useAuthStore } from "@/services";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+
+const SubmittedForms = dynamic(
+  () => import("@/features").then((mod) => mod.SubmittedForms),
+  { ssr: false }
+);
+
 export default function SubmittedFormsPage() {
-  return (
-    <div>
-      <h1>Submitted Forms</h1>
-    </div>
-  )
+  const router = useRouter();
+  const { activeSession } = useAuthStore();
+  const accessToken = activeSession?.access_token;
+
+  useEffect(() => {
+    if (!accessToken) {
+      // If no token, redirect to login
+      router.replace("/login");
+    } else {
+      // If token exists, redirect
+      router.replace("/submitted-forms");
+    }
+  }, [accessToken, router]);
+  return <SubmittedForms />;
 }

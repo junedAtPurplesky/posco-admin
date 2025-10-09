@@ -18,7 +18,7 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({ isOpen, onClose, chi
       ></div>
 
       {/* Modal Content */}
-      <div className="relative bg-white rounded-2xl shadow-lg p-6 max-w-md w-full">
+      <div className="relative bg-[#F3F4F6]  shadow-lg p-6 max-w-md w-full">
         <button
           className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
           onClick={onClose}

@@ -31,7 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
   };
   return (
     <button
-      className={`flex items-center justify-center rounded-md ${width} h-auto 2xl:px-[1vw] 2xl:py-[1vw] px-4 py-2 space-x-2 font-medium ${
+      className={`flex items-center justify-center rounded-md ${width} h-auto px-4 py-2 space-x-2 font-medium ${
         variantClasses[variant]
       } ${disabled || isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
       disabled={disabled || isLoading}
@@ -43,7 +43,7 @@ export const Button: React.FC<ButtonProps> = ({
         <>
           {LeftIcon && <span className="w-5 h-5 text-current">{LeftIcon}</span>}
           {title && (
-            <span className="text-sm 2xl:text-[1vw] text-nowrap">{title}</span>
+            <span className="text-sm  text-nowrap">{title}</span>
           )}
           {RightIcon && (
             <span className="w-5 h-5 text-current">{RightIcon}</span>

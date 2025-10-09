@@ -1,0 +1,1 @@
+export {IssueDistributionByCategoryChart} from './IssueDistributionByCategoryChart';
