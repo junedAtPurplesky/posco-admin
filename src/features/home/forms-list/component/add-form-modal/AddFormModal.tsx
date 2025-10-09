@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { Button, DatePicker, InputField, ModalOverlay } from "@/components";
 import { PlusIcon } from "@/features/icons";
 import { MdOutlineCancel } from "react-icons/md";
-import { FaAngleUp } from "react-icons/fa6";
+import { LiaAngleDownSolid } from "react-icons/lia";
 
 interface AddFormModalProps {
   isOpen: boolean;
@@ -156,9 +156,9 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
                     className="hover:text-gray-800"
                   >
                     {topic.isOpen ? (
-                      <FaAngleUp className="rotate-180 h-3 w-3" />
+                      <LiaAngleDownSolid className=" h-3 w-3" />
                     ) : (
-                      <FaAngleUp className="h-3 w-3" />
+                     <LiaAngleDownSolid className=" rotate-180 h-3 w-3" />
                     )}
                   </button>
                 </div>
