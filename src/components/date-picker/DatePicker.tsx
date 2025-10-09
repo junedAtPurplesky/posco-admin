@@ -14,7 +14,7 @@ export function DatePicker({
   error,
   label,
   isRequired = false,
-  datePickerBorderRadius = "rounded-xl 2xl:rounded-[0.75vw]",
+  datePickerBorderRadius = "rounded-lg",
 }: {
   value: string;
   onChange: (val: string) => void;
@@ -27,9 +27,9 @@ export function DatePicker({
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="w-full">
+    <div className="w-full text-[0.8rem]">
       {label && (
-        <label className="block 2xl:text-[1vw] text-gray-700 mb-2 2xl:mb-[0.5vw]">
+        <label className="block text-gray-700 mb-2 ">
           {label} {isRequired && <span className="text-red-500">*</span>}
         </label>
       )}
@@ -39,9 +39,9 @@ export function DatePicker({
           placeholder={placeholder}
           ref={inputRef}
           type="date"
-          className={`w-full 2xl:text-[1vw] border ${
+          className={`w-full  border ${
             error ? "border-red-500" : "border-gray-300"
-          } ${datePickerBorderRadius} px-4 2xl:px-[1vw] py-3 2xl:py-[0.7vw] pr-10 2xl:pr-[2.5vw] focus:outline-none focus:ring-1 ${
+          } ${datePickerBorderRadius} px-4  py-2 pr-10  focus:outline-none focus:ring-1 ${
             error ? "focus:ring-red-500" : "focus:ring-primary"
           }`}
           value={value}
@@ -49,14 +49,14 @@ export function DatePicker({
         />
         {/* Custom Calendar Icon (Now Works on All Browsers) */}
         <div
-          className="absolute inset-y-0 right-3 2xl:right-[0.75vw] flex items-center cursor-pointer"
+          className="absolute inset-y-0 right-3  flex items-center cursor-pointer"
           onClick={() =>
             inputRef.current?.showPicker?.() || inputRef.current?.focus()
           }
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="w-6 2xl:w-[1.5vw] h-6 2xl:h-[1.5vw] text-gray-500"
+            className="w-5 h-5  text-gray-500"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -71,7 +71,7 @@ export function DatePicker({
 
       {/* Error Message */}
       {error && (
-        <p className="text-red-500 text-sm 2xl:text-[0.9vw] mt-1 2xl:mt-[0.25vw]">
+        <p className="text-red-500 text-sm mt-1">
           {error}
         </p>
       )}
