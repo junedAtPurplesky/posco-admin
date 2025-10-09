@@ -18,3 +18,5 @@ export { useFormDetailQuery } from "./useFormDetailQuery";
 export { useIssueDistributionChartDataQuery } from "./useIssueDistributionChartDataQuery";
 export { useAdminDashboardStatsQuery } from "./useAdminDashboardStatsQuery";
 export { useSafetyComplianceChartDataQuery } from "./useSafetyComplianceChartDataQuery";
+
+export { useAllRecentSubmissionQuery } from "./useAllRecentSubmissionQuery";

@@ -186,4 +186,17 @@ export interface IChartResponse {
     staffParticipationRate: number
   }
 }
+export interface IAllRecentSubmissionResponse {
+  status: boolean;
+  message: string;
+  success: true;
+  data: {
+      id: number;
+      staffName: string;
+      submissionDate: string;
+      department: string;
+      complianceScore: number;
+    }[];
+  };
+
   

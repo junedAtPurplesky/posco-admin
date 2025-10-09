@@ -10,6 +10,7 @@ import {
   fetchAllStaffUrl,
   fetchComplianceOverviewUrl,
   fetchIssueDistributionUrl,
+  fetchRecentSubmissionsUrl,
   getFormDetailsUrl,
   getStaffDetailsUrl,
   loginUrl,
@@ -18,6 +19,7 @@ import {
 } from "./urls";
 import {
   IAllFormResponse,
+  IAllRecentSubmissionResponse,
   IAllStaffResponse,
   IChartResponse,
   ICreateFormPayload,
@@ -261,7 +263,22 @@ export class CommunityClient extends ApiClient {
 
     return response?.data;
   };
+
+   public fetchAllRecentSubmission = async () => {
+    const url = fetchRecentSubmissionsUrl();
+
+    const response = await this.get<IAllRecentSubmissionResponse>(url, {
+      requiresAuth: true,
+    });
+
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+
+    return response?.data;
+  };
 }
+
 
 /**
  * This creates a new instance of the class. is th base Axios API client Class
