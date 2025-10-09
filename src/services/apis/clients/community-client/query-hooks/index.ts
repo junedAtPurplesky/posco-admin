@@ -15,5 +15,6 @@ export { useDeleteFormMutation } from "./useDeleteFormMutation";
 export { useFormDetailQuery } from "./useFormDetailQuery";
 
 // GET Chart data
-export { useGetChartDataQuery } from "./useGetChartDataQuery";
+export { useIssueDistributionChartDataQuery } from "./useIssueDistributionChartDataQuery";
 export { useAdminDashboardStatsQuery } from "./useAdminDashboardStatsQuery";
+export { useSafetyComplianceChartDataQuery } from "./useSafetyComplianceChartDataQuery";

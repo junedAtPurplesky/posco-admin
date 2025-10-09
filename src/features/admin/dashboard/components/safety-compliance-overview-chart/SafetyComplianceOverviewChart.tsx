@@ -1,28 +1,41 @@
-import { useEffect, useState } from "react";
+"use client";
+
+import React, { useEffect, useState, useMemo } from "react";
 import { PieChart } from "../pi-chart/PiChart";
+import { useSafetyComplianceChartDataQuery } from "@/services/apis";
 
 export function SafetyComplianceOverviewChart() {
+  const { chartData, isLoading, isError } = useSafetyComplianceChartDataQuery();
   const [chartSize, setChartSize] = useState(220);
 
+  // Responsive chart size
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 1024) {
-        setChartSize(160);
-      } else {
-        setChartSize(220);
-      }
+      setChartSize(window.innerWidth <= 1024 ? 160 : 220);
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const data = [
-    { label: "Compliant (Safe)", value: 30, color: "#10B981" },
-    { label: "Non-Compliant (Unsafe)", value: 20, color: "#EF4444" },
-  ];
+  // Prepare chart data dynamically
+  const data = useMemo(() => {
+    return [
+      {
+        label: "Compliant (Safe)",
+        value: chartData?.data?.compliant || 0,
+        color: "#10B981",
+      },
+      {
+        label: "Non-Compliant (Unsafe)",
+        value: chartData?.data?.non_compliant || 0,
+        color: "#EF4444",
+      },
+    ];
+  }, [chartData]);
+
+  if (isLoading) return <p>Loading chart...</p>;
+  if (isError) return <p>Failed to load chart data.</p>;
 
   return (
     <PieChart

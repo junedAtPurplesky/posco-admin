@@ -150,18 +150,29 @@ export interface IUpdateFormResponse {
   success: true;
   data: IUpdateFormPayload;
 }
-//issue chart get data
-export interface IChartCategory {
-  name: string;
-  value: number;
-}
 
 export interface IChartResponse {
   status: boolean;
   message: string;
   success: true;
-  data: IChartCategory[];}
+  data: {
+    emergency_exits: number;
+    equipment_safety: number;
+    fire_safety: number;
+    general_safety: number;
+  };
+}
 
+
+ export interface ISafetyComplianceChartResponse {
+  status: boolean;
+  message: string;
+  success: true;
+  data: {
+    compliant: number;
+    non_compliant: number;
+  };
+}
 
   // dashboard stats
 

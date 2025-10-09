@@ -8,6 +8,7 @@ import {
   fetchAdminDashboardStatsUrl,
   fetchAllFormUrl,
   fetchAllStaffUrl,
+  fetchComplianceOverviewUrl,
   fetchIssueDistributionUrl,
   getFormDetailsUrl,
   getStaffDetailsUrl,
@@ -28,6 +29,7 @@ import {
   IFormDetailsResponse,
   ILoginPayload,
   ILoginUserResponse,
+  ISafetyComplianceChartResponse,
   IStaffDetailsResponse,
   IStatsResponse,
   IUpdateFormPayload,
@@ -230,6 +232,22 @@ export class CommunityClient extends ApiClient {
     return response?.data;
   };
 
+
+  
+   // safety compliance chart
+  public fetchSafetyCompliance = async () => {
+    const url = fetchComplianceOverviewUrl();
+
+    const response = await this.get<ISafetyComplianceChartResponse>(url, {
+      requiresAuth: false,
+    });
+
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+
+    return response?.data;
+  };
   public fetchDashboardStats = async () => {
     const url = fetchAdminDashboardStatsUrl();
 
