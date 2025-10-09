@@ -18,11 +18,11 @@ export const getLoginWithEmailAndPasswordToAzureB2CUrl = ({
 export const loginUrl = () => "/admin/auth/login";
 
 // Staff URL
-export const createStaffUrl = () => "/staff"; //post
-export const updateStaffUrl = (id: string) => `/staff/${id}`; //put
-export const deleteStaffUrl = (id: string) => `/staff/${id}`; //delete
-export const fetchAllStaffUrl = () => "/staff"; //Get
-export const getStaffDetailsUrl = () => `/staff`;
+export const createStaffUrl = () => "/admin/staff"; //post
+export const updateStaffUrl = (id: string) => `/admin/staff/${id}`; //put
+export const deleteStaffUrl = (id: string) => `/admin/staff/${id}`; //delete
+export const fetchAllStaffUrl = () => "/admin/staff"; //Get
+export const getStaffDetailsUrl = () => `/admin/staff`;
 
 // Form URL
 export const fetchAllFormUrl = () => "/staff"; //Get

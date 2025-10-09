@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { Button, Dropdown, InputField, ModalOverlay } from "@/components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { ICreateStaffPayload, useCreateStaffMutation } from "@/services/apis";
+import toast from "react-hot-toast";
 
 interface AddStaffModalProps {
   isOpen: boolean;
@@ -9,6 +11,17 @@ interface AddStaffModalProps {
 }
 
 export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
+  const { onCreateStaffMutate, isPending } = useCreateStaffMutation({
+    onSuccessCallback: (response) => {
+    toast.success(response.message);
+    onClose();
+  },
+  onErrorCallback: (err) => {
+    toast.error(err.message || "Failed to create staff. Please try again.");
+  },
+
+  });
+
   const formik = useFormik({
     initialValues: {
       employeeId: "",
@@ -28,12 +41,22 @@ export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
         .required("Password is required"),
     }),
     onSubmit: (values) => {
-      console.log("Form submitted:", values);
-      onClose();
+      const payload: ICreateStaffPayload = {
+        employee_id: values.employeeId,
+        email: values.email,
+        first_name: values.employeeName.split(" ")[0] || "",
+        last_name: values.employeeName.split(" ")[1] || "",
+        phone_number: "", // optional or default
+        password: values.password,
+        department_id: "", // optional or default
+        user_role: values.role as "admin",
+        status: "active",
+      };
+
+      onCreateStaffMutate(payload);
     },
   });
 
-  // Reset form when modal closes
   useEffect(() => {
     if (!isOpen) {
       formik.resetForm();
@@ -54,9 +77,7 @@ export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
             name="employeeId"
             value={formik.values.employeeId}
             onChange={formik.handleChange}
-            error={
-              formik.touched.employeeId ? formik.errors.employeeId : undefined
-            }
+            error={formik.touched.employeeId ? formik.errors.employeeId : undefined}
           />
 
           <InputField
@@ -65,11 +86,7 @@ export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
             name="employeeName"
             value={formik.values.employeeName}
             onChange={formik.handleChange}
-            error={
-              formik.touched.employeeName
-                ? formik.errors.employeeName
-                : undefined
-            }
+            error={formik.touched.employeeName ? formik.errors.employeeName : undefined}
           />
 
           <InputField
@@ -100,13 +117,16 @@ export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
             type="password"
             value={formik.values.password}
             onChange={formik.handleChange}
-            error={
-              formik.touched.password ? formik.errors.password : undefined
-            }
+            error={formik.touched.password ? formik.errors.password : undefined}
           />
 
           <div>
-            <Button title="Save" width="w-full" type="submit" />
+            <Button
+              title={isPending ? "Saving..." : "Save"}
+              width="w-full"
+              type="submit"
+              disabled={isPending}
+            />
           </div>
         </form>
       </div>

@@ -28,7 +28,7 @@ export function SearchBar({
   return (
     <div className="relative flex items-center bg-[#F3F4F6] border border-[#CACACA] px-4 py-2 min-w-sm rounded-xl min-w-[12rem] w-[20rem]">
       {/* Search Icon */}
-      <SearchIcon className="w-6 h-6" />
+      <SearchIcon className="w-5 h-5" />
 
       {/* Search Input Field */}
       <input
@@ -39,7 +39,7 @@ export function SearchBar({
           onSearch(e.target.value);
         }}
         placeholder={placeholder}
-        className="ml-2 bg-transparent focus:outline-none w-full"
+        className="ml-2 text-[0.9rem] bg-transparent focus:outline-none w-full"
       />
     </div>
   );

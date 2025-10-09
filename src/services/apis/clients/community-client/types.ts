@@ -42,7 +42,15 @@ export interface ILoginPayload {
 // Staff
 // POST
 export interface ICreateStaffPayload {
-  name: string;
+  employee_id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone_number?: string;
+  password: string;
+  department_id?: string;
+  user_role: "admin";
+  status: "active";
 }
 
 export interface ICreateStaffResponse {
@@ -75,7 +83,15 @@ export interface IDeleteStaffResponse {
 
 // GET
 export interface IAllStaffList {
-  status: boolean;
+  employee_id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  password: string;
+  department_id: string;
+  user_role: "admin";
+  status: "active";
 }
 export interface IAllStaffResponse {
   status: boolean;
@@ -87,6 +103,7 @@ export interface IAllStaffResponse {
 // GET BY ID
 export interface IStaffDetails {
   id: string;
+  payload: ICreateStaffPayload;
 }
 
 export interface IStaffDetailsResponse {
@@ -163,8 +180,7 @@ export interface IChartResponse {
   };
 }
 
-
- export interface ISafetyComplianceChartResponse {
+export interface ISafetyComplianceChartResponse {
   status: boolean;
   message: string;
   success: true;
@@ -174,29 +190,27 @@ export interface IChartResponse {
   };
 }
 
-  // dashboard stats
+// dashboard stats
 
-  export interface IStatsResponse {
+export interface IStatsResponse {
   status: boolean;
   message: string;
   success: true;
-  data:{
-    dailySafetyFormsReceived: number,
-    nonCompliantReports: number,
-    staffParticipationRate: number
-  }
+  data: {
+    dailySafetyFormsReceived: number;
+    nonCompliantReports: number;
+    staffParticipationRate: number;
+  };
 }
 export interface IAllRecentSubmissionResponse {
   status: boolean;
   message: string;
   success: true;
   data: {
-      id: number;
-      staffName: string;
-      submissionDate: string;
-      department: string;
-      complianceScore: number;
-    }[];
-  };
-
-  
+    id: number;
+    staffName: string;
+    submissionDate: string;
+    department: string;
+    complianceScore: number;
+  }[];
+}
