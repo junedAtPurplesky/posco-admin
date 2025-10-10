@@ -4,7 +4,12 @@ import { Button, Dropdown, InputField, ModalOverlay } from "@/components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
-import { ICreateStaffPayload, useCreateStaffMutation,useAllDepartmentQuery, useAllRoleQuery } from "@/services/apis";
+import {
+  ICreateStaffPayload,
+  useCreateStaffMutation,
+  useAllDepartmentQuery,
+  useAllRoleQuery,
+} from "@/services/apis";
 
 interface AddStaffModalProps {
   isOpen: boolean;

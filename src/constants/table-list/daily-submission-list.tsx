@@ -19,7 +19,7 @@ function getScoreColor(score: number): string {
 
 // Helper function to get department styles
 function getDepartmentStyle(department: string): string {
-  switch (department.toLowerCase()) {
+  switch (department) {
     case "maintenance":
     case "worker":
       return "text-green-600 border-green-600";

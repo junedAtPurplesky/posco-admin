@@ -4,19 +4,40 @@ import { getDepartmentStyle } from "@/utils/helpers/getDepartmentStyle";
 import { ITableAction, ITableColumn } from "../table";
 
 export interface IStaffListProps {
-  id: number;
-  staffName: string;
+  // id: number;
+  // staffName: string;
+  // email: string;
+  // department: string;
+  // createdAt: string;
+  // status: string;
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted: boolean;
+  deleted_at: string | null;
+  employee_id: string | null;
   email: string;
-  department: string;
-  createdAt: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string | null;
+  profile_picture: string | null;
   status: string;
+  dob: string | null;
+  otp: string | null;
+  otpExpiresAt: string | null;
+  isOtpVerified: boolean;
+  password: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  department: any;
 }
 
 // Department Cell Component
 function DepartmentCell({ value }: { value: string }) {
   const styleClass = getDepartmentStyle(value);
   return (
-    <span className={`px-3 py-1 rounded-md text-xs border ${styleClass} capitalize`}>
+    <span
+      className={`px-3 py-1 rounded-md text-xs border ${styleClass} capitalize`}
+    >
       {value}
     </span>
   );
@@ -53,7 +74,7 @@ function StatusToggleCell({ value }: { value: string }) {
 export const staffListColumns: ITableColumn<IStaffListProps>[] = [
   {
     header: "STAFF NAME",
-    accessor: "staffName",
+    accessor: "first_name",
     sortable: true,
     headerClassName: "min-w-[12rem]",
   },
@@ -68,13 +89,24 @@ export const staffListColumns: ITableColumn<IStaffListProps>[] = [
     accessor: "department",
     sortable: true,
     headerClassName: "min-w-[12rem]",
-    cell: ({ value }) => <DepartmentCell value={value as string} />,
+    cell: ({ value }) => {
+      const departmentName =
+        typeof value === "object" && value !== null
+          ? value.name
+          : value || "N/A";
+      return <DepartmentCell value={departmentName} />;
+    },
   },
   {
     header: "CREATED AT",
-    accessor: "createdAt",
+    accessor: "created_at",
     sortable: true,
     headerClassName: "min-w-[12rem]",
+    cell: ({ value }) => {
+      if (!value) return "N/A";
+      const date = new Date(value);
+      return <span className="text-gray-800">{date.toDateString()}</span>;
+    },
   },
   {
     header: "STATUS",
@@ -82,26 +114,6 @@ export const staffListColumns: ITableColumn<IStaffListProps>[] = [
     sortable: true,
     headerClassName: "min-w-[12rem]",
     cell: ({ value }) => <StatusToggleCell value={value as string} />,
-  },
-];
-
-// Dummy Data
-export const dummyStaffList: IStaffListProps[] = [
-  {
-    id: 1,
-    staffName: "John Smith",
-    email: "john@gmail.com",
-    department: "Worker",
-    createdAt: "20-feb-2024",
-    status: "Pending",
-  },
-  {
-    id: 2,
-    staffName: "John Smith",
-    email: "john@gmail.com",
-    department: "Quality Control",
-    createdAt: "20-feb-2024",
-    status: "Pending",
   },
 ];
 

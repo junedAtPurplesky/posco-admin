@@ -82,24 +82,51 @@ export interface IDeleteStaffResponse {
 }
 
 // GET
-export interface IAllStaffList {
-  employee_id: string;
+export interface IRoleItem {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted: boolean;
+  deleted_at: string | null;
+  role: string;
+  permissions: string[];
+}
+
+export interface IStaffItem {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted: boolean;
+  deleted_at: string | null;
+  employee_id: string | null;
   email: string;
   first_name: string;
   last_name: string;
-  phone_number: string;
+  phone_number: string | null;
+  profile_picture: string | null;
+  status: string;
+  dob: string | null;
+  otp: string | null;
+  otpExpiresAt: string | null;
+  isOtpVerified: boolean;
   password: string;
-  department_id: string;
-  user_role: "admin";
-  status: "active";
-}
-export interface IAllStaffResponse {
-  status: boolean;
-  message: string;
-  success: true;
-  data: IAllStaffList[];
+  role: IRoleItem;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  department: any; 
 }
 
+export interface IPagination {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface IAllStaffResponse {
+  status: string;
+  data: IStaffItem[];
+  pagination: IPagination;
+}
 // GET BY ID
 export interface IStaffDetails {
   id: string;
