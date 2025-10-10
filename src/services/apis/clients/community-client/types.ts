@@ -214,3 +214,16 @@ export interface IAllRecentSubmissionResponse {
     complianceScore: number;
   }[];
 }
+
+
+// get all department 
+export interface IAllDepartmentResponse {
+  status: boolean;
+  message: string;
+  success: true;
+  data: {
+    dailySafetyFormsReceived: number;
+    nonCompliantReports: number;
+    staffParticipationRate: number;
+  };
+}

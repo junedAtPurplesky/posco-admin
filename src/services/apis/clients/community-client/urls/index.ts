@@ -39,3 +39,7 @@ export const fetchComplianceOverviewUrl = () =>
   "/admin/dashboard/compliance-overview";
 export const fetchRecentSubmissionsUrl = () =>
   "/admin/dashboard/recent-submissions";
+
+
+export const fetchAllDepartmentUrl = () => "/admin/departments";
+

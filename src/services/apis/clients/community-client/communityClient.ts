@@ -6,6 +6,7 @@ import {
   deleteFormUrl,
   deleteStaffUrl,
   fetchAdminDashboardStatsUrl,
+  fetchAllDepartmentUrl,
   fetchAllFormUrl,
   fetchAllStaffUrl,
   fetchComplianceOverviewUrl,
@@ -18,6 +19,7 @@ import {
   updateStaffUrl,
 } from "./urls";
 import {
+  IAllDepartmentResponse,
   IAllFormResponse,
   IAllRecentSubmissionResponse,
   IAllStaffResponse,
@@ -268,6 +270,21 @@ export class CommunityClient extends ApiClient {
     const url = fetchRecentSubmissionsUrl();
 
     const response = await this.get<IAllRecentSubmissionResponse>(url, {
+      requiresAuth: true,
+    });
+
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+
+    return response?.data;
+  };
+
+  // get all 
+    public fetchAllDepartment = async () => {
+    const url = fetchAllDepartmentUrl();
+
+    const response = await this.get<IAllDepartmentResponse>(url, {
       requiresAuth: true,
     });
 

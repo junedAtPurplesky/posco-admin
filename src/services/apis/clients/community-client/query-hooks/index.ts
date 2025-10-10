@@ -20,3 +20,5 @@ export { useAdminDashboardStatsQuery } from "./useAdminDashboardStatsQuery";
 export { useSafetyComplianceChartDataQuery } from "./useSafetyComplianceChartDataQuery";
 
 export { useAllRecentSubmissionQuery } from "./useAllRecentSubmissionQuery";
+
+export {useAllDepartmentQuery} from "./useAllDepartmentQuery"
