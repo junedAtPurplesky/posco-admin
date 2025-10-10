@@ -1,9 +1,10 @@
+"use client";
 import React, { useEffect } from "react";
 import { Button, Dropdown, InputField, ModalOverlay } from "@/components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ICreateStaffPayload, useCreateStaffMutation } from "@/services/apis";
 import toast from "react-hot-toast";
+import { ICreateStaffPayload, useCreateStaffMutation,useAllDepartmentQuery, useAllRoleQuery } from "@/services/apis";
 
 interface AddStaffModalProps {
   isOpen: boolean;
@@ -13,14 +14,16 @@ interface AddStaffModalProps {
 export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
   const { onCreateStaffMutate, isPending } = useCreateStaffMutation({
     onSuccessCallback: (response) => {
-    toast.success(response.message);
-    onClose();
-  },
-  onErrorCallback: (err) => {
-    toast.error(err.message || "Failed to create staff. Please try again.");
-  },
-
+      toast.success(response.message);
+      onClose();
+    },
+    onErrorCallback: (err) => {
+      toast.error(err.message || "Failed to create staff. Please try again.");
+    },
   });
+
+  const { allDepartment } = useAllDepartmentQuery();
+  const { allRole } = useAllRoleQuery();
 
   const formik = useFormik({
     initialValues: {
@@ -28,6 +31,7 @@ export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
       employeeName: "",
       email: "",
       role: "",
+      departmentId: "",
       password: "",
     },
     enableReinitialize: true,
@@ -36,6 +40,7 @@ export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
       employeeName: Yup.string().required("Employee Name is required"),
       email: Yup.string().email("Invalid email").required("Email is required"),
       role: Yup.string().required("Role is required"),
+      departmentId: Yup.string().required("Department ID is required"),
       password: Yup.string()
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
@@ -46,9 +51,9 @@ export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
         email: values.email,
         first_name: values.employeeName.split(" ")[0] || "",
         last_name: values.employeeName.split(" ")[1] || "",
-        phone_number: "", // optional or default
+        phone_number: "",
         password: values.password,
-        department_id: "", // optional or default
+        department_id: values.departmentId,
         user_role: values.role as "admin",
         status: "active",
       };
@@ -77,7 +82,9 @@ export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
             name="employeeId"
             value={formik.values.employeeId}
             onChange={formik.handleChange}
-            error={formik.touched.employeeId ? formik.errors.employeeId : undefined}
+            error={
+              formik.touched.employeeId ? formik.errors.employeeId : undefined
+            }
           />
 
           <InputField
@@ -86,7 +93,11 @@ export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
             name="employeeName"
             value={formik.values.employeeName}
             onChange={formik.handleChange}
-            error={formik.touched.employeeName ? formik.errors.employeeName : undefined}
+            error={
+              formik.touched.employeeName
+                ? formik.errors.employeeName
+                : undefined
+            }
           />
 
           <InputField
@@ -100,14 +111,32 @@ export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
 
           <Dropdown
             label="Role"
-            options={[
-              { label: "Admin", value: "admin" },
-              { label: "User", value: "user" },
-              { label: "Developer", value: "developer" },
-            ]}
+            options={
+              allRole?.data?.list?.map((role) => ({
+                label: role.role,
+                value: role.id,
+              })) || []
+            }
             value={formik.values.role}
             onChange={(value) => formik.setFieldValue("role", value)}
             error={formik.touched.role ? formik.errors.role : undefined}
+          />
+
+          <Dropdown
+            label="Department"
+            options={
+              allDepartment?.data?.map((dept) => ({
+                label: dept.name,
+                value: dept.id,
+              })) || []
+            }
+            value={formik.values.departmentId}
+            onChange={(value) => formik.setFieldValue("departmentId", value)}
+            error={
+              formik.touched.departmentId
+                ? formik.errors.departmentId
+                : undefined
+            }
           />
 
           <InputField
