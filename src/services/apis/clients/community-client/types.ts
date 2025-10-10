@@ -52,12 +52,31 @@ export interface ICreateStaffPayload {
   user_role: "admin";
   status: "active";
 }
+export interface ICreatedStaffData {
+  id: string;
+  employee_id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  status: string;
+  role: IRoleItem;
+  department: IDepartmentItem;
+  deleted: boolean;
+  deleted_at: string | null;
+  profile_picture: string | null;
+  dob: string | null;
+  otp: string | null;
+  otpExpiresAt: string | null;
+  created_at: string;
+  updated_at: string;
+  isOtpVerified: boolean;
+}
 
 export interface ICreateStaffResponse {
-  status: boolean;
+  status: string;
   message: string;
-  success: true;
-  data: ICreateStaffPayload;
+  data: ICreatedStaffData;
 }
 
 // PUT

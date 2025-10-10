@@ -19,11 +19,11 @@ interface AddStaffModalProps {
 export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
   const { onCreateStaffMutate, isPending } = useCreateStaffMutation({
     onSuccessCallback: (response) => {
-      toast.success(response.message);
+      toast.success(response?.message || "Staff created successfully");
       onClose();
     },
     onErrorCallback: (err) => {
-      toast.error(err.message || "Failed to create staff. Please try again.");
+      toast.error(err?.message || "Failed to create staff. Please try again.");
     },
   });
 
@@ -59,7 +59,7 @@ export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
         phone_number: "",
         password: values.password,
         department_id: values.departmentId,
-        user_role: values.role as "admin",
+        user_role: "admin",
         status: "active",
       };
 
