@@ -43,3 +43,6 @@ export const fetchRecentSubmissionsUrl = () =>
 
 export const fetchAllDepartmentUrl = () => "/admin/departments";
 
+export const fetchAllRoleUrl = () => "/roles";
+
+

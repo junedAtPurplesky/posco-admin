@@ -22,3 +22,5 @@ export { useSafetyComplianceChartDataQuery } from "./useSafetyComplianceChartDat
 export { useAllRecentSubmissionQuery } from "./useAllRecentSubmissionQuery";
 
 export {useAllDepartmentQuery} from "./useAllDepartmentQuery"
+
+export {useAllRoleQuery} from "./useAllRoleQuery"

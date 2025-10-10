@@ -8,6 +8,7 @@ import {
   fetchAdminDashboardStatsUrl,
   fetchAllDepartmentUrl,
   fetchAllFormUrl,
+  fetchAllRoleUrl,
   fetchAllStaffUrl,
   fetchComplianceOverviewUrl,
   fetchIssueDistributionUrl,
@@ -22,6 +23,7 @@ import {
   IAllDepartmentResponse,
   IAllFormResponse,
   IAllRecentSubmissionResponse,
+  IAllRoleResponse,
   IAllStaffResponse,
   IChartResponse,
   ICreateFormPayload,
@@ -236,9 +238,7 @@ export class CommunityClient extends ApiClient {
     return response?.data;
   };
 
-
-  
-   // safety compliance chart
+  // safety compliance chart
   public fetchSafetyCompliance = async () => {
     const url = fetchComplianceOverviewUrl();
 
@@ -266,7 +266,7 @@ export class CommunityClient extends ApiClient {
     return response?.data;
   };
 
-   public fetchAllRecentSubmission = async () => {
+  public fetchAllRecentSubmission = async () => {
     const url = fetchRecentSubmissionsUrl();
 
     const response = await this.get<IAllRecentSubmissionResponse>(url, {
@@ -280,8 +280,8 @@ export class CommunityClient extends ApiClient {
     return response?.data;
   };
 
-  // get all 
-    public fetchAllDepartment = async () => {
+  // get all
+  public fetchAllDepartment = async () => {
     const url = fetchAllDepartmentUrl();
 
     const response = await this.get<IAllDepartmentResponse>(url, {
@@ -294,8 +294,20 @@ export class CommunityClient extends ApiClient {
 
     return response?.data;
   };
-}
+  public fetchAllRole = async () => {
+    const url = fetchAllRoleUrl();
 
+    const response = await this.get<IAllRoleResponse>(url, {
+      requiresAuth: true,
+    });
+
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+
+    return response?.data;
+  };
+}
 
 /**
  * This creates a new instance of the class. is th base Axios API client Class

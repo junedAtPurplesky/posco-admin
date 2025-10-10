@@ -215,15 +215,44 @@ export interface IAllRecentSubmissionResponse {
   }[];
 }
 
-
-// get all department 
+// get all department
 export interface IAllDepartmentResponse {
   status: boolean;
-  message: string;
-  success: true;
+  data: IDepartmentItem[];
+}
+
+export interface IDepartmentItem {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted: boolean;
+  deleted_at: string | null;
+  name: string;
+  description: string;
+  status: string;
+}
+
+// All role
+export interface IAllRoleResponse {
+  status: boolean;
   data: {
-    dailySafetyFormsReceived: number;
-    nonCompliantReports: number;
-    staffParticipationRate: number;
+    list: IRoleItem[];
+    pagination: {
+      data: IRoleItem[];
+      total: number;
+      page: number;
+      limit: number;
+      totalPages: number;
+    };
   };
+}
+
+export interface IRoleItem {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted: boolean;
+  deleted_at: string | null;
+  role: string;
+  permissions: string[];
 }
