@@ -9,6 +9,9 @@ export interface ISubmittedFormsListProps {
   submissionDate: string;
   department: string;
   complianceScore: string;
+    department_id: string;
+  staff_ids: string[];
+  due_date: string;
 }
 
 // Cell component for department
@@ -61,15 +64,15 @@ export const submittedFormsListColumns: ITableColumn<ISubmittedFormsListProps>[]
   },
 ];
 
-export const dummySubmittedFormsList: ISubmittedFormsListProps[] = [
-  {
-    id: 1,
-    staffName: "John Smith",
-    submissionDate: "2024-01-15",
-    department: "worker",
-    complianceScore: "92",
-  },
-];
+// export const dummySubmittedFormsList: ISubmittedFormsListProps[] = [
+//   {
+//     id: 1,
+//     staffName: "John Smith",
+//     submissionDate: "2024-01-15",
+//     department: "worker",
+//     complianceScore: "92",
+//   },
+// ];
 
 export const submittedFormsListActions: ITableAction<ISubmittedFormsListProps>[] = [
   {

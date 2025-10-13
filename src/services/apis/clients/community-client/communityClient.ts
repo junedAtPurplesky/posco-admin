@@ -6,8 +6,11 @@ import {
   deleteFormUrl,
   deleteStaffUrl,
   fetchAdminDashboardStatsUrl,
+  fetchAllDepartmentUrl,
   fetchAllFormUrl,
+  fetchAllRoleUrl,
   fetchAllStaffUrl,
+  fetchAllSubmissionUrl,
   fetchComplianceOverviewUrl,
   fetchIssueDistributionUrl,
   fetchRecentSubmissionsUrl,
@@ -15,12 +18,16 @@ import {
   getStaffDetailsUrl,
   loginUrl,
   updateFormUrl,
+  updateStaffStatusUrl,
   updateStaffUrl,
 } from "./urls";
 import {
+  IAllDepartmentResponse,
   IAllFormResponse,
   IAllRecentSubmissionResponse,
+  IAllRoleResponse,
   IAllStaffResponse,
+  IAllSubmissionsResponse,
   IChartResponse,
   ICreateFormPayload,
   ICreateFormResponse,
@@ -38,6 +45,8 @@ import {
   IUpdateFormResponse,
   IUpdateStaffPayload,
   IUpdateStaffResponse,
+  IUpdateStaffStatusPayload,
+  IUpdateStaffStatusResponse,
 } from "./types";
 
 /**
@@ -95,6 +104,23 @@ export class CommunityClient extends ApiClient {
   public updateStaff = async ({ id, payload }: IUpdateStaffPayload) => {
     const response = await this.put<IUpdateStaffResponse>(
       updateStaffUrl(id),
+      payload,
+      {
+        requiresAuth: true,
+      }
+    );
+
+    if (!response?.success) {
+      throw response?.response?.data;
+    }
+    return response?.data;
+  };
+
+
+    // Update
+  public updateStaffStatus = async ({ id, payload }: IUpdateStaffStatusPayload) => {
+    const response = await this.put<IUpdateStaffStatusResponse>(
+      updateStaffStatusUrl(id),
       payload,
       {
         requiresAuth: true,
@@ -234,9 +260,7 @@ export class CommunityClient extends ApiClient {
     return response?.data;
   };
 
-
-  
-   // safety compliance chart
+  // safety compliance chart
   public fetchSafetyCompliance = async () => {
     const url = fetchComplianceOverviewUrl();
 
@@ -264,7 +288,7 @@ export class CommunityClient extends ApiClient {
     return response?.data;
   };
 
-   public fetchAllRecentSubmission = async () => {
+  public fetchAllRecentSubmission = async () => {
     const url = fetchRecentSubmissionsUrl();
 
     const response = await this.get<IAllRecentSubmissionResponse>(url, {
@@ -277,8 +301,55 @@ export class CommunityClient extends ApiClient {
 
     return response?.data;
   };
-}
 
+  // get all
+  public fetchAllDepartment = async () => {
+    const url = fetchAllDepartmentUrl();
+
+    const response = await this.get<IAllDepartmentResponse>(url, {
+      requiresAuth: true,
+    });
+
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+
+    return response?.data;
+  };
+  public fetchAllRole = async () => {
+    const url = fetchAllRoleUrl();
+
+    const response = await this.get<IAllRoleResponse>(url, {
+      requiresAuth: true,
+    });
+
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+
+    return response?.data;
+  };
+    // GET
+  public fetchAllSubmission = async (searchText?: string, page?: number) => {
+    const params = new URLSearchParams();
+    if (searchText) params.append("searchText", searchText);
+    if (page) params.append("page", page.toString());
+    const url = params.toString()
+      ? `${fetchAllSubmissionUrl()}?${params.toString()}`
+      : fetchAllSubmissionUrl();
+
+    const response = await this.get<IAllSubmissionsResponse>(url, {
+      requiresAuth: false,
+    });
+
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+
+    return response?.data;
+  };
+
+}
 
 /**
  * This creates a new instance of the class. is th base Axios API client Class

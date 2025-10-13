@@ -158,7 +158,7 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
                     {topic.isOpen ? (
                       <LiaAngleDownSolid className=" h-3 w-3" />
                     ) : (
-                     <LiaAngleDownSolid className=" rotate-180 h-3 w-3" />
+                      <LiaAngleDownSolid className=" rotate-180 h-3 w-3" />
                     )}
                   </button>
                 </div>

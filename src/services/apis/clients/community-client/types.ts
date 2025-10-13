@@ -52,12 +52,31 @@ export interface ICreateStaffPayload {
   user_role: "admin";
   status: "active";
 }
+export interface ICreatedStaffData {
+  id: string;
+  employee_id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  status: string;
+  role: IRoleItem;
+  department: IDepartmentItem;
+  deleted: boolean;
+  deleted_at: string | null;
+  profile_picture: string | null;
+  dob: string | null;
+  otp: string | null;
+  otpExpiresAt: string | null;
+  created_at: string;
+  updated_at: string;
+  isOtpVerified: boolean;
+}
 
 export interface ICreateStaffResponse {
-  status: boolean;
+  status: string;
   message: string;
-  success: true;
-  data: ICreateStaffPayload;
+  data: ICreatedStaffData;
 }
 
 // PUT
@@ -73,6 +92,40 @@ export interface IUpdateStaffResponse {
   data: IUpdateStaffPayload;
 }
 
+export interface IUpdateStaffStatusPayload {
+  id: string;
+  payload: {
+    status: "active" | "inactive";
+  };
+}
+
+export interface IStaffStatusData {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted: boolean;
+  deleted_at: string | null;
+  employee_id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  profile_picture: string | null;
+  status: string;
+  dob: string | null;
+  otp: string | null;
+  otpExpiresAt: string | null;
+  isOtpVerified: boolean;
+  role: IRoleItem;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  department: any;
+}
+
+export interface IUpdateStaffStatusResponse {
+  status: string;
+  message: string;
+  data: IStaffStatusData;
+}
 // Delete Staff
 export interface IDeleteStaffResponse {
   status: boolean;
@@ -82,24 +135,51 @@ export interface IDeleteStaffResponse {
 }
 
 // GET
-export interface IAllStaffList {
-  employee_id: string;
+export interface IRoleItem {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted: boolean;
+  deleted_at: string | null;
+  role: string;
+  permissions: string[];
+}
+
+export interface IStaffItem {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted: boolean;
+  deleted_at: string | null;
+  employee_id: string | null;
   email: string;
   first_name: string;
   last_name: string;
-  phone_number: string;
+  phone_number: string | null;
+  profile_picture: string | null;
+  status: string;
+  dob: string | null;
+  otp: string | null;
+  otpExpiresAt: string | null;
+  isOtpVerified: boolean;
   password: string;
-  department_id: string;
-  user_role: "admin";
-  status: "active";
-}
-export interface IAllStaffResponse {
-  status: boolean;
-  message: string;
-  success: true;
-  data: IAllStaffList[];
+  role: IRoleItem;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  department: any;
 }
 
+export interface IPagination {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface IAllStaffResponse {
+  status: string;
+  data: IStaffItem[];
+  pagination: IPagination;
+}
 // GET BY ID
 export interface IStaffDetails {
   id: string;
@@ -213,4 +293,67 @@ export interface IAllRecentSubmissionResponse {
     department: string;
     complianceScore: number;
   }[];
+}
+
+// get all department
+export interface IAllDepartmentResponse {
+  status: boolean;
+  data: IDepartmentItem[];
+}
+
+export interface IDepartmentItem {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted: boolean;
+  deleted_at: string | null;
+  name: string;
+  description: string;
+  status: string;
+}
+
+// All role
+export interface IAllRoleResponse {
+  status: boolean;
+  data: {
+    list: IRoleItem[];
+    pagination: {
+      data: IRoleItem[];
+      total: number;
+      page: number;
+      limit: number;
+      totalPages: number;
+    };
+  };
+}
+
+export interface IRoleItem {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted: boolean;
+  deleted_at: string | null;
+  role: string;
+  permissions: string[];
+}
+
+
+// get all submissions
+export interface IAllSubmissionsResponse {
+  status: string;
+  data: IStaffItem[];
+  pagination: ISubmissionPagination;
+}
+
+export interface IStaffItem {
+  department_id: string;
+  staff_ids: string[];
+  due_date: string;
+}
+
+export interface ISubmissionPagination {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
 }
