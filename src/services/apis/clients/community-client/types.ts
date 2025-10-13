@@ -92,6 +92,40 @@ export interface IUpdateStaffResponse {
   data: IUpdateStaffPayload;
 }
 
+export interface IUpdateStaffStatusPayload {
+  id: string;
+  payload: {
+    status: "active" | "inactive";
+  };
+}
+
+export interface IStaffStatusData {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted: boolean;
+  deleted_at: string | null;
+  employee_id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  profile_picture: string | null;
+  status: string;
+  dob: string | null;
+  otp: string | null;
+  otpExpiresAt: string | null;
+  isOtpVerified: boolean;
+  role: IRoleItem;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  department: any;
+}
+
+export interface IUpdateStaffStatusResponse {
+  status: string;
+  message: string;
+  data: IStaffStatusData;
+}
 // Delete Staff
 export interface IDeleteStaffResponse {
   status: boolean;
@@ -131,7 +165,7 @@ export interface IStaffItem {
   password: string;
   role: IRoleItem;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  department: any; 
+  department: any;
 }
 
 export interface IPagination {
@@ -301,4 +335,25 @@ export interface IRoleItem {
   deleted_at: string | null;
   role: string;
   permissions: string[];
+}
+
+
+// get all submissions
+export interface IAllSubmissionsResponse {
+  status: string;
+  data: IStaffItem[];
+  pagination: ISubmissionPagination;
+}
+
+export interface IStaffItem {
+  department_id: string;
+  staff_ids: string[];
+  due_date: string;
+}
+
+export interface ISubmissionPagination {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
 }

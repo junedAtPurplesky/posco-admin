@@ -5,13 +5,13 @@ import { AddStaffModal } from "./component";
 import { SearchBar, Table } from "@/components";
 import { staffListActions, staffListColumns } from "@/constants";
 import { PlusIcon, FilterIcon } from "@/features";
-import { useAllStaffQuery } from "@/services/apis"; 
+import { useAllStaffQuery } from "@/services/apis";
 
 export function StaffManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
 
-  //  Fetch staff list from API
+  // Fetch staff list from API
   const { allStaffData, isLoading, isError, error } = useAllStaffQuery({
     searchText,
     page: 1,
@@ -40,11 +40,13 @@ export function StaffManagement() {
         </div>
       </div>
 
-      {/*  Staff Table with API data */}
+      {/* Staff Table with API data */}
       {isLoading ? (
         <p className="text-gray-500">Loading staff list...</p>
       ) : isError ? (
-        <p className="text-red-500">Error: {error?.message || "Failed to load staff list."}</p>
+        <p className="text-red-500">
+          Error: {error?.message || "Failed to load staff list."}
+        </p>
       ) : (
         <Table
           columns={staffListColumns}

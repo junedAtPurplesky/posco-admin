@@ -21,6 +21,11 @@ export { useSafetyComplianceChartDataQuery } from "./useSafetyComplianceChartDat
 
 export { useAllRecentSubmissionQuery } from "./useAllRecentSubmissionQuery";
 
-export {useAllDepartmentQuery} from "./useAllDepartmentQuery"
+export { useAllDepartmentQuery } from "./useAllDepartmentQuery";
 
-export {useAllRoleQuery} from "./useAllRoleQuery"
+export { useAllRoleQuery } from "./useAllRoleQuery";
+export { useUpdateStaffStatusMutation } from "./useUpdateStaffStatusMutation";
+
+
+// GET all submissions
+export {useAllSubmissionQuery} from "./useAllSubmissionQuery"

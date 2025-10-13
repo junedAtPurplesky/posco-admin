@@ -71,7 +71,7 @@ export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
     if (!isOpen) {
       formik.resetForm();
     }
-  }, [formik, isOpen]);
+  }, [isOpen]); 
 
   return (
     <ModalOverlay isOpen={isOpen} onClose={onClose}>

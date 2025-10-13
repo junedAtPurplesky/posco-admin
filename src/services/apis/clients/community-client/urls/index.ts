@@ -20,6 +20,8 @@ export const loginUrl = () => "/admin/auth/login";
 // Staff URL
 export const createStaffUrl = () => "/admin/staff"; //post
 export const updateStaffUrl = (id: string) => `/admin/staff/${id}`; //put
+export const updateStaffStatusUrl = (id: string) => `/admin/staff/${id}/status`; //put
+
 export const deleteStaffUrl = (id: string) => `/admin/staff/${id}`; //delete
 export const fetchAllStaffUrl = () => "/admin/staff"; //Get
 export const getStaffDetailsUrl = () => `/admin/staff`;
@@ -46,3 +48,5 @@ export const fetchAllDepartmentUrl = () => "/admin/departments";
 export const fetchAllRoleUrl = () => "/roles";
 
 
+// get all submission
+export const fetchAllSubmissionUrl = () => "/admin/submissions"; //Get

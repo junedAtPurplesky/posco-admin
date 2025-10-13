@@ -1,15 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { getDepartmentStyle } from "@/utils/helpers/getDepartmentStyle";
 import { ITableAction, ITableColumn } from "../table";
+import { useUpdateStaffStatusMutation } from "@/services/apis";
 
 export interface IStaffListProps {
-  // id: number;
-  // staffName: string;
-  // email: string;
-  // department: string;
-  // createdAt: string;
-  // status: string;
   id: string;
   created_at: string;
   updated_at: string;
@@ -31,6 +26,88 @@ export interface IStaffListProps {
   department: any;
 }
 
+// Status Toggle Cell Component with API Integration
+function StatusToggleCell({
+  value,
+  staffId,
+}: {
+  value: string;
+  staffId: string;
+}) {
+  const [currentStatus, setCurrentStatus] = useState(value);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { updateStaffStatusMutate } = useUpdateStaffStatusMutation({
+    onSuccessCallback: (data) => {
+      setIsLoading(false);
+      console.log("✅ Status updated successfully:", data);
+      // Update local state with actual API response
+      if (data?.data?.status) {
+        setCurrentStatus(data.data.status);
+      }
+    },
+    onErrorCallback: (err) => {
+      setIsLoading(false);
+      // Revert the toggle on error
+      setCurrentStatus(value);
+      console.error("❌ Failed to update status:", err);
+      alert(
+        `Error: ${err?.message || "Failed to update status. Please try again."}`
+      );
+    },
+  });
+
+  const toggleStatus = useCallback(() => {
+    if (isLoading) return;
+
+    const newStatus = currentStatus === "active" ? "inactive" : "active";
+    console.log("🔄 Toggling status:", {
+      staffId,
+      from: currentStatus,
+      to: newStatus,
+    });
+
+    setIsLoading(true);
+
+    // Optimistically update UI
+    setCurrentStatus(newStatus);
+
+    updateStaffStatusMutate({
+      id: staffId,
+      payload: {
+        status: newStatus as "active" | "inactive",
+      },
+    });
+  }, [currentStatus, isLoading, staffId, updateStaffStatusMutate]);
+
+  const isActive = currentStatus === "active";
+
+  return (
+    <div className="flex items-center gap-3">
+      <button
+        onClick={toggleStatus}
+        disabled={isLoading}
+        className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-200 ${
+          isActive ? "bg-green-500" : "bg-gray-400"
+        } ${
+          isLoading
+            ? "opacity-50 cursor-not-allowed"
+            : "cursor-pointer hover:opacity-90"
+        }`}
+      >
+        <div
+          className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-200 ${
+            isActive ? "translate-x-6" : "translate-x-0"
+          } ${isLoading ? "animate-pulse" : ""}`}
+        />
+      </button>
+      <span className="text-sm text-gray-700 font-medium min-w-[60px]">
+        {isLoading ? "Updating..." : isActive ? "Active" : "Inactive"}
+      </span>
+    </div>
+  );
+}
+
 // Department Cell Component
 function DepartmentCell({ value }: { value: string }) {
   const styleClass = getDepartmentStyle(value);
@@ -43,33 +120,6 @@ function DepartmentCell({ value }: { value: string }) {
   );
 }
 
-// Status Toggle Cell Component
-function StatusToggleCell({ value }: { value: string }) {
-  const [isOn, setIsOn] = useState(value === "Active");
-
-  const toggleStatus = () => {
-    const newStatus = !isOn ? "Active" : "Inactive";
-    setIsOn(!isOn);
-    console.log("Status changed to:", newStatus);
-    // Optional: Add API call or state update logic here
-  };
-
-  return (
-    <button
-      onClick={toggleStatus}
-      className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
-        isOn ? "bg-blue-500" : "bg-gray-300"
-      }`}
-    >
-      <div
-        className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
-          isOn ? "translate-x-6" : "translate-x-0"
-        }`}
-      />
-    </button>
-  );
-}
-
 // Table Columns
 export const staffListColumns: ITableColumn<IStaffListProps>[] = [
   {
@@ -77,6 +127,11 @@ export const staffListColumns: ITableColumn<IStaffListProps>[] = [
     accessor: "first_name",
     sortable: true,
     headerClassName: "min-w-[12rem]",
+    cell: ({ value, row }) => (
+      <span>
+        {value} {row.last_name}
+      </span>
+    ),
   },
   {
     header: "EMAIL",
@@ -113,7 +168,9 @@ export const staffListColumns: ITableColumn<IStaffListProps>[] = [
     accessor: "status",
     sortable: true,
     headerClassName: "min-w-[12rem]",
-    cell: ({ value }) => <StatusToggleCell value={value as string} />,
+    cell: ({ value, row }) => (
+      <StatusToggleCell value={value as string} staffId={row.id} />
+    ),
   },
 ];
 
