@@ -71,6 +71,7 @@ export function AddStaffModal({ isOpen, onClose }: AddStaffModalProps) {
     if (!isOpen) {
       formik.resetForm();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]); 
 
   return (

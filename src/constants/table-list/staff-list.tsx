@@ -3,6 +3,7 @@ import { useState, useCallback } from "react";
 import { getDepartmentStyle } from "@/utils/helpers/getDepartmentStyle";
 import { ITableAction, ITableColumn } from "../table";
 import { useUpdateStaffStatusMutation } from "@/services/apis";
+import toast from "react-hot-toast";
 
 export interface IStaffListProps {
   id: string;
@@ -39,21 +40,16 @@ function StatusToggleCell({
 
   const { updateStaffStatusMutate } = useUpdateStaffStatusMutation({
     onSuccessCallback: (data) => {
+      toast.success(data.message)
       setIsLoading(false);
-      console.log("✅ Status updated successfully:", data);
-      // Update local state with actual API response
       if (data?.data?.status) {
         setCurrentStatus(data.data.status);
       }
     },
     onErrorCallback: (err) => {
+      toast.error(err.message)
       setIsLoading(false);
-      // Revert the toggle on error
       setCurrentStatus(value);
-      console.error("❌ Failed to update status:", err);
-      alert(
-        `Error: ${err?.message || "Failed to update status. Please try again."}`
-      );
     },
   });
 

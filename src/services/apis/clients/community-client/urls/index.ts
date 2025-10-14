@@ -20,7 +20,7 @@ export const loginUrl = () => "/admin/auth/login";
 // Staff URL
 export const createStaffUrl = () => "/admin/staff"; //post
 export const updateStaffUrl = (id: string) => `/admin/staff/${id}`; //put
-export const updateStaffStatusUrl = (id: string) => `/admin/staff/${id}/status`; //put
+export const updateStaffStatusUrl = (id: string) => `/admin/staff/${id}`; //put
 
 export const deleteStaffUrl = (id: string) => `/admin/staff/${id}`; //delete
 export const fetchAllStaffUrl = () => "/admin/staff"; //Get
