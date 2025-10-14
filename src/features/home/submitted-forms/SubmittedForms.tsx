@@ -4,37 +4,12 @@ import {
   submittedFormsListColumns,
   submittedFormsListActions,
 } from "@/constants";
-import { ISubmittedFormsListProps } from "@/constants";
 
 import { FilterIcon, CalenderIcon } from "@/features";
-import {
-  IAllSubmissionsResponse,
-  useAllSubmissionQuery,
-} from "@/services/apis";
+import { useAllSubmissionQuery } from "@/services/apis";
 
 export function SubmittedForms() {
-  const {
-    allSubmissionData,
-    isLoading,
-    isError,
-  }: {
-    allSubmissionData: IAllSubmissionsResponse | undefined;
-    isLoading: boolean;
-    isError: boolean;
-  } = useAllSubmissionQuery();
-
-  // Map API data
-  const mappedData: ISubmittedFormsListProps[] =
-    allSubmissionData?.data.map((item, index) => ({
-      id: index + 1,
-      staffName: item.staff_ids[0] || "Unknown",
-      submissionDate: item.due_date,
-      department: "worker",
-      complianceScore: Math.floor(Math.random() * 100).toString(),
-      department_id: item.department_id,
-      staff_ids: item.staff_ids,
-      due_date: item.due_date,
-    })) || [];
+  const { allSubmissionData, isLoading, isError } = useAllSubmissionQuery();
 
   return (
     <section className="flex flex-col gap-4 bg-white p-6">
@@ -57,10 +32,10 @@ export function SubmittedForms() {
         <div>Loading...</div>
       ) : isError ? (
         <div className="text-red-500">Failed to load data.</div>
-      ) : mappedData.length > 0 ? (
+      ) : allSubmissionData?.data ? (
         <Table
           columns={submittedFormsListColumns}
-          data={mappedData}
+          data={allSubmissionData?.data || []}
           actions={submittedFormsListActions}
         />
       ) : (

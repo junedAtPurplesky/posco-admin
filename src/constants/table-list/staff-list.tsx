@@ -88,7 +88,7 @@ function StatusToggleCell({
         onClick={toggleStatus}
         disabled={isLoading}
         className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-200 ${
-          isActive ? "bg-green-500" : "bg-gray-400"
+          isActive ? "bg-blue-500" : "bg-gray-400"
         } ${
           isLoading
             ? "opacity-50 cursor-not-allowed"
@@ -101,9 +101,6 @@ function StatusToggleCell({
           } ${isLoading ? "animate-pulse" : ""}`}
         />
       </button>
-      <span className="text-sm text-gray-700 font-medium min-w-[60px]">
-        {isLoading ? "Updating..." : isActive ? "Active" : "Inactive"}
-      </span>
     </div>
   );
 }

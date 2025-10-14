@@ -282,18 +282,6 @@ export interface IStatsResponse {
     staffParticipationRate: number;
   };
 }
-export interface IAllRecentSubmissionResponse {
-  status: boolean;
-  message: string;
-  success: true;
-  data: {
-    id: number;
-    staffName: string;
-    submissionDate: string;
-    department: string;
-    complianceScore: number;
-  }[];
-}
 
 // get all department
 export interface IAllDepartmentResponse {
@@ -339,11 +327,11 @@ export interface IRoleItem {
 
 
 // get all submissions
-export interface IAllSubmissionsResponse {
-  status: string;
-  data: IStaffItem[];
-  pagination: ISubmissionPagination;
-}
+// export interface IAllSubmissionsResponse {
+//   status: string;
+//   data: IStaffItem[];
+//   pagination: ISubmissionPagination;
+// }
 
 export interface IStaffItem {
   department_id: string;
@@ -352,6 +340,34 @@ export interface IStaffItem {
 }
 
 export interface ISubmissionPagination {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface IAllSubmissionsResponse {
+  status: string;
+  data: ISubmission[];
+  pagination: Pagination;
+}
+
+export interface ISubmission {
+  id: string;
+  submission_id: string;
+  form_id: string;
+  form_name: string;
+  staff_name: string;
+  staff_id: string;
+  employee_id: string;
+  submission_date: string; // Could also use Date if you parse it
+  department: string;
+  compliance_score: string; // Could be number if you parse it
+  status: string;
+  notes: string;
+}
+
+interface Pagination {
   total: number;
   page: number;
   limit: number;

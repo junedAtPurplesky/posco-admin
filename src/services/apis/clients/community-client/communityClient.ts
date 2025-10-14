@@ -24,7 +24,6 @@ import {
 import {
   IAllDepartmentResponse,
   IAllFormResponse,
-  IAllRecentSubmissionResponse,
   IAllRoleResponse,
   IAllStaffResponse,
   IAllSubmissionsResponse,
@@ -291,7 +290,7 @@ export class CommunityClient extends ApiClient {
   public fetchAllRecentSubmission = async () => {
     const url = fetchRecentSubmissionsUrl();
 
-    const response = await this.get<IAllRecentSubmissionResponse>(url, {
+    const response = await this.get<IAllSubmissionsResponse>(url, {
       requiresAuth: true,
     });
 

@@ -2,6 +2,8 @@
 import { getDepartmentStyle } from "@/utils/helpers/getDepartmentStyle";
 import { ITableAction, ITableColumn } from "../table";
 import { getScoreColor } from "@/utils/helpers/get";
+import { ISubmission } from "@/services/apis";
+import { formatDate } from "@/utils";
 
 export interface ISubmittedFormsListProps {
   id: number;
@@ -9,7 +11,7 @@ export interface ISubmittedFormsListProps {
   submissionDate: string;
   department: string;
   complianceScore: string;
-    department_id: string;
+  department_id: string;
   staff_ids: string[];
   due_date: string;
 }
@@ -35,18 +37,19 @@ function ComplianceScoreCell({ value }: { value: string }) {
   );
 }
 
-export const submittedFormsListColumns: ITableColumn<ISubmittedFormsListProps>[] = [
+export const submittedFormsListColumns: ITableColumn<ISubmission>[] = [
   {
     header: "STAFF NAME",
-    accessor: "staffName",
+    accessor: "staff_name",
     sortable: true,
     headerClassName: "min-w-[12rem]",
   },
   {
     header: "SUBMISSION DATE",
-    accessor: "submissionDate",
+    accessor: "submission_date",
     sortable: true,
     headerClassName: "min-w-[12rem]",
+    cell: ({value}) => <span>{formatDate(value)}</span>
   },
   {
     header: "DEPARTMENT",
@@ -57,7 +60,7 @@ export const submittedFormsListColumns: ITableColumn<ISubmittedFormsListProps>[]
   },
   {
     header: "COMPLIANCE SCORE",
-    accessor: "complianceScore",
+    accessor: "compliance_score",
     sortable: true,
     headerClassName: "min-w-[12rem]",
     cell: ({ value }) => <ComplianceScoreCell value={value as string} />,
@@ -74,7 +77,7 @@ export const submittedFormsListColumns: ITableColumn<ISubmittedFormsListProps>[]
 //   },
 // ];
 
-export const submittedFormsListActions: ITableAction<ISubmittedFormsListProps>[] = [
+export const submittedFormsListActions: ITableAction<ISubmission>[] = [
   {
     label: "Edit",
     onClick: (row) => {
