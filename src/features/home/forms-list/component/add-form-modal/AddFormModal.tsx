@@ -11,31 +11,40 @@ interface AddFormModalProps {
   onClose: () => void;
 }
 
+interface SafetyQuestion {
+  id: number;
+  text: string;
+}
+
 interface Topic {
   id: number;
   name: string;
   subText: string;
   isOpen: boolean;
+  safetyQuestions: SafetyQuestion[];
 }
 
 export const AddFormModal: React.FC<AddFormModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [safetyQuestions, setSafetyQuestions] = useState<string[]>([""]);
   const [topics, setTopics] = useState<Topic[]>([
-    { id: 1, name: "", subText: "", isOpen: true },
+    {
+      id: 1,
+      name: "",
+      subText: "",
+      isOpen: true,
+      safetyQuestions: [{ id: Date.now(), text: "" }],
+    },
   ]);
 
   const validationSchema = Yup.object({
-    employeeId: Yup.string().required("Employee ID is required"),
     formName: Yup.string().required("Form Name is required"),
     dueDate: Yup.date().required("Due Date is required"),
   });
 
   const formik = useFormik({
     initialValues: {
-      employeeId: "",
       formName: "",
       dueDate: "",
     },
@@ -45,25 +54,10 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
     onSubmit: (values) => {
       console.log("Form submitted:", {
         ...values,
-        safetyQuestions,
         topics,
       });
     },
   });
-
-  const handleAddQuestion = () => {
-    setSafetyQuestions([...safetyQuestions, ""]);
-  };
-
-  const handleRemoveQuestion = (index: number) => {
-    setSafetyQuestions(safetyQuestions.filter((_, i) => i !== index));
-  };
-
-  const handleQuestionChange = (index: number, value: string) => {
-    const updated = [...safetyQuestions];
-    updated[index] = value;
-    setSafetyQuestions(updated);
-  };
 
   const handleAddTopic = () => {
     const newTopic: Topic = {
@@ -71,6 +65,7 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
       name: "",
       subText: "",
       isOpen: true,
+      safetyQuestions: [{ id: Date.now() + 1, text: "" }],
     };
     setTopics([...topics, newTopic]);
   };
@@ -97,6 +92,56 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
     );
   };
 
+  const handleAddSafetyQuestion = (topicId: number) => {
+    setTopics(
+      topics.map((topic) =>
+        topic.id === topicId
+          ? {
+              ...topic,
+              safetyQuestions: [
+                ...topic.safetyQuestions,
+                { id: Date.now(), text: "" },
+              ],
+            }
+          : topic
+      )
+    );
+  };
+
+  const handleRemoveSafetyQuestion = (topicId: number, questionId: number) => {
+    setTopics(
+      topics.map((topic) =>
+        topic.id === topicId
+          ? {
+              ...topic,
+              safetyQuestions: topic.safetyQuestions.filter(
+                (q) => q.id !== questionId
+              ),
+            }
+          : topic
+      )
+    );
+  };
+
+  const handleSafetyQuestionChange = (
+    topicId: number,
+    questionId: number,
+    value: string
+  ) => {
+    setTopics(
+      topics.map((topic) =>
+        topic.id === topicId
+          ? {
+              ...topic,
+              safetyQuestions: topic.safetyQuestions.map((q) =>
+                q.id === questionId ? { ...q, text: value } : q
+              ),
+            }
+          : topic
+      )
+    );
+  };
+
   return (
     <ModalOverlay isOpen={isOpen} onClose={onClose}>
       <div className="rounded-lg w-full max-w-md mx-auto flex flex-col gap-5 h-[36rem] overflow-y-scroll scrollbar-hide">
@@ -109,21 +154,8 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
           className="flex flex-col gap-4 p-1"
         >
           <InputField
-            label="Employee ID"
-            placeholder="Enter Employee ID"
-            name="employeeId"
-            value={formik.values.employeeId}
-            onChange={formik.handleChange}
-            error={
-              formik.submitCount > 0 && formik.errors.employeeId
-                ? formik.errors.employeeId
-                : undefined
-            }
-          />
-
-          <InputField
             label="Form Name"
-            placeholder="Enter Form Name"
+            placeholder="e.g. Safety Form"
             name="formName"
             value={formik.values.formName}
             onChange={formik.handleChange}
@@ -136,6 +168,7 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
 
           <DatePicker
             label="Due Date"
+            placeholder="e.g. DD/MM/YYYY"
             value={formik.values.dueDate}
             onChange={(date) => formik.setFieldValue("dueDate", date)}
             error={
@@ -145,32 +178,42 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
             }
           />
 
-          {topics.map((topic, index) => (
+          {topics.map((topic, topicIndex) => (
             <div key={topic.id} className="text-gray-700">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="text-[0.8rem]">Topic {index + 1}</span>
+                  <span className="text-[0.8rem]">Topic {topicIndex + 1}</span>
                   <button
                     type="button"
                     onClick={() => toggleTopic(topic.id)}
                     className="hover:text-gray-800"
                   >
                     {topic.isOpen ? (
-                      <LiaAngleDownSolid className=" h-3 w-3" />
+                      <LiaAngleDownSolid className="h-3 w-3" />
                     ) : (
-                      <LiaAngleDownSolid className=" rotate-180 h-3 w-3" />
+                      <LiaAngleDownSolid className="rotate-180 h-3 w-3" />
                     )}
                   </button>
                 </div>
-                {topics.length > 1 && (
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => handleRemoveTopic(topic.id)}
-                    className="hover:text-red-500"
+                    onClick={handleAddTopic}
+                    className="text-primary text-[0.8rem] flex items-center gap-1 hover:underline"
                   >
-                    <MdOutlineCancel className="h-4 w-4" />
+                    <PlusIcon className="h-3 w-3" />
+                    Add Topic
                   </button>
-                )}
+                  {topics.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveTopic(topic.id)}
+                      className="hover:text-red-500"
+                    >
+                      <MdOutlineCancel className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
               </div>
 
               {topic.isOpen && (
@@ -191,46 +234,53 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
                       handleTopicChange(topic.id, "subText", e.target.value)
                     }
                   />
+
+                  <div className="mt-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Safety Questions
+                    </label>
+                    {topic.safetyQuestions.map((question) => (
+                      <div
+                        key={question.id}
+                        className="flex items-center gap-2 mb-2"
+                      >
+                        <InputField
+                          placeholder="e.g. Accessible first aid stations"
+                          value={question.text}
+                          onChange={(e) =>
+                            handleSafetyQuestionChange(
+                              topic.id,
+                              question.id,
+                              e.target.value
+                            )
+                          }
+                        />
+                        {topic.safetyQuestions.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleRemoveSafetyQuestion(topic.id, question.id)
+                            }
+                            className="text-gray-500 hover:text-red-500"
+                          >
+                            <MdOutlineCancel className="h-4 w-4" />
+                          </button>
+                        )}
+                      </div>
+                    ))}
+
+                    <div
+                      className="flex justify-end text-primary cursor-pointer items-center text-[0.8rem] gap-2 mt-2"
+                      onClick={() => handleAddSafetyQuestion(topic.id)}
+                    >
+                      <PlusIcon className="h-4 w-4" />
+                      <span className="text-primary">Add Safety Question</span>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
           ))}
-
-          <div
-            className="flex justify-end text-primary cursor-pointer items-center text-[0.8rem] gap-2"
-            onClick={handleAddTopic}
-          >
-            <PlusIcon className="h-4 w-4" />
-            <span className="text-primary">Add Topic</span>
-          </div>
-
-          {safetyQuestions.map((question, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <InputField
-                label={`Safety Question ${index + 1}`}
-                placeholder="Enter Safety Question"
-                value={question}
-                onChange={(e) => handleQuestionChange(index, e.target.value)}
-              />
-              {safetyQuestions.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => handleRemoveQuestion(index)}
-                  className="text-gray-500 hover:text-red-500 mt-6"
-                >
-                  <MdOutlineCancel className="h-4 w-4" />
-                </button>
-              )}
-            </div>
-          ))}
-
-          <div
-            className="flex justify-end text-primary cursor-pointer items-center text-[0.8rem] gap-2"
-            onClick={handleAddQuestion}
-          >
-            <PlusIcon className="h-4 w-4" />
-            <span className="text-primary">Add Safety Question</span>
-          </div>
 
           <Button title="Save" width="w-full" type="submit" />
         </form>
