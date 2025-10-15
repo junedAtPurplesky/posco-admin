@@ -188,7 +188,7 @@ export class CommunityClient extends ApiClient {
     });
 
     if (!response?.success) {
-      throw response?.errorData;
+      throw response?.response?.data;
     }
 
     return response?.data;
@@ -213,7 +213,7 @@ export class CommunityClient extends ApiClient {
     const response = await this.del<IDeleteFormResponse>(deleteFormUrl(id));
 
     if (!response?.success) {
-      throw response?.errorData;
+      throw response?.response?.data;
     }
     return response?.data;
   };

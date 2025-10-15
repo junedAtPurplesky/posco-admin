@@ -193,59 +193,111 @@ export interface IStaffDetailsResponse {
   data: IStaffDetails;
 }
 
-// Form
-// GET
-export interface IAllFormList {
+// form.types.ts
+
+export enum FieldType {
+  CHECKBOX = "checkbox",
+  RADIO = "radio",
+  TEXT = "text",
+  TEXTAREA = "textarea",
+  DROPDOWN = "dropdown",
+  RATING = "rating",
+  PHOTO = "photo",
+  SIGNATURE = "signature",
+}
+
+export enum SafetyCategory {
+  GENERAL_SAFETY = "general_safety",
+  EMERGENCY_EXITS = "emergency_exits",
+  FIRE_SAFETY = "fire_safety",
+  EQUIPMENT_SAFETY = "equipment_safety",
+}
+
+// Single Form Field
+export interface IFormField {
+  field_label: string;
+  field_type: FieldType;
+  category: SafetyCategory;
+  is_required: boolean;
+  order: number;
+  options?: string[];
+  field_description?: string;
+}
+
+// Create Form Payload (POST)
+export interface ICreateFormPayload {
+  form_name: string;
+  description?: string;
+  due_date: string | Date;
+  fields: IFormField[];
+}
+
+// Create Form Response
+export interface ICreateFormResponse {
   status: boolean;
+  message: string;
+  success: boolean;
+  data: {
+    id: string;
+    form_id: string;
+    form_name: string;
+    description: string;
+    due_date: string;
+  };
+}
+
+// Fetch All Forms
+export interface IAllFormList {
+  id: string;
+  form_id: string;
+  form_name: string;
+  description?: string;
+  status: string;
+  due_date?: string;
+  created_at?: string;
 }
 
 export interface IAllFormResponse {
   status: boolean;
   message: string;
-  success: true;
+  success: boolean;
   data: IAllFormList[];
 }
-// POST
-export interface ICreateFormPayload {
-  name: string;
-}
 
-export interface ICreateFormResponse {
-  status: boolean;
-  message: string;
-  success: true;
-  data: ICreateFormPayload;
-}
 // Delete Form
 export interface IDeleteFormResponse {
   status: boolean;
   message: string;
-  success: true;
-  data: ICreateFormPayload;
+  success: boolean;
 }
 
+// Form Details
 export interface IFormDetails {
   id: string;
+  form_name: string;
+  description?: string;
+  due_date: string;
+  fields: IFormField[];
 }
 
 export interface IFormDetailsResponse {
   status: boolean;
   message: string;
-  success: true;
+  success: boolean;
   data: IFormDetails;
 }
 
-// PUT
+// Update Form
 export interface IUpdateFormPayload {
   id: string;
-  payload: ICreateFormPayload;
+  payload: Partial<ICreateFormPayload>;
 }
 
 export interface IUpdateFormResponse {
   status: boolean;
   message: string;
-  success: true;
-  data: IUpdateFormPayload;
+  success: boolean;
+  data: IFormDetails;
 }
 
 export interface IChartResponse {

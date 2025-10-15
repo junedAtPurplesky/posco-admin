@@ -1,10 +1,13 @@
 "use client";
+
 import { useState } from "react";
 import { ITableAction, ITableColumn } from "../table";
 import { getScoreColor } from "@/utils/helpers/get";
+import { formatDate } from "@/utils";
+import { IAllFormList } from "@/services/apis";
 
 export interface IFormsListProps {
-  id: number;
+  id: string;
   formName: string;
   completionRate: string;
   dueDate: string;
@@ -14,9 +17,9 @@ export interface IFormsListProps {
 
 // Cell component for completion rate
 function CompletionRateCell({ value }: { value: string }) {
-  const numericRate = parseInt(value);
+  const numericRate = parseInt(value) || 0;
   const colorClass = getScoreColor(numericRate);
-  return <span className={`px-2 py-1  text-xs ${colorClass}`}>{value}%</span>;
+  return <span className={`px-2 py-1 text-xs ${colorClass}`}>{value}%</span>;
 }
 
 // Cell component for status toggle
@@ -27,6 +30,7 @@ function StatusToggleCell({ value }: { value: string }) {
     const newStatus = !isOn ? "Active" : "Inactive";
     setIsOn(!isOn);
     console.log("Status changed to:", newStatus);
+    // You can call your API here to update the status
   };
 
   return (
@@ -45,6 +49,16 @@ function StatusToggleCell({ value }: { value: string }) {
   );
 }
 
+// Map backend data to table props
+export const mapFormToTableRow = (form: IAllFormList): IFormsListProps => ({
+  id: form.id,
+  formName: form.form_name,
+  completionRate: "0", // replace with real completion rate if available
+  dueDate: form.due_date || "-",
+  createdAt: form.created_at || "-", // replace with createdAt field from backend
+  status: form.status,
+});
+
 export const formsListColumns: ITableColumn<IFormsListProps>[] = [
   {
     header: "FORM NAME",
@@ -56,7 +70,7 @@ export const formsListColumns: ITableColumn<IFormsListProps>[] = [
     header: "COMPLETION RATE",
     accessor: "completionRate",
     sortable: true,
-    headerClassName: "min-w-[12rem] ",
+    headerClassName: "min-w-[12rem]",
     cell: ({ value }) => <CompletionRateCell value={value as string} />,
   },
   {
@@ -64,12 +78,14 @@ export const formsListColumns: ITableColumn<IFormsListProps>[] = [
     accessor: "dueDate",
     sortable: true,
     headerClassName: "min-w-[12rem]",
+    cell: ({ value }) => <span>{formatDate(value as string)}</span>,
   },
   {
     header: "CREATED AT",
     accessor: "createdAt",
     sortable: true,
     headerClassName: "min-w-[12rem]",
+    cell: ({ value }) => <span>{formatDate(value as string)}</span>,
   },
   {
     header: "STATUS",
@@ -80,49 +96,10 @@ export const formsListColumns: ITableColumn<IFormsListProps>[] = [
   },
 ];
 
-export const dummyFormsList: IFormsListProps[] = [
-  {
-    id: 1,
-    formName: "John Smith",
-    completionRate: "92",
-    dueDate: "2024-01-15",
-    createdAt: "2024-01-01",
-    status: "Pending",
-  },
-  {
-    id: 2,
-    formName: "Sarah Johnson",
-    completionRate: "88",
-    dueDate: "2024-01-15",
-    createdAt: "2024-01-02",
-    status: "Active",
-  },
-];
-
 export const formsListActions: ITableAction<IFormsListProps>[] = [
   {
-    label: "Edit",
-    onClick: (row) => {
-      console.log("Edit form submission:", row);
-    },
-  },
-  {
-    label: "View Form",
-    onClick: (row) => {
-      console.log("View form submission:", row);
-    },
-  },
-  {
-    label: "Staff List",
-    onClick: (row) => {
-      console.log("Staff List form:", row);
-    },
-  },
-  {
     label: "Delete",
-    onClick: (row) => {
-      console.log("Delete form submission:", row);
-    },
+    onClick: (row) => console.log("Delete form submission:", row),
     className: "text-red-500 hover:text-red-700",
   },
 ];

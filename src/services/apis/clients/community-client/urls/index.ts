@@ -27,11 +27,11 @@ export const fetchAllStaffUrl = () => "/admin/staff"; //Get
 export const getStaffDetailsUrl = () => `/admin/staff`;
 
 // Form URL
-export const fetchAllFormUrl = () => "/staff"; //Get
-export const createFormUrl = () => "/staff"; //post
-export const deleteFormUrl = (id: string) => `/staff/${id}`; //delete
-export const getFormDetailsUrl = () => `/staff`;
-export const updateFormUrl = (id: string) => `/staff/${id}`; //put
+export const fetchAllFormUrl = () => "/admin/forms"; //Get
+export const createFormUrl = () => "/admin/forms"; //post
+export const deleteFormUrl = (id: string) => `/admin/forms/${id}`; //delete
+export const getFormDetailsUrl = () => `/admin/forms`;
+export const updateFormUrl = (id: string) => `/admin/forms/${id}`; //put
 
 // Dashboard URL
 export const fetchAdminDashboardStatsUrl = () => "/admin/dashboard/stats";
