@@ -312,15 +312,15 @@ export interface IChartResponse {
   };
 }
 
-export interface ISafetyComplianceChartResponse {
-  status: boolean;
-  message: string;
-  success: true;
-  data: {
-    compliant: number;
-    non_compliant: number;
-  };
-}
+    export interface ISafetyComplianceChartResponse {
+      status: boolean;
+      message: string;
+      success: true;
+      data: {
+        compliant: number;
+        non_compliant: number;
+      };
+    }
 
 // dashboard stats
 
