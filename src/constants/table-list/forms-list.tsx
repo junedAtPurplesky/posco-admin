@@ -1,10 +1,13 @@
 "use client";
-import { useState } from "react";
+
+import { useState, useCallback } from "react";
 import { ITableAction, ITableColumn } from "../table";
-import { getScoreColor } from "@/utils/helpers/get";
+import toast from "react-hot-toast";
+import { IAllFormList, IUpdateFormStatusResponse, useUpdateFormStatusMutation } from "@/services/apis";
+
 
 export interface IFormsListProps {
-  id: number;
+  id: string;
   formName: string;
   completionRate: string;
   dueDate: string;
@@ -12,39 +15,67 @@ export interface IFormsListProps {
   status: string;
 }
 
-// Cell component for completion rate
-function CompletionRateCell({ value }: { value: string }) {
-  const numericRate = parseInt(value);
-  const colorClass = getScoreColor(numericRate);
-  return <span className={`px-2 py-1  text-xs ${colorClass}`}>{value}%</span>;
-}
+// Status Toggle Cell Component
+function StatusToggleCell({ value, formId }: { value: string; formId: string }) {
+  const [currentStatus, setCurrentStatus] = useState(value.toLowerCase());
+  const [isLoading, setIsLoading] = useState(false);
 
-// Cell component for status toggle
-function StatusToggleCell({ value }: { value: string }) {
-  const [isOn, setIsOn] = useState(value === "Active");
+  const { updateFormStatusMutate } = useUpdateFormStatusMutation({
+    onSuccessCallback: (data: IUpdateFormStatusResponse) => {
+      toast.success("Status updated successfully");
+      setCurrentStatus(data.data.status); 
+      setIsLoading(false);
+    },
+    onErrorCallback: () => {
+      toast.error("Status update failed");
+      setCurrentStatus(value.toLowerCase());
+      setIsLoading(false);
+    },
+  });
 
-  const toggleStatus = () => {
-    const newStatus = !isOn ? "Active" : "Inactive";
-    setIsOn(!isOn);
-    console.log("Status changed to:", newStatus);
-  };
+  const toggleStatus = useCallback(() => {
+    if (isLoading) return;
+
+    const newStatus = currentStatus === "active" ? "inactive" : "active";
+
+    // Optimistic UI update
+    setCurrentStatus(newStatus);
+    setIsLoading(true);
+
+    updateFormStatusMutate({
+      id: formId,
+      payload: { status: newStatus as "active" | "inactive" },
+    });
+  }, [currentStatus, formId, isLoading, updateFormStatusMutate]);
 
   return (
     <button
       onClick={toggleStatus}
-      className={`w-12 h-6 flex items-center p-1 rounded-full transition-colors duration-300 ${
-        isOn ? "bg-blue-500" : "bg-gray-300"
-      }`}
+      disabled={isLoading}
+      className={`w-12 h-6 flex items-center p-1 rounded-full transition-colors duration-200 ${
+        currentStatus === "active" ? "bg-blue-500" : "bg-gray-400"
+      } ${isLoading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
     >
       <div
-        className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
-          isOn ? "translate-x-6" : "translate-x-0"
-        }`}
+        className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-200 ${
+          currentStatus === "active" ? "translate-x-6" : "translate-x-0"
+        } ${isLoading ? "animate-pulse" : ""}`}
       />
     </button>
   );
 }
 
+// Map backend data to table props
+export const mapFormToTableRow = (form: IAllFormList): IFormsListProps => ({
+  id: form.id,
+  formName: form.form_name,
+  completionRate: "0", 
+  dueDate: form.due_date || "-",
+  createdAt: form.created_at || "-",
+  status: form.status,
+});
+
+// Table columns
 export const formsListColumns: ITableColumn<IFormsListProps>[] = [
   {
     header: "FORM NAME",
@@ -56,73 +87,49 @@ export const formsListColumns: ITableColumn<IFormsListProps>[] = [
     header: "COMPLETION RATE",
     accessor: "completionRate",
     sortable: true,
-    headerClassName: "min-w-[12rem] ",
-    cell: ({ value }) => <CompletionRateCell value={value as string} />,
+    headerClassName: "min-w-[12rem]",
+    cell: ({ value }) => <span>{value}%</span>,
   },
   {
     header: "DUE DATE",
     accessor: "dueDate",
     sortable: true,
     headerClassName: "min-w-[12rem]",
+        cell: ({ value }) => {
+      if (!value) return "N/A";
+      const date = new Date(value);
+      return <span className="text-gray-800">{date.toDateString()}</span>;
+    },
   },
   {
     header: "CREATED AT",
     accessor: "createdAt",
     sortable: true,
     headerClassName: "min-w-[12rem]",
+        cell: ({ value }) => {
+      if (!value) return "N/A";
+      const date = new Date(value);
+      return <span className="text-gray-800">{date.toDateString()}</span>;
+    },
   },
   {
     header: "STATUS",
     accessor: "status",
     sortable: true,
     headerClassName: "min-w-[12rem]",
-    cell: ({ value }) => <StatusToggleCell value={value as string} />,
+    cell: ({ value, row }) => <StatusToggleCell value={value} formId={row.id} />,
   },
 ];
 
-export const dummyFormsList: IFormsListProps[] = [
-  {
-    id: 1,
-    formName: "John Smith",
-    completionRate: "92",
-    dueDate: "2024-01-15",
-    createdAt: "2024-01-01",
-    status: "Pending",
-  },
-  {
-    id: 2,
-    formName: "Sarah Johnson",
-    completionRate: "88",
-    dueDate: "2024-01-15",
-    createdAt: "2024-01-02",
-    status: "Active",
-  },
-];
-
+// Table actions
 export const formsListActions: ITableAction<IFormsListProps>[] = [
   {
-    label: "Edit",
-    onClick: (row) => {
-      console.log("Edit form submission:", row);
-    },
-  },
-  {
-    label: "View Form",
-    onClick: (row) => {
-      console.log("View form submission:", row);
-    },
-  },
-  {
-    label: "Staff List",
-    onClick: (row) => {
-      console.log("Staff List form:", row);
-    },
+    label: "View",
+    onClick: (row) => console.log("View form:", row),
   },
   {
     label: "Delete",
-    onClick: (row) => {
-      console.log("Delete form submission:", row);
-    },
+    onClick: (row) => console.log("Delete form:", row),
     className: "text-red-500 hover:text-red-700",
   },
 ];

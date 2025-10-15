@@ -12,4 +12,5 @@ export * from "./search-bar"
 export * from "./dropdown"
 export * from "./date-picker"
 export * from "./table"
+export * from "./toggle-switch"
 export { RoleRedirectWrapper } from './role-redirect-wrapper';

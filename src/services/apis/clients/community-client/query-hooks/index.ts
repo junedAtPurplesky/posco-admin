@@ -13,6 +13,7 @@ export { useCreateFormMutation } from "./useCreateFormMutation";
 export { useUpdateFormMutation } from "./useUpdateFormMutation";
 export { useDeleteFormMutation } from "./useDeleteFormMutation";
 export { useFormDetailQuery } from "./useFormDetailQuery";
+export { useUpdateFormStatusMutation } from "./useUpdateFormStatusMutation";
 
 // GET Chart data
 export { useIssueDistributionChartDataQuery } from "./useIssueDistributionChartDataQuery";
@@ -20,3 +21,11 @@ export { useAdminDashboardStatsQuery } from "./useAdminDashboardStatsQuery";
 export { useSafetyComplianceChartDataQuery } from "./useSafetyComplianceChartDataQuery";
 
 export { useAllRecentSubmissionQuery } from "./useAllRecentSubmissionQuery";
+
+export { useAllDepartmentQuery } from "./useAllDepartmentQuery";
+
+export { useAllRoleQuery } from "./useAllRoleQuery";
+export { useUpdateStaffStatusMutation } from "./useUpdateStaffStatusMutation";
+
+// GET all submissions
+export { useAllSubmissionQuery } from "./useAllSubmissionQuery";

@@ -3,6 +3,7 @@ export * from './icons';
 export * from './images-registry';
 export * from './table';
 export * from './table-list';
+export * from "./analysis-card-data"
 
 
 

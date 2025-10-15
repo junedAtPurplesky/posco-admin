@@ -1,107 +1,162 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Button, DatePicker, InputField, ModalOverlay } from "@/components";
+import {
+  Button,
+  DatePicker,
+  Dropdown,
+  InputField,
+  ModalOverlay,
+  ToggleSwitch,
+} from "@/components";
 import { PlusIcon } from "@/features/icons";
 import { MdOutlineCancel } from "react-icons/md";
-import { LiaAngleDownSolid } from "react-icons/lia";
+import {
+  ICreateFormPayload,
+  IFormField,
+  useCreateFormMutation,
+} from "@/services/apis";
+import toast from "react-hot-toast";
+
+// Enums matching backend
+export enum FieldType {
+  CHECKBOX = "checkbox",
+  RADIO = "radio",
+  TEXT = "text",
+  TEXTAREA = "textarea",
+  DROPDOWN = "dropdown",
+  RATING = "rating",
+  PHOTO = "photo",
+  SIGNATURE = "signature",
+}
+
+export enum SafetyCategory {
+  GENERAL_SAFETY = "general_safety",
+  EMERGENCY_EXITS = "emergency_exits",
+  FIRE_SAFETY = "fire_safety",
+  EQUIPMENT_SAFETY = "equipment_safety",
+}
+
+// Dropdown options
+const FIELD_TYPES = Object.values(FieldType).map((f) => ({
+  label: f.replace("_", " ").toUpperCase(),
+  value: f,
+}));
+
+const SAFETY_CATEGORIES = Object.values(SafetyCategory).map((c) => ({
+  label: c.replace("_", " ").toUpperCase(),
+  value: c,
+}));
 
 interface AddFormModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onFormCreated?: () => void;
 }
 
-interface Topic {
+interface FormFieldData {
   id: number;
-  name: string;
-  subText: string;
-  isOpen: boolean;
+  field_label: string;
+  field_type: FieldType;
+  category: SafetyCategory;
+  is_required: boolean;
 }
 
 export const AddFormModal: React.FC<AddFormModalProps> = ({
   isOpen,
   onClose,
+  onFormCreated,
 }) => {
-  const [safetyQuestions, setSafetyQuestions] = useState<string[]>([""]);
-  const [topics, setTopics] = useState<Topic[]>([
-    { id: 1, name: "", subText: "", isOpen: true },
+  const [fields, setFields] = useState<FormFieldData[]>([
+    {
+      id: Date.now(),
+      field_label: "",
+      field_type: FieldType.CHECKBOX,
+      category: SafetyCategory.GENERAL_SAFETY,
+      is_required: false,
+    },
   ]);
 
+  const { onCreateFormMutate, isPending, error } = useCreateFormMutation({
+    onSuccessCallback: (data) => {
+      toast.success(data.message)
+      onClose();
+      onFormCreated?.();
+    },
+    onErrorCallback: (err) => {
+      toast.error(err.message)
+    },
+  });
+
   const validationSchema = Yup.object({
-    employeeId: Yup.string().required("Employee ID is required"),
-    formName: Yup.string().required("Form Name is required"),
-    dueDate: Yup.date().required("Due Date is required"),
+    form_name: Yup.string().required("Form Name is required"),
+    due_date: Yup.date().required("Due Date is required"),
+    description: Yup.string().nullable(),
   });
 
   const formik = useFormik({
     initialValues: {
-      employeeId: "",
-      formName: "",
-      dueDate: "",
+      form_name: "",
+      description: "",
+      due_date: "",
     },
     validationSchema,
-    validateOnChange: false,
-    validateOnBlur: false,
     onSubmit: (values) => {
-      console.log("Form submitted:", {
-        ...values,
-        safetyQuestions,
-        topics,
-      });
+      const payload: ICreateFormPayload = {
+        form_name: values.form_name,
+        description: values.description,
+        due_date: values.due_date,
+        fields: fields.map<IFormField>((f, index) => ({
+          field_label: f.field_label,
+          field_type: f.field_type,
+          category: f.category,
+          is_required: f.is_required,
+          order: index + 1,
+        })),
+      };
+      onCreateFormMutate(payload);
     },
   });
 
-  const handleAddQuestion = () => {
-    setSafetyQuestions([...safetyQuestions, ""]);
+  const handleAddField = () => {
+    setFields([
+      ...fields,
+      {
+        id: Date.now(),
+        field_label: "",
+        field_type: FieldType.CHECKBOX,
+        category: SafetyCategory.GENERAL_SAFETY,
+        is_required: false,
+      },
+    ]);
   };
 
-  const handleRemoveQuestion = (index: number) => {
-    setSafetyQuestions(safetyQuestions.filter((_, i) => i !== index));
-  };
-
-  const handleQuestionChange = (index: number, value: string) => {
-    const updated = [...safetyQuestions];
-    updated[index] = value;
-    setSafetyQuestions(updated);
-  };
-
-  const handleAddTopic = () => {
-    const newTopic: Topic = {
-      id: Date.now(),
-      name: "",
-      subText: "",
-      isOpen: true,
-    };
-    setTopics([...topics, newTopic]);
-  };
-
-  const handleRemoveTopic = (id: number) => {
-    if (topics.length > 1) {
-      setTopics(topics.filter((topic) => topic.id !== id));
+  const handleRemoveField = (id: number) => {
+    if (fields.length > 1) {
+      setFields(fields.filter((f) => f.id !== id));
     }
   };
 
-  const handleTopicChange = (id: number, field: keyof Topic, value: string) => {
-    setTopics(
-      topics.map((topic) =>
-        topic.id === id ? { ...topic, [field]: value } : topic
-      )
-    );
+  const handleFieldChange = (
+    id: number,
+    key: keyof FormFieldData,
+    value: string | boolean
+  ) => {
+    setFields(fields.map((f) => (f.id === id ? { ...f, [key]: value } : f)));
   };
 
-  const toggleTopic = (id: number) => {
-    setTopics(
-      topics.map((topic) =>
-        topic.id === id ? { ...topic, isOpen: !topic.isOpen } : topic
-      )
-    );
+  const isFormValid = () => {
+    const hasValidFields = fields.some((f) => f.field_label.trim() !== "");
+    return formik.isValid && hasValidFields;
   };
 
   return (
     <ModalOverlay isOpen={isOpen} onClose={onClose}>
-      <div className="rounded-lg w-full max-w-md mx-auto flex flex-col gap-5 h-[36rem] overflow-y-scroll scrollbar-hide">
+      <div className="rounded-lg w-full max-w-lg mx-auto flex flex-col gap-5 h-[38rem] overflow-y-scroll scrollbar-hide p-1">
         <div className="flex items-center justify-between">
-          <h2 className="text-gray-800">Add Form</h2>
+          <h2 className="text-gray-800 text-lg font-semibold">
+            Create Safety Form
+          </h2>
         </div>
 
         <form
@@ -109,130 +164,119 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
           className="flex flex-col gap-4 p-1"
         >
           <InputField
-            label="Employee ID"
-            placeholder="Enter Employee ID"
-            name="employeeId"
-            value={formik.values.employeeId}
+            label="Form Name"
+            placeholder="e.g. Fire Safety Audit"
+            name="form_name"
+            value={formik.values.form_name}
             onChange={formik.handleChange}
-            error={
-              formik.submitCount > 0 && formik.errors.employeeId
-                ? formik.errors.employeeId
-                : undefined
-            }
+            error={formik.errors.form_name}
           />
 
           <InputField
-            label="Form Name"
-            placeholder="Enter Form Name"
-            name="formName"
-            value={formik.values.formName}
+            label="Description"
+            placeholder="Short description"
+            name="description"
+            value={formik.values.description}
             onChange={formik.handleChange}
-            error={
-              formik.submitCount > 0 && formik.errors.formName
-                ? formik.errors.formName
-                : undefined
-            }
           />
 
           <DatePicker
             label="Due Date"
-            value={formik.values.dueDate}
-            onChange={(date) => formik.setFieldValue("dueDate", date)}
-            error={
-              formik.submitCount > 0 && formik.errors.dueDate
-                ? formik.errors.dueDate
-                : undefined
-            }
+            placeholder="Select date"
+            value={formik.values.due_date}
+            onChange={(date) => formik.setFieldValue("due_date", date)}
+            error={formik.errors.due_date}
           />
 
-          {topics.map((topic, index) => (
-            <div key={topic.id} className="text-gray-700">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-[0.8rem]">Topic {index + 1}</span>
-                  <button
-                    type="button"
-                    onClick={() => toggleTopic(topic.id)}
-                    className="hover:text-gray-800"
-                  >
-                    {topic.isOpen ? (
-                      <LiaAngleDownSolid className=" h-3 w-3" />
-                    ) : (
-                     <LiaAngleDownSolid className=" rotate-180 h-3 w-3" />
-                    )}
-                  </button>
+          {/* Form Fields Section */}
+          <div className="mt-2">
+            <h3 className="text-gray-700 text-base font-medium">
+              Form Fields (Questions)
+            </h3>
+
+            {fields.map((field, idx) => (
+              <div
+                key={field.id}
+                className="p-3 mb-3 border border-gray-200 rounded-lg bg-gray-50 flex flex-col gap-4"
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-gray-700">
+                    Field {idx + 1}
+                  </span>
+                  {fields.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveField(field.id)}
+                      className="text-gray-500 hover:text-red-500"
+                    >
+                      <MdOutlineCancel className="h-4 w-4" />
+                    </button>
+                  )}
                 </div>
-                {topics.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveTopic(topic.id)}
-                    className="hover:text-red-500"
-                  >
-                    <MdOutlineCancel className="h-4 w-4" />
-                  </button>
-                )}
+
+                <InputField
+                  label="Question Label"
+                  placeholder="e.g. Are fire extinguishers accessible?"
+                  value={field.field_label}
+                  onChange={(e) =>
+                    handleFieldChange(field.id, "field_label", e.target.value)
+                  }
+                  required
+                />
+
+                <Dropdown
+                  label="Field Type"
+                  options={FIELD_TYPES}
+                  value={field.field_type}
+                  onChange={(val) =>
+                    handleFieldChange(field.id, "field_type", val as FieldType)
+                  }
+                />
+
+                <Dropdown
+                  label="Safety Category"
+                  options={SAFETY_CATEGORIES}
+                  value={field.category}
+                  onChange={(val) =>
+                    handleFieldChange(
+                      field.id,
+                      "category",
+                      val as SafetyCategory
+                    )
+                  }
+                />
+
+                <ToggleSwitch
+                  label="Required Field"
+                  checked={field.is_required}
+                  onChange={(checked) =>
+                    handleFieldChange(field.id, "is_required", checked)
+                  }
+                />
               </div>
+            ))}
 
-              {topic.isOpen && (
-                <div className="flex flex-col gap-3">
-                  <InputField
-                    label="Topic Name"
-                    placeholder="e.g. First Aid"
-                    value={topic.name}
-                    onChange={(e) =>
-                      handleTopicChange(topic.id, "name", e.target.value)
-                    }
-                  />
-                  <InputField
-                    label="Sub Text"
-                    placeholder="e.g. Sub Text"
-                    value={topic.subText}
-                    onChange={(e) =>
-                      handleTopicChange(topic.id, "subText", e.target.value)
-                    }
-                  />
-                </div>
-              )}
+            <div
+              className="flex justify-end text-primary cursor-pointer items-center text-[0.85rem] gap-2 mt-2"
+              onClick={handleAddField}
+            >
+              <PlusIcon className="h-4 w-4" />
+              <span className="text-primary">Add Another Question</span>
             </div>
-          ))}
-
-          <div
-            className="flex justify-end text-primary cursor-pointer items-center text-[0.8rem] gap-2"
-            onClick={handleAddTopic}
-          >
-            <PlusIcon className="h-4 w-4" />
-            <span className="text-primary">Add Topic</span>
           </div>
 
-          {safetyQuestions.map((question, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <InputField
-                label={`Safety Question ${index + 1}`}
-                placeholder="Enter Safety Question"
-                value={question}
-                onChange={(e) => handleQuestionChange(index, e.target.value)}
-              />
-              {safetyQuestions.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => handleRemoveQuestion(index)}
-                  className="text-gray-500 hover:text-red-500 mt-6"
-                >
-                  <MdOutlineCancel className="h-4 w-4" />
-                </button>
-              )}
+          {error && (
+            <div className="text-red-500 text-sm mt-2">
+              {error.message || "Failed to create form. Please try again."}
             </div>
-          ))}
+          )}
 
-          <div
-            className="flex justify-end text-primary cursor-pointer items-center text-[0.8rem] gap-2"
-            onClick={handleAddQuestion}
-          >
-            <PlusIcon className="h-4 w-4" />
-            <span className="text-primary">Add Safety Question</span>
-          </div>
-
-          <Button title="Save" width="w-full" type="submit" />
+          <Button
+            title={isPending ? "Creating..." : "Save"}
+            width="w-full"
+            type="submit"
+            disabled={isPending || !isFormValid()}
+          />
         </form>
       </div>
     </ModalOverlay>

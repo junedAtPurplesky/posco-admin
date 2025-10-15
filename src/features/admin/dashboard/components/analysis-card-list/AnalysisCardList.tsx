@@ -1,10 +1,11 @@
-// components/AnalysisCardList.tsx
 import React from "react";
-import { AnalysisCard } from "../analysis-card/AnalysisCard";
+
+import { AnalysisCard } from "../analysis-card";
+
 import { useAdminDashboardStatsQuery } from "@/services/apis";
 import { PercentageIcon } from "@/design-system";
-import { ListIcon, NotIcon } from "@/features/icons";
-import { AnalysisCardData } from "@/constants/analysis-card-data";
+import { ListIcon, NotIcon } from "@/features";
+import { AnalysisCardData } from "@/constants";
 
 interface AnalysisCardListProps {
   className?: string;
@@ -18,11 +19,17 @@ export function AnalysisCardList({
 }: AnalysisCardListProps) {
   const { allStatsData } = useAdminDashboardStatsQuery();
 
+  const dailySafetyFormsReceived =
+    allStatsData?.data?.dailySafetyFormsReceived ?? 0;
+  const nonCompliantReports = allStatsData?.data?.nonCompliantReports ?? 0;
+  const staffParticipationRate =
+    allStatsData?.data?.staffParticipationRate ?? 0;
+
   const analysisCardsData: AnalysisCardData[] = [
     {
       id: 1,
       icon: <ListIcon />,
-      value: `${allStatsData?.data.dailySafetyFormsReceived}`,
+      value: `${dailySafetyFormsReceived}`,
       title: "Daily Safety Forms Received",
       subtitle: "92% Completion Rate",
       subValue: "/ 137",
@@ -31,10 +38,8 @@ export function AnalysisCardList({
     {
       id: 2,
       icon: <NotIcon />,
-
-      value: `${allStatsData?.data.nonCompliantReports}`,
+      value: `${nonCompliantReports}`,
       subValue: "Issues Found",
-
       title: "Pending Approvals",
       subtitle: "Requires immediate attention",
       color: "text-primary",
@@ -42,12 +47,10 @@ export function AnalysisCardList({
     {
       id: 3,
       icon: <PercentageIcon />,
-
-      value: `${allStatsData?.data.staffParticipationRate}%`,
+      value: `${staffParticipationRate}%`,
       subValue: "Active",
       title: "Staff Participation",
       subtitle: "Monthly target achieved",
-
       color: "text-primary",
     },
   ];

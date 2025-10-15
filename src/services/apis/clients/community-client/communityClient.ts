@@ -6,21 +6,28 @@ import {
   deleteFormUrl,
   deleteStaffUrl,
   fetchAdminDashboardStatsUrl,
+  fetchAllDepartmentUrl,
   fetchAllFormUrl,
+  fetchAllRoleUrl,
   fetchAllStaffUrl,
+  fetchAllSubmissionUrl,
   fetchComplianceOverviewUrl,
   fetchIssueDistributionUrl,
   fetchRecentSubmissionsUrl,
   getFormDetailsUrl,
   getStaffDetailsUrl,
   loginUrl,
+  updateFormStatusUrl,
   updateFormUrl,
+  updateStaffStatusUrl,
   updateStaffUrl,
 } from "./urls";
 import {
+  IAllDepartmentResponse,
   IAllFormResponse,
-  IAllRecentSubmissionResponse,
+  IAllRoleResponse,
   IAllStaffResponse,
+  IAllSubmissionsResponse,
   IChartResponse,
   ICreateFormPayload,
   ICreateFormResponse,
@@ -36,8 +43,12 @@ import {
   IStatsResponse,
   IUpdateFormPayload,
   IUpdateFormResponse,
+  IUpdateFormStatusPayload,
+  IUpdateFormStatusResponse,
   IUpdateStaffPayload,
   IUpdateStaffResponse,
+  IUpdateStaffStatusPayload,
+  IUpdateStaffStatusResponse,
 } from "./types";
 
 /**
@@ -106,6 +117,23 @@ export class CommunityClient extends ApiClient {
     }
     return response?.data;
   };
+
+
+    // Update
+  public updateStaffStatus = async ({ id, payload }: IUpdateStaffStatusPayload) => {
+    const response = await this.put<IUpdateStaffStatusResponse>(
+      updateStaffStatusUrl(id),
+      payload,
+      {
+        requiresAuth: true,
+      }
+    );
+
+    if (!response?.success) {
+      throw response?.response?.data;
+    }
+    return response?.data;
+  };
   // delete Staff
   public deleteStaff = async (id: string) => {
     const response = await this.del<IDeleteStaffResponse>(deleteStaffUrl(id));
@@ -163,7 +191,7 @@ export class CommunityClient extends ApiClient {
     });
 
     if (!response?.success) {
-      throw response?.errorData;
+      throw response?.response?.data;
     }
 
     return response?.data;
@@ -188,7 +216,7 @@ export class CommunityClient extends ApiClient {
     const response = await this.del<IDeleteFormResponse>(deleteFormUrl(id));
 
     if (!response?.success) {
-      throw response?.errorData;
+      throw response?.response?.data;
     }
     return response?.data;
   };
@@ -234,9 +262,7 @@ export class CommunityClient extends ApiClient {
     return response?.data;
   };
 
-
-  
-   // safety compliance chart
+  // safety compliance chart
   public fetchSafetyCompliance = async () => {
     const url = fetchComplianceOverviewUrl();
 
@@ -264,10 +290,10 @@ export class CommunityClient extends ApiClient {
     return response?.data;
   };
 
-   public fetchAllRecentSubmission = async () => {
+  public fetchAllRecentSubmission = async () => {
     const url = fetchRecentSubmissionsUrl();
 
-    const response = await this.get<IAllRecentSubmissionResponse>(url, {
+    const response = await this.get<IAllSubmissionsResponse>(url, {
       requiresAuth: true,
     });
 
@@ -277,8 +303,71 @@ export class CommunityClient extends ApiClient {
 
     return response?.data;
   };
-}
 
+  // get all
+  public fetchAllDepartment = async () => {
+    const url = fetchAllDepartmentUrl();
+
+    const response = await this.get<IAllDepartmentResponse>(url, {
+      requiresAuth: true,
+    });
+
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+
+    return response?.data;
+  };
+  public fetchAllRole = async () => {
+    const url = fetchAllRoleUrl();
+
+    const response = await this.get<IAllRoleResponse>(url, {
+      requiresAuth: true,
+    });
+
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+
+    return response?.data;
+  };
+    // GET
+  public fetchAllSubmission = async (searchText?: string, page?: number) => {
+    const params = new URLSearchParams();
+    if (searchText) params.append("searchText", searchText);
+    if (page) params.append("page", page.toString());
+    const url = params.toString()
+      ? `${fetchAllSubmissionUrl()}?${params.toString()}`
+      : fetchAllSubmissionUrl();
+
+    const response = await this.get<IAllSubmissionsResponse>(url, {
+      requiresAuth: false,
+    });
+
+    if (!response?.success) {
+      throw response?.errorData;
+    }
+
+    return response?.data;
+  };
+
+  // update form status
+  public updateFormStatus = async ({ id, payload }: IUpdateFormStatusPayload) => {
+    const response = await this.put<IUpdateFormStatusResponse>(
+      updateFormStatusUrl(id),
+      payload,
+      {
+        requiresAuth: true,
+      }
+    );
+
+    if (!response?.success) {
+      throw response?.response?.data;
+    }
+    return response?.data;
+  };
+
+}
 
 /**
  * This creates a new instance of the class. is th base Axios API client Class
