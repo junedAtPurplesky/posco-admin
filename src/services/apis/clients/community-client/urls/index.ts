@@ -32,6 +32,8 @@ export const createFormUrl = () => "/admin/forms"; //post
 export const deleteFormUrl = (id: string) => `/admin/forms/${id}`; //delete
 export const getFormDetailsUrl = () => `/admin/forms`;
 export const updateFormUrl = (id: string) => `/admin/forms/${id}`; //put
+export const updateFormStatusUrl = (id: string) => `/admin/forms/${id}`; //put
+
 
 // Dashboard URL
 export const fetchAdminDashboardStatsUrl = () => "/admin/dashboard/stats";

@@ -151,7 +151,7 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
 
   return (
     <ModalOverlay isOpen={isOpen} onClose={onClose}>
-      <div className="rounded-lg w-full max-w-lg mx-auto flex flex-col gap-5 h-[38rem] overflow-y-scroll scrollbar-hide">
+      <div className="rounded-lg w-full max-w-lg mx-auto flex flex-col gap-5 h-[38rem] overflow-y-scroll scrollbar-hide p-1">
         <div className="flex items-center justify-between">
           <h2 className="text-gray-800 text-lg font-semibold">
             Create Safety Form
@@ -189,14 +189,14 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
 
           {/* Form Fields Section */}
           <div className="mt-2">
-            <h3 className="text-gray-700 text-base font-medium mb-2">
+            <h3 className="text-gray-700 text-base font-medium">
               Form Fields (Questions)
             </h3>
 
             {fields.map((field, idx) => (
               <div
                 key={field.id}
-                className="p-3 mb-3 border border-gray-200 rounded-lg bg-gray-50"
+                className="p-3 mb-3 border border-gray-200 rounded-lg bg-gray-50 flex flex-col gap-4"
               >
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm font-medium text-gray-700">

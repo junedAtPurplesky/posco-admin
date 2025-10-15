@@ -377,14 +377,6 @@ export interface IRoleItem {
   permissions: string[];
 }
 
-
-// get all submissions
-// export interface IAllSubmissionsResponse {
-//   status: string;
-//   data: IStaffItem[];
-//   pagination: ISubmissionPagination;
-// }
-
 export interface IStaffItem {
   department_id: string;
   staff_ids: string[];
@@ -412,9 +404,9 @@ export interface ISubmission {
   staff_name: string;
   staff_id: string;
   employee_id: string;
-  submission_date: string; // Could also use Date if you parse it
+  submission_date: string; 
   department: string;
-  compliance_score: string; // Could be number if you parse it
+  compliance_score: string;
   status: string;
   notes: string;
 }
@@ -424,4 +416,75 @@ interface Pagination {
   page: number;
   limit: number;
   totalPages: number;
+}
+
+export interface IUpdateFormStatusPayload {
+  id: string;
+  payload: {
+    status: "active" | "inactive";
+  };
+}
+export interface IUpdateFormStatusResponse {
+  status: string;
+  message: string;
+  data: IFormData;
+}
+
+export interface IFormData {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted: boolean;
+  deleted_at: string | null;
+  form_id: string;
+  form_name: string;
+  description: string;
+  due_date: string;
+  status: string;
+  is_recurring: boolean;
+  recurrence_pattern: string | null;
+  fields: IFormField[];
+  department: IDepartment;
+  created_by: IUser;
+}
+
+export interface IFormField {
+  field_label: string;
+  field_type: FieldType;
+  category: SafetyCategory;
+  is_required: boolean;
+  order: number;
+  options?: string[];
+  field_description?: string;
+}
+
+export interface IDepartment {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted: boolean;
+  deleted_at: string | null;
+  name: string;
+  description: string;
+  status: string;
+}
+
+export interface IUser {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted: boolean;
+  deleted_at: string | null;
+  employee_id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  profile_picture: string | null;
+  status: string;
+  dob: string ;
+  otp: string | null;
+  otpExpiresAt: string | null;
+  isOtpVerified: boolean;
+  password: string;
 }

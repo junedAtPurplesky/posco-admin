@@ -8,10 +8,6 @@ export function SafetyComplianceOverviewChart() {
   const { chartData, isLoading, isError } = useSafetyComplianceChartDataQuery();
   const [chartSize, setChartSize] = useState(220);
 
-  // Debug
-  console.log("Full API response:", chartData);
-  console.log("Data values:", chartData?.data);
-
   // Responsive chart size
   useEffect(() => {
     const handleResize = () => {
@@ -22,36 +18,38 @@ export function SafetyComplianceOverviewChart() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Prepare chart data dynamically
+  // Prepare chart data
   const data = useMemo(() => {
-    if (!chartData?.data) {
+    const compliant = chartData?.data?.compliant ?? 0;
+    const nonCompliant = chartData?.data?.non_compliant ?? 0;
+    const total = compliant + nonCompliant;
+
+    // If total is 0 → no data
+    if (total === 0) {
       return [
         { label: "Compliant (Safe)", value: 0, color: "#10B981" },
         { label: "Non-Compliant (Unsafe)", value: 0, color: "#EF4444" },
       ];
     }
 
+    //  Normalize data to ensure values add up to total
     return [
-      {
-        label: "Compliant (Safe)",
-        value: chartData.data.compliant || 0,
-        color: "#10B981",
-      },
-      {
-        label: "Non-Compliant (Unsafe)",
-        value: chartData.data.non_compliant || 0,
-        color: "#EF4444",
-      },
+      { label: "Compliant (Safe)", value: compliant, color: "#10B981" },
+      { label: "Non-Compliant (Unsafe)", value: nonCompliant, color: "#EF4444" },
     ];
   }, [chartData]);
 
-  if (isLoading) return <div className="p-4 text-center">Loading chart...</div>;
-  if (isError) return <div className="p-4 text-center text-red-500">Failed to load chart data.</div>;
-
-  console.log("Final chart data:", data);
+  if (isLoading)
+    return <div className="p-4 text-center">Loading chart...</div>;
+  if (isError)
+    return (
+      <div className="p-4 text-center text-red-500">
+        Failed to load chart data.
+      </div>
+    );
 
   return (
-    <div className="w-full p-4 border rounded-lg">
+    <div className="w-full rounded-lg bg-white">
       <PieChart
         data={data}
         title="Safety Compliance Overview"

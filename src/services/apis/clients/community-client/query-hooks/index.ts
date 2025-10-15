@@ -13,6 +13,7 @@ export { useCreateFormMutation } from "./useCreateFormMutation";
 export { useUpdateFormMutation } from "./useUpdateFormMutation";
 export { useDeleteFormMutation } from "./useDeleteFormMutation";
 export { useFormDetailQuery } from "./useFormDetailQuery";
+export { useUpdateFormStatusMutation } from "./useUpdateFormStatusMutation";
 
 // GET Chart data
 export { useIssueDistributionChartDataQuery } from "./useIssueDistributionChartDataQuery";
@@ -26,6 +27,5 @@ export { useAllDepartmentQuery } from "./useAllDepartmentQuery";
 export { useAllRoleQuery } from "./useAllRoleQuery";
 export { useUpdateStaffStatusMutation } from "./useUpdateStaffStatusMutation";
 
-
 // GET all submissions
-export {useAllSubmissionQuery} from "./useAllSubmissionQuery"
+export { useAllSubmissionQuery } from "./useAllSubmissionQuery";

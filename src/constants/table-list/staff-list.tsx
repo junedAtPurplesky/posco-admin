@@ -5,6 +5,7 @@ import { ITableAction, ITableColumn } from "../table";
 import { useUpdateStaffStatusMutation } from "@/services/apis";
 import toast from "react-hot-toast";
 
+
 export interface IStaffListProps {
   id: string;
   created_at: string;
@@ -40,14 +41,14 @@ function StatusToggleCell({
 
   const { updateStaffStatusMutate } = useUpdateStaffStatusMutation({
     onSuccessCallback: (data) => {
-      toast.success(data.message)
+      toast.success(data.message);
       setIsLoading(false);
       if (data?.data?.status) {
         setCurrentStatus(data.data.status);
       }
     },
     onErrorCallback: (err) => {
-      toast.error(err.message)
+      toast.error(err.message);
       setIsLoading(false);
       setCurrentStatus(value);
     },

@@ -3,7 +3,6 @@ import { getDepartmentStyle } from "@/utils/helpers/getDepartmentStyle";
 import { ITableAction, ITableColumn } from "../table";
 import { getScoreColor } from "@/utils/helpers/get";
 import { ISubmission } from "@/services/apis";
-import { formatDate } from "@/utils";
 
 export interface ISubmittedFormsListProps {
   id: number;
@@ -49,8 +48,11 @@ export const submittedFormsListColumns: ITableColumn<ISubmission>[] = [
     accessor: "submission_date",
     sortable: true,
     headerClassName: "min-w-[12rem]",
-    cell: ({value}) => <span>{formatDate(value)}</span>
-  },
+    cell: ({ value }) => {
+      if (!value) return "N/A";
+      const date = new Date(value);
+      return <span className="text-gray-800">{date.toDateString()}</span>;
+    },  },
   {
     header: "DEPARTMENT",
     accessor: "department",

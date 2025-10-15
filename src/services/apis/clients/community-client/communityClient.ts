@@ -17,6 +17,7 @@ import {
   getFormDetailsUrl,
   getStaffDetailsUrl,
   loginUrl,
+  updateFormStatusUrl,
   updateFormUrl,
   updateStaffStatusUrl,
   updateStaffUrl,
@@ -42,6 +43,8 @@ import {
   IStatsResponse,
   IUpdateFormPayload,
   IUpdateFormResponse,
+  IUpdateFormStatusPayload,
+  IUpdateFormStatusResponse,
   IUpdateStaffPayload,
   IUpdateStaffResponse,
   IUpdateStaffStatusPayload,
@@ -345,6 +348,22 @@ export class CommunityClient extends ApiClient {
       throw response?.errorData;
     }
 
+    return response?.data;
+  };
+
+  // update form status
+  public updateFormStatus = async ({ id, payload }: IUpdateFormStatusPayload) => {
+    const response = await this.put<IUpdateFormStatusResponse>(
+      updateFormStatusUrl(id),
+      payload,
+      {
+        requiresAuth: true,
+      }
+    );
+
+    if (!response?.success) {
+      throw response?.response?.data;
+    }
     return response?.data;
   };
 
