@@ -16,6 +16,7 @@ import {
   IFormField,
   useCreateFormMutation,
 } from "@/services/apis";
+import toast from "react-hot-toast";
 
 // Enums matching backend
 export enum FieldType {
@@ -78,12 +79,12 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
 
   const { onCreateFormMutate, isPending, error } = useCreateFormMutation({
     onSuccessCallback: (data) => {
-      console.log("Form created successfully:", data);
+      toast.success(data.message)
       onClose();
       onFormCreated?.();
     },
     onErrorCallback: (err) => {
-      console.error("Error creating form:", err);
+      toast.error(err.message)
     },
   });
 
