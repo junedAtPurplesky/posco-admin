@@ -27,7 +27,6 @@ export function AssignFormModal({
   const [selectedStaff, setSelectedStaff] = useState<string[]>([]);
   const formikRef = useRef<any>(null);
 
-  // Use the mutation hook properly
   const { onCreateAssignFormMutate, isPending } = useCreateAssignFormMutation({
     onSuccessCallback: (data) => {
       toast.success(data.message);
@@ -40,26 +39,22 @@ export function AssignFormModal({
 
   const { allDepartment, isError } = useAllDepartmentQuery();
 
-  // Transform department data for dropdown options
   const departmentOptions =
     allDepartment?.data?.map((dept: IDepartmentItem) => ({
       value: dept.id,
       label: dept.name,
     })) || [];
 
-  // Validation Schema using Yup
   const validationSchema = Yup.object({
     department: Yup.string().required("Department is required"),
     dueDate: Yup.string().required("Due date is required"),
   });
 
-  // Initial form values
   const initialValues = {
     department: "",
     dueDate: "",
   };
 
-  // Handle Form Submit - CORRECTED PAYLOAD
   const handleSubmit = (values: typeof initialValues) => {
     if (!formId) {
       toast.error("Form ID is missing");
@@ -73,7 +68,6 @@ export function AssignFormModal({
       dueDate: values.dueDate,
     });
 
-    // Correct payload according to ICreateAssignFormPayload interface
     const payload = {
       department_id: values.department,
       staff_ids: selectedStaff,
@@ -82,22 +76,17 @@ export function AssignFormModal({
 
     console.log("API Payload:", payload);
 
-    // Call the mutation - formId goes as URL parameter, payload as request body
     onCreateAssignFormMutate({
-      id: formId, // This becomes part of the URL: /admin/forms/${id}/assign
-      payload: payload, // This is the request body
+      id: formId, 
+      payload: payload,
     });
   };
 
-  // Handle modal close with reset
   const handleClose = () => {
-    // Reset form
     if (formikRef.current) {
       formikRef.current.resetForm();
     }
-    // Reset staff selection
     setSelectedStaff([]);
-    // Close modal
     onClose();
   };
 

@@ -4,8 +4,8 @@ import React, { useRef } from "react";
 /**
  * Reusable Date Picker Component
  * @param {string} value - Selected date.
- * @param {(val: string) => void} onChange - Function to handle date change.
- * @param {string | null} [error] - Optional error message.
+ * @param {(val: string) => void} onChange -.
+ * @param {string | null} [error] - 
  */
 export function DatePicker({
   placeholder,
@@ -28,7 +28,6 @@ export function DatePicker({
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Convert minDate to YYYY-MM-DD format for HTML input
   const minDateString = minDate ? minDate.toISOString().split('T')[0] : undefined;
 
   return (
@@ -44,7 +43,7 @@ export function DatePicker({
           placeholder={placeholder}
           ref={inputRef}
           type="date"
-          min={minDateString} // Past dates disable करने के लिए
+          min={minDateString} 
           className={`w-full border ${
             error ? "border-red-500" : "border-gray-300"
           } ${datePickerBorderRadius} px-4 py-2 pr-10 focus:outline-none focus:ring-1 ${
@@ -53,7 +52,6 @@ export function DatePicker({
           value={value}
           onChange={(e) => {
             const selectedDate = new Date(e.target.value);
-            // अगर selected date minDate से पहले है तो onChange नहीं call करें
             if (minDate && selectedDate < minDate) {
               return;
             }
