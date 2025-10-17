@@ -101,8 +101,10 @@ export function AssignFormModal({
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
           enableReinitialize
+          validateOnChange={false} 
+          validateOnBlur={false} 
         >
-          {({ values, setFieldValue, errors, touched, isValid }) => (
+          {({ values, setFieldValue, errors, submitForm }) => (
             <Form className="flex flex-col gap-4">
               {/* Department Dropdown */}
               <div>
@@ -117,7 +119,7 @@ export function AssignFormModal({
                     setFieldValue("department", value);
                   }}
                 />
-                {touched.department && errors.department && (
+                {errors.department && ( 
                   <p className="text-red-500 text-[0.7rem] mt-1">
                     {errors.department}
                   </p>
@@ -141,7 +143,7 @@ export function AssignFormModal({
                     console.log("Staff selected:", values);
                     setSelectedStaff(values);
                   }}
-                  placeholder="Select staff members"
+                  placeholder="Select staff members" 
                 />
                 {selectedStaff.length === 0 && (
                   <p className="text-red-500 text-[0.7rem] mt-1">
@@ -161,8 +163,9 @@ export function AssignFormModal({
                     console.log("Due date selected:", value);
                     setFieldValue("dueDate", value);
                   }}
+                  minDate={new Date()} // ✅ Past dates disable करने के लिए
                 />
-                {touched.dueDate && errors.dueDate && (
+                {errors.dueDate && (
                   <p className="text-red-500 text-[0.7rem] mt-1">
                     {errors.dueDate}
                   </p>
@@ -181,7 +184,28 @@ export function AssignFormModal({
                 <Button
                   title={isPending ? "Assigning..." : "Assign"}
                   type="submit"
-                  disabled={!isValid || selectedStaff.length === 0 || isPending}
+                  disabled={isPending}
+                  onClick={(e) => {
+                    e.preventDefault(); 
+                    
+                    if (!values.department || !values.dueDate) {
+                      formikRef.current?.validateForm().then((errors: any) => {
+                        formikRef.current?.setErrors(errors);
+                        formikRef.current?.setTouched({
+                          department: true,
+                          dueDate: true,
+                        }, false);
+                      });
+                      return;
+                    }
+
+                    if (selectedStaff.length === 0) {
+                      toast.error("Please select at least one staff member");
+                      return;
+                    }
+
+                    submitForm();
+                  }}
                 />
               </div>
             </Form>
