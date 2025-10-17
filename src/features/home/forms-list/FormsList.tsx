@@ -6,7 +6,7 @@ import {
   formsListColumns,
   ITableAction,
 } from "@/constants";
-import { FilterIcon, PlusIcon } from "@/features/icons";
+import { PlusIcon } from "@/features/icons";
 import { AddFormModal, AssignFormModal } from "./component";
 import toast from "react-hot-toast";
 import {
@@ -78,10 +78,10 @@ export function FormsList() {
             <PlusIcon className="w-4 h-4 cursor-pointer" />
             <h1 className="text-primary">Add Form</h1>
           </button>
-          <button className="flex gap-1 items-center cursor-pointer">
+          {/* <button className="flex gap-1 items-center cursor-pointer">
             <FilterIcon className="w-4 h-4 cursor-pointer" />
             <h1 className="text-primary">Filter</h1>
-          </button>
+          </button> */}
         </div>
       </div>
 

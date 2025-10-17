@@ -218,18 +218,37 @@ export interface IFormField {
   field_label: string;
   field_type: FieldType;
   category: SafetyCategory;
+  field_description?: string;
   is_required: boolean;
   order: number;
   options?: string[];
-  field_description?: string;
 }
 
 // Create Form Payload (POST)
 export interface ICreateFormPayload {
   form_name: string;
   description?: string;
+  department_id?: string; // Added department_id
   due_date: string | Date;
   fields: IFormField[];
+}
+
+// Form Field Interface
+export interface IFormField {
+  field_type: FieldType;
+  field_label: string;
+  field_description?: string; // Added field_description
+  is_required: boolean;
+  options?: string[]; // Added options array
+  category: SafetyCategory;
+  order: number;
+  validation_rules?: { // Added validation_rules
+    minLength?: number;
+    maxLength?: number;
+    minValue?: number;
+    maxValue?: number;
+    pattern?: string;
+  };
 }
 
 // Create Form Response

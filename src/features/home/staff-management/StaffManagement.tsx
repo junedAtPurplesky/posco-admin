@@ -4,8 +4,9 @@ import { useState } from "react";
 import { AddStaffModal } from "./component";
 import { SearchBar, Table } from "@/components";
 import { staffListActions, staffListColumns } from "@/constants";
-import { PlusIcon, FilterIcon } from "@/features";
+// import { PlusIcons } from "@/features";
 import { useAllStaffQuery } from "@/services/apis";
+import { PlusIcon } from "@/features/icons";
 
 export function StaffManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,10 +34,10 @@ export function StaffManagement() {
             <PlusIcon className="w-4 h-4" />
             <span className="text-primary">Add Staff</span>
           </button>
-          <button className="flex gap-1 items-center cursor-pointer">
+          {/* <button className="flex gap-1 items-center cursor-pointer">
             <FilterIcon className="w-4 h-4" />
             <span className="text-primary">Filter</span>
-          </button>
+          </button> */}
         </div>
       </div>
 

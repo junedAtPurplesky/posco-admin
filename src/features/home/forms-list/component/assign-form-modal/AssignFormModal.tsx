@@ -105,7 +105,6 @@ export function AssignFormModal({
     <ModalOverlay isOpen={isOpen} onClose={handleClose}>
       <div className="flex flex-col gap-4 p-2 w-full max-w-md">
         <h2 className="text-[1rem] text-gray-800">Assign Form</h2>
-        <p className="text-[0.8rem] text-gray-600">Form ID: {formId}</p>
 
         <Formik
           innerRef={formikRef}
