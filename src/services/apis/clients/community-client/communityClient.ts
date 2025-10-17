@@ -1,6 +1,7 @@
 import { IApiError } from "@/utils";
 import { ApiClient } from "../../api-client";
 import {
+  createAssignFormUrl,
   createFormUrl,
   createStaffUrl,
   deleteFormUrl,
@@ -29,6 +30,8 @@ import {
   IAllStaffResponse,
   IAllSubmissionsResponse,
   IChartResponse,
+  ICreateAssignFormPayload,
+  ICreateAssignFormResponse,
   ICreateFormPayload,
   ICreateFormResponse,
   ICreateStaffPayload,
@@ -118,9 +121,11 @@ export class CommunityClient extends ApiClient {
     return response?.data;
   };
 
-
-    // Update
-  public updateStaffStatus = async ({ id, payload }: IUpdateStaffStatusPayload) => {
+  // Update
+  public updateStaffStatus = async ({
+    id,
+    payload,
+  }: IUpdateStaffStatusPayload) => {
     const response = await this.put<IUpdateStaffStatusResponse>(
       updateStaffStatusUrl(id),
       payload,
@@ -331,7 +336,7 @@ export class CommunityClient extends ApiClient {
 
     return response?.data;
   };
-    // GET
+  // GET
   public fetchAllSubmission = async (searchText?: string, page?: number) => {
     const params = new URLSearchParams();
     if (searchText) params.append("searchText", searchText);
@@ -352,7 +357,10 @@ export class CommunityClient extends ApiClient {
   };
 
   // update form status
-  public updateFormStatus = async ({ id, payload }: IUpdateFormStatusPayload) => {
+  public updateFormStatus = async ({
+    id,
+    payload,
+  }: IUpdateFormStatusPayload) => {
     const response = await this.put<IUpdateFormStatusResponse>(
       updateFormStatusUrl(id),
       payload,
@@ -367,6 +375,19 @@ export class CommunityClient extends ApiClient {
     return response?.data;
   };
 
+  // create assign form
+  public createAssignForm = async (id: string, payload: ICreateAssignFormPayload) => {
+    const response = await this.post<ICreateAssignFormResponse>(
+      createAssignFormUrl(id),
+      payload
+    );
+
+    if (!response?.success) {
+      throw response?.response?.data;
+    }
+
+    return response?.data;
+  };
 }
 
 /**

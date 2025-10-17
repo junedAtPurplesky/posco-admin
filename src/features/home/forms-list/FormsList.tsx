@@ -4,17 +4,26 @@ import { useState } from "react";
 import { SearchBar, Table } from "@/components";
 import {
   formsListColumns,
-  formsListActions,
+  ITableAction,
 } from "@/constants";
-import { FilterIcon, PlusIcon } from "@/features/icons";
-import { AddFormModal } from "./component";
+import { PlusIcon } from "@/features/icons";
+import { AddFormModal, AssignFormModal } from "./component";
 import toast from "react-hot-toast";
-import { IDeleteFormResponse, useAllFormsQuery, useDeleteFormMutation } from "@/services/apis";
+import {
+  IDeleteFormResponse,
+  useAllFormsQuery,
+  useDeleteFormMutation,
+} from "@/services/apis";
 import { IApiError } from "@/utils";
-import { IFormsListProps, mapFormToTableRow } from "@/constants/table-list/forms-list";
+import {
+  IFormsListProps,
+  mapFormToTableRow,
+} from "@/constants/table-list/forms-list";
 
 export function FormsList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+  const [formId, setFormId] = useState("");
 
   // Fetch all forms
   const { allFormsData, refetchForms } = useAllFormsQuery();
@@ -22,11 +31,11 @@ export function FormsList() {
   // Delete form mutation
   const { onDeleteFormMutate } = useDeleteFormMutation({
     onSuccessCallback: (data: IDeleteFormResponse) => {
-      toast.success(data.message)
+      toast.success(data.message);
       refetchForms(); // refresh table after delete
     },
     onErrorCallback: (err: IApiError) => {
-      toast.error(err.message)
+      toast.error(err.message);
     },
   });
 
@@ -34,18 +43,27 @@ export function FormsList() {
   const tableData: IFormsListProps[] =
     allFormsData?.data.map(mapFormToTableRow) || [];
 
-  // Update actions to call delete mutation
-  const updatedActions = formsListActions.map((action) => {
-    if (action.label === "Delete") {
-      return {
-        ...action,
-        onClick: (row: IFormsListProps) => {
-            onDeleteFormMutate(row?.id);
-        },
-      };
-    }
-    return action;
-  });
+  // Table actions
+  const formsListActions: ITableAction<IFormsListProps>[] = [
+    {
+      label: "View",
+      onClick: (row) => console.log("View form:", row),
+    },
+    {
+      label: "Assign Form",
+      onClick: (row) => {
+        setFormId(row?.id)
+        setIsAssignModalOpen(true);
+      },
+    },
+    {
+      label: "Delete",
+      onClick: (row) => {
+        onDeleteFormMutate(row?.id);
+      },
+      className: "text-red-500 hover:text-red-700",
+    },
+  ];
 
   return (
     <section className="flex flex-col gap-4 bg-white p-6">
@@ -60,20 +78,20 @@ export function FormsList() {
             <PlusIcon className="w-4 h-4 cursor-pointer" />
             <h1 className="text-primary">Add Form</h1>
           </button>
-          <button className="flex gap-1 items-center cursor-pointer">
+          {/* <button className="flex gap-1 items-center cursor-pointer">
             <FilterIcon className="w-4 h-4 cursor-pointer" />
             <h1 className="text-primary">Filter</h1>
-          </button>
+          </button> */}
         </div>
       </div>
 
       <Table
         columns={formsListColumns}
         data={tableData}
-        actions={updatedActions}
+        actions={formsListActions}
       />
 
-      {/* Modal */}
+      {/* Add Form Modal */}
       <AddFormModal
         isOpen={isModalOpen}
         onClose={() => {
@@ -81,6 +99,11 @@ export function FormsList() {
           refetchForms(); // refresh table after adding form
         }}
       />
+
+      {/* Assign Form Modal */}
+      <AssignFormModal
+        isOpen={isAssignModalOpen}
+        onClose={() => setIsAssignModalOpen(false)} formId={formId} />
     </section>
   );
 }

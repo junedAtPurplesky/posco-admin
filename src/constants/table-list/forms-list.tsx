@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { ITableAction, ITableColumn } from "../table";
+import {  ITableColumn } from "../table";
 import toast from "react-hot-toast";
 import { IAllFormList, IUpdateFormStatusResponse, useUpdateFormStatusMutation } from "@/services/apis";
 
@@ -121,15 +121,3 @@ export const formsListColumns: ITableColumn<IFormsListProps>[] = [
   },
 ];
 
-// Table actions
-export const formsListActions: ITableAction<IFormsListProps>[] = [
-  {
-    label: "View",
-    onClick: (row) => console.log("View form:", row),
-  },
-  {
-    label: "Delete",
-    onClick: (row) => console.log("Delete form:", row),
-    className: "text-red-500 hover:text-red-700",
-  },
-];

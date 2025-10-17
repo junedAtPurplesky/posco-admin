@@ -29,3 +29,6 @@ export { useUpdateStaffStatusMutation } from "./useUpdateStaffStatusMutation";
 
 // GET all submissions
 export { useAllSubmissionQuery } from "./useAllSubmissionQuery";
+
+export {useCreateAssignFormMutation} from "./useCreateAssignFormMutation";
+

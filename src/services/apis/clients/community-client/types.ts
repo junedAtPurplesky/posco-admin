@@ -218,18 +218,37 @@ export interface IFormField {
   field_label: string;
   field_type: FieldType;
   category: SafetyCategory;
+  field_description?: string;
   is_required: boolean;
   order: number;
   options?: string[];
-  field_description?: string;
 }
 
 // Create Form Payload (POST)
 export interface ICreateFormPayload {
   form_name: string;
   description?: string;
+  department_id?: string; // Added department_id
   due_date: string | Date;
   fields: IFormField[];
+}
+
+// Form Field Interface
+export interface IFormField {
+  field_type: FieldType;
+  field_label: string;
+  field_description?: string; // Added field_description
+  is_required: boolean;
+  options?: string[]; // Added options array
+  category: SafetyCategory;
+  order: number;
+  validation_rules?: { // Added validation_rules
+    minLength?: number;
+    maxLength?: number;
+    minValue?: number;
+    maxValue?: number;
+    pattern?: string;
+  };
 }
 
 // Create Form Response
@@ -487,4 +506,24 @@ export interface IUser {
   otpExpiresAt: string | null;
   isOtpVerified: boolean;
   password: string;
+}
+
+//
+// Add these to your interfaces file
+export interface ICreateAssignFormPayload {
+  department_id: string;
+  staff_ids: string[];
+  due_date: string;
+}
+
+export interface ICreateAssignFormResponse {
+  status: string;
+  message: string;
+  assignments_created: number;
+}
+
+export interface IAssignFormData {
+  department_id: string;
+  staff_ids: string[];
+  due_date: string;
 }

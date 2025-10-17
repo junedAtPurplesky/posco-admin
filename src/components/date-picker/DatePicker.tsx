@@ -4,8 +4,8 @@ import React, { useRef } from "react";
 /**
  * Reusable Date Picker Component
  * @param {string} value - Selected date.
- * @param {(val: string) => void} onChange - Function to handle date change.
- * @param {string | null} [error] - Optional error message.
+ * @param {(val: string) => void} onChange -.
+ * @param {string | null} [error] - 
  */
 export function DatePicker({
   placeholder,
@@ -15,6 +15,7 @@ export function DatePicker({
   label,
   isRequired = false,
   datePickerBorderRadius = "rounded-lg",
+  minDate, 
 }: {
   value: string;
   onChange: (val: string) => void;
@@ -23,8 +24,11 @@ export function DatePicker({
   label?: string;
   isRequired?: boolean;
   datePickerBorderRadius?: string;
+  minDate?: Date;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const minDateString = minDate ? minDate.toISOString().split('T')[0] : undefined;
 
   return (
     <div className="w-full text-[0.8rem]">
@@ -39,24 +43,31 @@ export function DatePicker({
           placeholder={placeholder}
           ref={inputRef}
           type="date"
-          className={`w-full  border ${
+          min={minDateString} 
+          className={`w-full border ${
             error ? "border-red-500" : "border-gray-300"
-          } ${datePickerBorderRadius} px-4  py-2 pr-10  focus:outline-none focus:ring-1 ${
+          } ${datePickerBorderRadius} px-4 py-2 pr-10 focus:outline-none focus:ring-1 ${
             error ? "focus:ring-red-500" : "focus:ring-primary"
-          }`}
+          } ${minDate && value && new Date(value) < minDate ? 'bg-gray-100 text-gray-500' : ''}`}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => {
+            const selectedDate = new Date(e.target.value);
+            if (minDate && selectedDate < minDate) {
+              return;
+            }
+            onChange(e.target.value);
+          }}
         />
         {/* Custom Calendar Icon (Now Works on All Browsers) */}
         <div
-          className="absolute inset-y-0 right-3  flex items-center cursor-pointer"
+          className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
           onClick={() =>
             inputRef.current?.showPicker?.() || inputRef.current?.focus()
           }
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="w-5 h-5  text-gray-500"
+            className="w-5 h-5 text-gray-500"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
