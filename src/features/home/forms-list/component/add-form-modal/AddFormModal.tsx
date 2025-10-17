@@ -95,7 +95,6 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
     },
   });
 
-  // Validation Schema - सीधे errors के लिए
   const validationSchema = Yup.object({
     form_name: Yup.string().required("Form name is required"),
     due_date: Yup.string().required("Due date is required"),
@@ -109,18 +108,18 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
       due_date: "",
     },
     validationSchema,
-    validateOnChange: false, // Typing के time error नहीं दिखेंगे
-    validateOnBlur: false, // Blur के time error नहीं दिखेंगे
+    validateOnChange: false,
+    validateOnBlur: false, 
     onSubmit: (values) => {
-      // सबसे पहले due date की manual validation
+    
       if (values.due_date) {
         const selectedDate = new Date(values.due_date);
         const today = new Date();
-        today.setHours(0, 0, 0, 0); // आज की date के time part को remove करें
+        today.setHours(0, 0, 0, 0); 
         
         if (selectedDate < today) {
           formik.setFieldError("due_date", "Due date cannot be in the past");
-          return; // Submit नहीं होगा
+          return;
         }
       }
 
@@ -134,7 +133,6 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
         return;
       }
 
-      // Convert fields → only store questions in options
       const allFields: IFormField[] = fields.map((field, index) => ({
         field_label: "",
         field_type: field.field_type,
@@ -279,7 +277,7 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
             name="form_name"
             value={formik.values.form_name}
             onChange={formik.handleChange}
-            error={formik.errors.form_name} // सीधे error दिखेगा submit के time
+            error={formik.errors.form_name} 
           />
 
           <InputField
