@@ -52,3 +52,5 @@ export const fetchAllRoleUrl = () => "/roles";
 
 // get all submission
 export const fetchAllSubmissionUrl = () => "/admin/submissions"; //Get
+
+export const createAssignFormUrl = (id: string) => `/admin/forms/${id}/assign`; //post

@@ -488,3 +488,23 @@ export interface IUser {
   isOtpVerified: boolean;
   password: string;
 }
+
+//
+// Add these to your interfaces file
+export interface ICreateAssignFormPayload {
+  department_id: string;
+  staff_ids: string[];
+  due_date: string;
+}
+
+export interface ICreateAssignFormResponse {
+  status: string;
+  message: string;
+  assignments_created: number;
+}
+
+export interface IAssignFormData {
+  department_id: string;
+  staff_ids: string[];
+  due_date: string;
+}
