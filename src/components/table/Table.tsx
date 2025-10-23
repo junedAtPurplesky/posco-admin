@@ -85,12 +85,12 @@ export function Table<T extends { id: string | number }>({
         <table className="w-full text-[0.9rem] text-left border-gray-100">
           <thead className="text-gray-700">
             <tr>
-              {actions && actions.length > 0 && (
+              {actions && actions?.length > 0 && (
                 <th className="border-b-2 border-white text-center min-w-[6rem] bg-[#F8F9FB] p-3 text-[0.9rem]  uppercase font-medium">
                   ID
                 </th>
               )}
-              
+
               {columns.length > 0 &&
                 columns.map((col) => (
                   <TableHeader
@@ -101,9 +101,11 @@ export function Table<T extends { id: string | number }>({
                     onSort={handleSort}
                   />
                 ))}
+              {actions && actions?.length > 0 && (
                 <th className="text-center min-w-[5rem] bg-[#F8F9FB] p-3 text-[0.9rem]  uppercase font-medium border-b-2 border-white">
-                Action
-              </th>
+                  Action
+                </th>
+              )}
             </tr>
           </thead>
           {/* <tbody>
@@ -147,7 +149,9 @@ export function Table<T extends { id: string | number }>({
               <tr>
                 <td
                   colSpan={
-                    (actions && actions.length > 0 ? columns.length + 2 : columns.length + 1)
+                    actions && actions.length > 0
+                      ? columns.length + 2
+                      : columns.length + 1
                   }
                   className="text-center py-10 text-gray-400 text-lg"
                 >
@@ -156,7 +160,6 @@ export function Table<T extends { id: string | number }>({
               </tr>
             )}
           </tbody>
-
         </table>
       </div>
       <Pagination

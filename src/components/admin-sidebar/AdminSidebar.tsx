@@ -113,10 +113,9 @@ export function AdminSidebar({
           })}
         </ul>
       </div>
-
       <div
         onClick={handleLogout}
-        className="flex items-center gap-3 px-6 py-2 mt-auto cursor-pointer hover:bg-gray-50"
+        className="flex items-center gap-3 px-6 py-4 mt-auto cursor-pointer hover:bg-gray-50"
       >
         <CgLogOut className="h-6 w-6" />
         {!isVisibleSidebar && <span>Logout</span>}

@@ -1,7 +1,7 @@
 "use client";
 import { Table } from "@/components";
 import {
-  submittedFormsListActions,
+  // submittedFormsListActions,
   submittedFormsListColumns,
   // submittedFormsListActions,
 } from "@/constants";
@@ -36,8 +36,8 @@ export function SubmittedForms() {
       ) : allSubmissionData?.data ? (
         <Table
           columns={submittedFormsListColumns}
-          data={allSubmissionData?.data || []}
-          actions={submittedFormsListActions}
+          data={allSubmissionData?.data}
+          // actions={submittedFormsListActions}
         />
       ) : (
         <div className="text-gray-500 text-center p-4 text-sm">

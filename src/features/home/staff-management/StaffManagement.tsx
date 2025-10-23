@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { AddStaffModal } from "./component";
 import {  Table } from "@/components";
-import { staffListActions, staffListColumns } from "@/constants";
+import { staffListColumns } from "@/constants";
 // import { PlusIcons } from "@/features";
 import { useAllStaffQuery } from "@/services/apis";
 import { PlusIcon } from "@/features/icons";
@@ -52,7 +52,7 @@ export function StaffManagement() {
         <Table
           columns={staffListColumns}
           data={allStaffData?.data || []}
-          actions={staffListActions}
+          // actions={staffListActions}
         />
       )}
 
