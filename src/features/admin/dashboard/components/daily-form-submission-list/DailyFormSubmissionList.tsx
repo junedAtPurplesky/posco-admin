@@ -1,4 +1,4 @@
-import { formSubmissionActions, formSubmissionColumns } from "@/constants";
+import {  formSubmissionColumns } from "@/constants";
 import { Table } from "@/components";
 import { useAllRecentSubmissionQuery } from "@/services/apis";
 
@@ -18,7 +18,6 @@ export function DailyFormSubmissionList() {
         <Table
           columns={formSubmissionColumns}
           data={allRecentSubmission.data || []}
-          actions={formSubmissionActions}
         />
       ) : (
         <div className="text-gray-500 text-center p-4 text-sm">No submissions found.</div>
