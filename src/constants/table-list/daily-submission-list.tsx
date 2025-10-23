@@ -1,6 +1,6 @@
 "use client";
 import { ISubmission } from "@/services/apis";
-import { ITableAction, ITableColumn } from "../table";
+import { ITableColumn } from "../table";
 import { formatDate } from "@/utils";
 
 // Helper function to get text color based on score
@@ -76,35 +76,3 @@ export const formSubmissionColumns: ITableColumn<ISubmission>[] = [
   },
 ];
 
-
-// Table actions
-export const formSubmissionActions: ITableAction<ISubmission>[] = [
-  {
-    label: "View",
-    onClick: (row) => console.log("View form submission:", row),
-    className: "hover:text-blue-700",
-  },
-  {
-    label: "Edit",
-    onClick: (row) => console.log("Edit form submission:", row),
-  },
-  {
-    label: "Delete",
-    onClick: (row) => console.log("Delete form submission:", row),
-    className: "text-red-500 hover:text-red-700",
-  },
-  {
-    label: "Download",
-    onClick: (row) => console.log("Download form submission:", row),
-  },
-  {
-    label: "Approve",
-    onClick: (row) => console.log("Approve form submission:", row),
-  },
-  {
-    label: "Reject",
-    onClick: (row) => {
-      console.log("Reject form submission:", row);
-    },
-  },
-];

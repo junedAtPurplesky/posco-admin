@@ -14,3 +14,4 @@ export * from "./date-picker"
 export * from "./table"
 export * from "./toggle-switch"
 export { RoleRedirectWrapper } from './role-redirect-wrapper';
+export * from './confirmation-modal'

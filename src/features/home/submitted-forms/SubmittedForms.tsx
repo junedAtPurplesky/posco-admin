@@ -1,8 +1,9 @@
 "use client";
-import { SearchBar, Table } from "@/components";
+import { Table } from "@/components";
 import {
+  // submittedFormsListActions,
   submittedFormsListColumns,
-  submittedFormsListActions,
+  // submittedFormsListActions,
 } from "@/constants";
 
 // import { FilterIcon, CalenderIcon } from "@/features";
@@ -16,7 +17,7 @@ export function SubmittedForms() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:gap-0 gap-3">
         <h1 className="text-[1.2rem]">Submitted Forms List</h1>
         <div className="flex flex-col md:flex-row md:items-center gap-4">
-          <SearchBar onSearch={() => {}} />
+          {/* <SearchBar onSearch={() => {}} /> */}
           {/* <button className="flex gap-1 items-center cursor-pointer">
             <CalenderIcon className="w-4 h-4 cursor-pointer" />
             <h1 className="text-primary">View By Date</h1>
@@ -35,8 +36,8 @@ export function SubmittedForms() {
       ) : allSubmissionData?.data ? (
         <Table
           columns={submittedFormsListColumns}
-          data={allSubmissionData?.data || []}
-          actions={submittedFormsListActions}
+          data={allSubmissionData?.data}
+          // actions={submittedFormsListActions}
         />
       ) : (
         <div className="text-gray-500 text-center p-4 text-sm">
