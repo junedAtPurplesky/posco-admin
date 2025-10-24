@@ -38,10 +38,10 @@ export enum SafetyCategory {
 }
 
 // Dropdown options
-const FIELD_TYPES = Object.values(FieldType).map((f) => ({
-  label: f.replace("_", " ").toUpperCase(),
-  value: f,
-}));
+// const FIELD_TYPES = Object.values(FieldType).map((f) => ({
+//   label: f.replace("_", " ").toUpperCase(),
+//   value: f,
+// }));
 
 const SAFETY_CATEGORIES = Object.values(SafetyCategory).map((c) => ({
   label: c.replace("_", " ").toUpperCase(),
@@ -378,14 +378,14 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
                     )
                   }
                 />
-                <Dropdown
+                {/* <Dropdown
                   label="Field Type"
                   options={FIELD_TYPES}
                   value={field.field_type}
                   onChange={(val) =>
                     handleFieldChange(field.id, "field_type", val as FieldType)
                   }
-                />
+                /> */}
                 <Dropdown
                   label="Safety Category"
                   options={SAFETY_CATEGORIES}
