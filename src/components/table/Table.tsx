@@ -85,12 +85,9 @@ export function Table<T extends { id: string | number }>({
         <table className="w-full text-[0.9rem] text-left border-gray-100">
           <thead className="text-gray-700">
             <tr>
-              {actions && actions?.length > 0 && (
-                <th className="border-b-2 border-white text-center min-w-[6rem] bg-[#F8F9FB] p-3 text-[0.9rem]  uppercase font-medium">
-                  ID
-                </th>
-              )}
-
+              <th className="border-b-2 border-white text-center min-w-[6rem] bg-[#F8F9FB] p-3 text-[0.9rem]  uppercase font-medium">
+                ID
+              </th>
               {columns.length > 0 &&
                 columns.map((col) => (
                   <TableHeader
