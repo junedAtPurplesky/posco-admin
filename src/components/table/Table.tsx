@@ -86,7 +86,7 @@ export function Table<T extends { id: string | number }>({
           <thead className="text-gray-700">
             <tr>
               <th className="border-b-2 border-white text-center min-w-[6rem] bg-[#F8F9FB] p-3 text-[0.9rem]  uppercase font-medium">
-                ID
+                SN NO
               </th>
               {columns.length > 0 &&
                 columns.map((col) => (

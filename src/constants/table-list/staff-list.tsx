@@ -117,6 +117,12 @@ function DepartmentCell({ value }: { value: string }) {
 // Table Columns
 export const staffListColumns: ITableColumn<IStaffListProps>[] = [
   {
+    header: "EMPLOYEE ID",
+    accessor: "employee_id",
+    sortable: true,
+    headerClassName: "min-w-[12rem]",
+  },
+  {
     header: "STAFF NAME",
     accessor: "first_name",
     sortable: true,

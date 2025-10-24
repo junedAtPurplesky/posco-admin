@@ -294,7 +294,7 @@ export const AddFormModal: React.FC<AddFormModalProps> = ({
             value={formik.values.due_date}
             onChange={(date) => formik.setFieldValue("due_date", date)}
             error={formik.errors.due_date}
-            minDate={new Date()} 
+            minDate={new Date().toISOString().split('T')[0]}
           />
 
           {/* Form Fields Section */}
