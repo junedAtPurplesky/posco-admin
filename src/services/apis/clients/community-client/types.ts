@@ -351,6 +351,7 @@ export interface IStatsResponse {
     dailySafetyFormsReceived: number;
     nonCompliantReports: number;
     staffParticipationRate: number;
+    totalAssignedForms: number;
   };
 }
 

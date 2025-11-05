@@ -143,7 +143,8 @@ export function AssignFormModal({
                     console.log("Staff selected:", values);
                     setSelectedStaff(values);
                   }}
-                  placeholder="Select staff members"
+                  placeholder="Select staff members" 
+                  departmentId={values.department}
                 />
                 {selectedStaff.length === 0 && (
                   <p className="text-red-500 text-[0.7rem] mt-1">

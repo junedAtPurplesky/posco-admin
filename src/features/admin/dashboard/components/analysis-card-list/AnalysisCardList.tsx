@@ -19,11 +19,14 @@ export function AnalysisCardList({
 }: AnalysisCardListProps) {
   const { allStatsData } = useAdminDashboardStatsQuery();
 
+  console.log(allStatsData, '-----');
+  
   const dailySafetyFormsReceived =
     allStatsData?.data?.dailySafetyFormsReceived ?? 0;
   const nonCompliantReports = allStatsData?.data?.nonCompliantReports ?? 0;
   const staffParticipationRate =
     allStatsData?.data?.staffParticipationRate ?? 0;
+  const totalAssignedForms = allStatsData?.data?.totalAssignedForms;
 
   const analysisCardsData: AnalysisCardData[] = [
     {
@@ -32,7 +35,7 @@ export function AnalysisCardList({
       value: `${dailySafetyFormsReceived}`,
       title: "Daily Safety Forms Received",
       subtitle: "92% Completion Rate",
-      subValue: "/ 137",
+      subValue: `/ ${totalAssignedForms}`,
       color: "text-primary",
     },
     {
