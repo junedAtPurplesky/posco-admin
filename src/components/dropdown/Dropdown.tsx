@@ -152,7 +152,7 @@ export function Dropdown({
               boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
               borderRadius: "8px",
               padding: 0,
-              maxHeight: 240,
+              maxHeight: 150,
               overflow: "auto",
             }}
           >

@@ -77,7 +77,7 @@ export function AssignFormModal({
     console.log("API Payload:", payload);
 
     onCreateAssignFormMutate({
-      id: formId, 
+      id: formId,
       payload: payload,
     });
   };
@@ -101,8 +101,8 @@ export function AssignFormModal({
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
           enableReinitialize
-          validateOnChange={false} 
-          validateOnBlur={false} 
+          validateOnChange={false}
+          validateOnBlur={false}
         >
           {({ values, setFieldValue, errors, submitForm }) => (
             <Form className="flex flex-col gap-4">
@@ -119,7 +119,7 @@ export function AssignFormModal({
                     setFieldValue("department", value);
                   }}
                 />
-                {errors.department && ( 
+                {errors.department && (
                   <p className="text-red-500 text-[0.7rem] mt-1">
                     {errors.department}
                   </p>
@@ -161,10 +161,9 @@ export function AssignFormModal({
                 <DatePicker
                   value={values.dueDate}
                   onChange={(value: string) => {
-                    console.log("Due date selected:", value);
                     setFieldValue("dueDate", value);
                   }}
-                  minDate={new Date()} // ✅ Past dates disable करने के लिए
+                  minDate={new Date().toISOString().split("T")[0]}
                 />
                 {errors.dueDate && (
                   <p className="text-red-500 text-[0.7rem] mt-1">
@@ -187,15 +186,18 @@ export function AssignFormModal({
                   type="submit"
                   disabled={isPending}
                   onClick={(e) => {
-                    e.preventDefault(); 
-                    
+                    e.preventDefault();
+
                     if (!values.department || !values.dueDate) {
                       formikRef.current?.validateForm().then((errors: any) => {
                         formikRef.current?.setErrors(errors);
-                        formikRef.current?.setTouched({
-                          department: true,
-                          dueDate: true,
-                        }, false);
+                        formikRef.current?.setTouched(
+                          {
+                            department: true,
+                            dueDate: true,
+                          },
+                          false
+                        );
                       });
                       return;
                     }
