@@ -1,18 +1,20 @@
 "use client";
 import { Button } from "@/components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useAllStaffQuery, IStaffItem } from "@/services/apis";
 
 interface MultipleSelectionProps {
   selectedValues?: string[];
   onChange?: (selected: string[]) => void;
   placeholder?: string;
+  departmentId?: string; // When not provided, staff options should not appear
 }
 
 export function MultipleSelection({ 
   selectedValues = [], 
   onChange,
-  placeholder = "Select staff members"
+  placeholder = "Select staff members",
+  departmentId,
 }: MultipleSelectionProps) {
   const { allStaffData, isLoading, isError } = useAllStaffQuery({});
   const [selectedOptions, setSelectedOptions] = useState<string[]>(selectedValues);
@@ -24,11 +26,27 @@ export function MultipleSelection({
   }, [selectedValues]);
 
   // Transform staff data for options
-  const staffOptions = allStaffData?.data?.map((staff: IStaffItem) => ({
-    id: staff.id,
-    name: `${staff.first_name} ${staff.last_name}`,
-    email: staff.email
-  })) || [];
+  const staffOptions = useMemo(() => (
+    allStaffData?.data?.map((staff: IStaffItem) => ({
+      id: staff.id,
+      name: `${staff.first_name} ${staff.last_name}`,
+      email: staff.email,
+      departmentId: (staff as unknown as { department?: { id?: string } })?.department?.id,
+    })) || []
+  ), [allStaffData]);
+
+  // Filter by selected department when provided
+  const filteredStaffOptions = useMemo(
+    () => (departmentId ? staffOptions.filter((s) => s.departmentId === departmentId) : []),
+    [departmentId, staffOptions]
+  );
+  const filteredIdsKey = useMemo(
+    () => filteredStaffOptions.map((s) => s.id).sort().join("|"),
+    [filteredStaffOptions]
+  );
+
+  const allSelected = filteredStaffOptions.length > 0 && selectedOptions.length === filteredStaffOptions.length;
+  const someSelected = selectedOptions.length > 0 && !allSelected;
 
   const toggleOption = (staffId: string) => {
     const newSelection = selectedOptions.includes(staffId)
@@ -38,6 +56,36 @@ export function MultipleSelection({
     setSelectedOptions(newSelection);
     onChange?.(newSelection);
   };
+
+  const toggleSelectAll = () => {
+    if (allSelected) {
+      const newSelection: string[] = [];
+      setSelectedOptions(newSelection);
+      onChange?.(newSelection);
+    } else {
+      const newSelection = filteredStaffOptions.map((s) => s.id);
+      setSelectedOptions(newSelection);
+      onChange?.(newSelection);
+    }
+  };
+
+  // When department changes, drop selections that are not in that department
+  useEffect(() => {
+    if (!departmentId) {
+      // No department selected: clear selections locally
+      if (selectedOptions.length > 0) {
+        setSelectedOptions([]);
+        onChange?.([]);
+      }
+      return;
+    }
+    const validIds = new Set(filteredStaffOptions.map((s) => s.id));
+    const pruned = selectedOptions.filter((id) => validIds.has(id));
+    if (pruned.length !== selectedOptions.length) {
+      setSelectedOptions(pruned);
+      onChange?.(pruned);
+    }
+  }, [departmentId, filteredIdsKey, selectedOptions, onChange, filteredStaffOptions]);
 
   const clearAll = () => {
     const newSelection: string[] = [];
@@ -53,12 +101,23 @@ export function MultipleSelection({
     <div className="w-full text-[0.8rem]">
       {/* Dropdown Trigger */}
       <div
-        onClick={toggleDropdown}
-        className="flex justify-between items-center px-4 py-2 border border-gray-300 rounded-md bg-white cursor-pointer hover:border-blue-500 transition-colors"
+        onClick={() => {
+          if (!departmentId) return; // disable open until department selected
+          toggleDropdown();
+        }}
+        className={`flex justify-between items-center px-4 py-2 border rounded-md bg-white transition-colors ${
+          departmentId
+            ? "border-gray-300 cursor-pointer hover:border-blue-500"
+            : "border-gray-200 cursor-not-allowed bg-gray-50"
+        }`}
       >
         <div className="flex items-center gap-2">
           <span className="text-gray-500">
-            {isLoading ? "Loading staff..." : placeholder}
+            {!departmentId
+              ? "Select department first"
+              : isLoading
+              ? "Loading staff..."
+              : placeholder}
           </span>
           {selectedOptions.length > 0 && (
             <span className="bg-blue-500 text-white text-[0.6rem] px-2 py-1 rounded-full">
@@ -84,7 +143,7 @@ export function MultipleSelection({
       </div>
 
       {/* Dropdown Content */}
-      {isOpen && (
+      {isOpen && departmentId && (
         <div className="mt-2 border border-gray-300 rounded-lg bg-white shadow-lg z-10 max-h-80 overflow-hidden">
           {/* Search and Status Area */}
           <div className="p-3 border-b border-gray-200">
@@ -94,15 +153,41 @@ export function MultipleSelection({
             {isError && (
               <div className="text-sm text-red-500">Failed to load staff members</div>
             )}
-            {!isLoading && !isError && staffOptions.length === 0 && (
+            {!isLoading && !isError && filteredStaffOptions.length === 0 && (
               <div className="text-sm text-gray-500">No staff members found</div>
             )}
           </div>
 
           {/* Options List */}
-          {!isLoading && staffOptions.length > 0 && (
+          {!isLoading && filteredStaffOptions.length > 0 && (
             <div className="max-h-48 overflow-y-auto">
-              {staffOptions.map((staff) => {
+              {/* Select All */}
+              <div
+                onClick={toggleSelectAll}
+                className={`flex items-start p-3 cursor-pointer transition-colors ${
+                  allSelected ? "bg-blue-50 text-blue-700" : "hover:bg-gray-50"
+                }`}
+              >
+                <div
+                  className={`w-5 h-5 border-2 rounded mr-3 flex items-center justify-center mt-0.5 flex-shrink-0 ${
+                    allSelected
+                      ? "bg-blue-500 border-blue-500 text-white"
+                      : someSelected
+                      ? "border-blue-500 text-blue-500"
+                      : "border-gray-300"
+                  }`}
+                >
+                  {allSelected ? "✓" : someSelected ? "−" : ""}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-medium text-gray-900 truncate">Select all</div>
+                  <div className="text-xs text-gray-500 truncate">
+                    {filteredStaffOptions.length} staff members
+                  </div>
+                </div>
+              </div>
+
+              {filteredStaffOptions.map((staff) => {
                 const isSelected = selectedOptions.includes(staff.id);
 
                 return (
