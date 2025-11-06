@@ -69,7 +69,7 @@ export function AssignFormModal({
     });
 
     const payload = {
-      department_id: values.department,
+      // department_id: values.department,
       staff_ids: selectedStaff,
       due_date: values.dueDate,
     };
