@@ -2,13 +2,15 @@
 import { SearchBar, Table } from "@/components";
 import {
   submittedFormsListColumns,
-  dummySubmittedFormsList,
   submittedFormsListActions,
 } from "@/constants";
 
 import { FilterIcon, CalenderIcon } from "@/features";
+import { useAllSubmissionQuery } from "@/services/apis";
 
 export function SubmittedForms() {
+  const { allSubmissionData, isLoading, isError } = useAllSubmissionQuery();
+
   return (
     <section className="flex flex-col gap-4 bg-white p-6">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:gap-0 gap-3">
@@ -17,19 +19,30 @@ export function SubmittedForms() {
           <SearchBar onSearch={() => {}} />
           <button className="flex gap-1 items-center cursor-pointer">
             <CalenderIcon className="w-4 h-4 cursor-pointer" />
-            <h1 className="text-primary">View By Date </h1>
+            <h1 className="text-primary">View By Date</h1>
           </button>
           <button className="flex gap-1 items-center cursor-pointer">
             <FilterIcon className="w-4 h-4 cursor-pointer" />
-            <h1 className="text-primary">Filter </h1>
+            <h1 className="text-primary">Filter</h1>
           </button>
         </div>
       </div>
-      <Table
-        columns={submittedFormsListColumns}
-        data={dummySubmittedFormsList}
-        actions={submittedFormsListActions}
-      />
+
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : isError ? (
+        <div className="text-red-500">Failed to load data.</div>
+      ) : allSubmissionData?.data ? (
+        <Table
+          columns={submittedFormsListColumns}
+          data={allSubmissionData?.data || []}
+          actions={submittedFormsListActions}
+        />
+      ) : (
+        <div className="text-gray-500 text-center p-4 text-sm">
+          No submissions found.
+        </div>
+      )}
     </section>
   );
 }

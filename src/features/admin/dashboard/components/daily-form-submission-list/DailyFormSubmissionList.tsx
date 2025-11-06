@@ -17,7 +17,7 @@ export function DailyFormSubmissionList() {
       allRecentSubmission.data.length > 0 ? (
         <Table
           columns={formSubmissionColumns}
-          data={allRecentSubmission.data}
+          data={allRecentSubmission.data || []}
           actions={formSubmissionActions}
         />
       ) : (

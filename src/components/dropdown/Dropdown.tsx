@@ -162,17 +162,17 @@ export function Dropdown({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search..."
-                className="w-full px-2 py-1 border rounded "
+                className="w-full px-2 py-1 border rounded text-[0.8rem]"
                 autoFocus
               />
             </div>
             {filteredOptions.length === 0 ? (
-              <div className="px-4 py-2 text-gray-400 ">No options</div>
+              <div className="px-4 py-2 text-gray-400 text-[0.8rem]">No options</div>
             ) : (
               filteredOptions.length > 0 &&
               filteredOptions.map((option) => (
                 <div
-                className=""
+                className="text-[0.8rem]"
                   key={option.value}
                   style={{
                     padding: "8px 16px",

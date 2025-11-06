@@ -1,13 +1,7 @@
 "use client";
+import { ISubmission } from "@/services/apis";
 import { ITableAction, ITableColumn } from "../table";
-
-export interface IFormSubmissionProps {
-  id: number;
-  staffName: string;
-  submissionDate: string;
-  department: string;
-  complianceScore: number;
-}
+import { formatDate } from "@/utils";
 
 // Helper function to get text color based on score
 function getScoreColor(score: number): string {
@@ -19,7 +13,7 @@ function getScoreColor(score: number): string {
 
 // Helper function to get department styles
 function getDepartmentStyle(department: string): string {
-  switch (department.toLowerCase()) {
+  switch (department) {
     case "maintenance":
     case "worker":
       return "text-green-600 border-green-600";
@@ -52,18 +46,19 @@ function DepartmentCell({ value }: { value: string }) {
   );
 }
 
-export const formSubmissionColumns: ITableColumn<IFormSubmissionProps>[] = [
+export const formSubmissionColumns: ITableColumn<ISubmission>[] = [
   {
     header: "STAFF NAME",
-    accessor: "staffName",
+    accessor: "staff_name",
     sortable: true,
     headerClassName: "min-w-[12rem]",
   },
   {
     header: "SUBMISSION DATE",
-    accessor: "submissionDate",
+    accessor: "submission_date",
     sortable: true,
     headerClassName: "min-w-[12rem]",
+    cell: ({value}) => <span>{formatDate(value)}</span>
   },
   {
     header: "DEPARTMENT",
@@ -74,54 +69,16 @@ export const formSubmissionColumns: ITableColumn<IFormSubmissionProps>[] = [
   },
   {
     header: "COMPLIANCE SCORE",
-    accessor: "complianceScore",
+    accessor: "compliance_score",
     sortable: true,
     headerClassName: "min-w-[12rem]",
-    cell: ({ value }) => <ComplianceScoreCell value={value as number} />,
+    cell: ({ value }) => <ComplianceScoreCell value={Number(value)} />,
   },
 ];
 
-// Dummy data
-export const dummyFormSubmissions: IFormSubmissionProps[] = [
-  {
-    id: 1,
-    staffName: "John Smith",
-    submissionDate: "2024-01-15",
-    department: "Maintenance",
-    complianceScore: 20,
-  },
-  {
-    id: 2,
-    staffName: "Sarah Johnson",
-    submissionDate: "2024-01-15",
-    department: "Electrical",
-    complianceScore: 88,
-  },
-  {
-    id: 3,
-    staffName: "Michael Chen",
-    submissionDate: "2024-01-15",
-    department: "Supervisor",
-    complianceScore: 95,
-  },
-  {
-    id: 4,
-    staffName: "Emily Davis",
-    submissionDate: "2024-01-15",
-    department: "Worker",
-    complianceScore: 78,
-  },
-  {
-    id: 5,
-    staffName: "Robert Wilson",
-    submissionDate: "2024-01-14",
-    department: "Quality Control",
-    complianceScore: 85,
-  },
-];
 
 // Table actions
-export const formSubmissionActions: ITableAction<IFormSubmissionProps>[] = [
+export const formSubmissionActions: ITableAction<ISubmission>[] = [
   {
     label: "View",
     onClick: (row) => console.log("View form submission:", row),

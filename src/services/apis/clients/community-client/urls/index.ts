@@ -20,16 +20,20 @@ export const loginUrl = () => "/admin/auth/login";
 // Staff URL
 export const createStaffUrl = () => "/admin/staff"; //post
 export const updateStaffUrl = (id: string) => `/admin/staff/${id}`; //put
+export const updateStaffStatusUrl = (id: string) => `/admin/staff/${id}`; //put
+
 export const deleteStaffUrl = (id: string) => `/admin/staff/${id}`; //delete
 export const fetchAllStaffUrl = () => "/admin/staff"; //Get
 export const getStaffDetailsUrl = () => `/admin/staff`;
 
 // Form URL
-export const fetchAllFormUrl = () => "/staff"; //Get
-export const createFormUrl = () => "/staff"; //post
-export const deleteFormUrl = (id: string) => `/staff/${id}`; //delete
-export const getFormDetailsUrl = () => `/staff`;
-export const updateFormUrl = (id: string) => `/staff/${id}`; //put
+export const fetchAllFormUrl = () => "/admin/forms"; //Get
+export const createFormUrl = () => "/admin/forms"; //post
+export const deleteFormUrl = (id: string) => `/admin/forms/${id}`; //delete
+export const getFormDetailsUrl = () => `/admin/forms`;
+export const updateFormUrl = (id: string) => `/admin/forms/${id}`; //put
+export const updateFormStatusUrl = (id: string) => `/admin/forms/${id}`; //put
+
 
 // Dashboard URL
 export const fetchAdminDashboardStatsUrl = () => "/admin/dashboard/stats";
@@ -39,3 +43,12 @@ export const fetchComplianceOverviewUrl = () =>
   "/admin/dashboard/compliance-overview";
 export const fetchRecentSubmissionsUrl = () =>
   "/admin/dashboard/recent-submissions";
+
+
+export const fetchAllDepartmentUrl = () => "/admin/departments";
+
+export const fetchAllRoleUrl = () => "/roles";
+
+
+// get all submission
+export const fetchAllSubmissionUrl = () => "/admin/submissions"; //Get

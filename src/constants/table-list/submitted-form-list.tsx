@@ -2,6 +2,7 @@
 import { getDepartmentStyle } from "@/utils/helpers/getDepartmentStyle";
 import { ITableAction, ITableColumn } from "../table";
 import { getScoreColor } from "@/utils/helpers/get";
+import { ISubmission } from "@/services/apis";
 
 export interface ISubmittedFormsListProps {
   id: number;
@@ -9,6 +10,9 @@ export interface ISubmittedFormsListProps {
   submissionDate: string;
   department: string;
   complianceScore: string;
+  department_id: string;
+  staff_ids: string[];
+  due_date: string;
 }
 
 // Cell component for department
@@ -32,19 +36,23 @@ function ComplianceScoreCell({ value }: { value: string }) {
   );
 }
 
-export const submittedFormsListColumns: ITableColumn<ISubmittedFormsListProps>[] = [
+export const submittedFormsListColumns: ITableColumn<ISubmission>[] = [
   {
     header: "STAFF NAME",
-    accessor: "staffName",
+    accessor: "staff_name",
     sortable: true,
     headerClassName: "min-w-[12rem]",
   },
   {
     header: "SUBMISSION DATE",
-    accessor: "submissionDate",
+    accessor: "submission_date",
     sortable: true,
     headerClassName: "min-w-[12rem]",
-  },
+    cell: ({ value }) => {
+      if (!value) return "N/A";
+      const date = new Date(value);
+      return <span className="text-gray-800">{date.toDateString()}</span>;
+    },  },
   {
     header: "DEPARTMENT",
     accessor: "department",
@@ -54,24 +62,24 @@ export const submittedFormsListColumns: ITableColumn<ISubmittedFormsListProps>[]
   },
   {
     header: "COMPLIANCE SCORE",
-    accessor: "complianceScore",
+    accessor: "compliance_score",
     sortable: true,
     headerClassName: "min-w-[12rem]",
     cell: ({ value }) => <ComplianceScoreCell value={value as string} />,
   },
 ];
 
-export const dummySubmittedFormsList: ISubmittedFormsListProps[] = [
-  {
-    id: 1,
-    staffName: "John Smith",
-    submissionDate: "2024-01-15",
-    department: "worker",
-    complianceScore: "92",
-  },
-];
+// export const dummySubmittedFormsList: ISubmittedFormsListProps[] = [
+//   {
+//     id: 1,
+//     staffName: "John Smith",
+//     submissionDate: "2024-01-15",
+//     department: "worker",
+//     complianceScore: "92",
+//   },
+// ];
 
-export const submittedFormsListActions: ITableAction<ISubmittedFormsListProps>[] = [
+export const submittedFormsListActions: ITableAction<ISubmission>[] = [
   {
     label: "Edit",
     onClick: (row) => {
