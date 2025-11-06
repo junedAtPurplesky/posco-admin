@@ -351,8 +351,12 @@ export interface IStatsResponse {
     dailySafetyFormsReceived: number;
     nonCompliantReports: number;
     staffParticipationRate: number;
-    totalAssignedForms: number;
+    userAssignments: IStatsResponseRaw;
   };
+}
+
+export interface IStatsResponseRaw {
+    total_Assignments: number;
 }
 
 // get all department

@@ -4,7 +4,7 @@ import { AnalysisCard } from "../analysis-card";
 
 import { useAdminDashboardStatsQuery } from "@/services/apis";
 import { PercentageIcon } from "@/design-system";
-import { ListIcon, NotIcon } from "@/features";
+import { ListIcon } from "@/features";
 import { AnalysisCardData } from "@/constants";
 
 interface AnalysisCardListProps {
@@ -18,15 +18,13 @@ export function AnalysisCardList({
   cardClassName = "",
 }: AnalysisCardListProps) {
   const { allStatsData } = useAdminDashboardStatsQuery();
-
-  console.log(allStatsData, '-----');
   
   const dailySafetyFormsReceived =
     allStatsData?.data?.dailySafetyFormsReceived ?? 0;
-  const nonCompliantReports = allStatsData?.data?.nonCompliantReports ?? 0;
+  // const nonCompliantReports = allStatsData?.data?.nonCompliantReports ?? 0;
   const staffParticipationRate =
     allStatsData?.data?.staffParticipationRate ?? 0;
-  const totalAssignedForms = allStatsData?.data?.totalAssignedForms;
+  const totalAssignedForms = allStatsData?.data?.userAssignments?.total_Assignments;
 
   const analysisCardsData: AnalysisCardData[] = [
     {
@@ -38,15 +36,15 @@ export function AnalysisCardList({
       subValue: `/ ${totalAssignedForms}`,
       color: "text-primary",
     },
-    {
-      id: 2,
-      icon: <NotIcon />,
-      value: `${nonCompliantReports}`,
-      subValue: "Issues Found",
-      title: "Pending Approvals",
-      subtitle: "Requires immediate attention",
-      color: "text-primary",
-    },
+    // {
+    //   id: 2,
+    //   icon: <NotIcon />,
+    //   value: `${nonCompliantReports}`,
+    //   subValue: "Issues Found",
+    //   title: "Pending Approvals",
+    //   subtitle: "Requires immediate attention",
+    //   color: "text-primary",
+    // },
     {
       id: 3,
       icon: <PercentageIcon />,
