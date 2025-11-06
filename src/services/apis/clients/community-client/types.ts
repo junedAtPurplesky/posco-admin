@@ -351,8 +351,12 @@ export interface IStatsResponse {
     dailySafetyFormsReceived: number;
     nonCompliantReports: number;
     staffParticipationRate: number;
-    totalAssignedForms: number;
+    userAssignments: IStatsResponseRaw;
   };
+}
+
+export interface IStatsResponseRaw {
+    total_Assignments: number;
 }
 
 // get all department
@@ -512,7 +516,7 @@ export interface IUser {
 //
 // Add these to your interfaces file
 export interface ICreateAssignFormPayload {
-  department_id: string;
+  // department_id: string;
   staff_ids: string[];
   due_date: string;
 }
